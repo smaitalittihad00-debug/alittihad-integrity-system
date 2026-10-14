@@ -5,7 +5,112 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Al-Ittihad Integrity System</title>
-<?!= include('Stylesheet'); ?>
+<style>
+:root{--g1:#14532d;--g2:#1f7a3f;--g3:#e8f5ec;--gold:#c9a227;--bg:#f2f5f3;--txt:#1b2430;--mut:#667085;--line:#e4e8e6;--red:#c62828;--org:#ea6a0a;--r:14px;--sh:0 1px 2px rgba(16,24,40,.05),0 4px 14px rgba(16,24,40,.05);--ring:0 0 0 3px rgba(31,122,63,.22)}
+*{box-sizing:border-box}
+html,body{margin:0;font-family:Inter,'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:none;box-shadow:var(--ring)}
+#app{display:flex;min-height:100vh}
+#side{width:248px;background:linear-gradient(185deg,#14532d 0%,#0b3a1e 100%);color:#fff;flex-shrink:0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+#side .brand{padding:22px 20px 16px}
+#side .brand .ic{width:44px;height:44px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+#side .brand b{display:block;font-size:14.5px;margin-top:10px;line-height:1.3;letter-spacing:.2px}
+#side .brand small{color:#a7d7b4;font-size:11.5px}
+.nav{padding:6px 12px;flex:1;display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;gap:11px;align-items:center;padding:10px 12px;color:#dcefe2;cursor:pointer;border-radius:10px;text-decoration:none;transition:background .15s,color .15s;line-height:1.25}
+.nav a:hover{background:rgba(255,255,255,.09);color:#fff}
+.nav a.on{background:rgba(255,255,255,.16);color:#fff;font-weight:600;box-shadow:inset 3px 0 0 var(--gold)}
+.me{margin:10px 12px 14px;padding:12px 14px;background:rgba(0,0,0,.18);border-radius:12px;font-size:12px}
+.me .rl{display:inline-block;background:var(--gold);color:#3e2f00;border-radius:20px;padding:1px 9px;font-size:10px;font-weight:700;margin-top:5px}
+.me button{margin-top:10px;width:100%}
+#main{flex:1;min-width:0}
+#top{background:rgba(255,255,255,.88);backdrop-filter:saturate(1.4) blur(8px);-webkit-backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line);padding:14px 26px;display:flex;justify-content:space-between;align-items:center;gap:10px;position:sticky;top:0;z-index:20}
+#top h2{margin:0;font-size:19px;letter-spacing:-.2px}
+#top small{color:var(--mut)}
+#ver{font-size:10.5px;background:var(--g3);color:var(--g1);border:1px solid #cfe8d6;border-radius:20px;padding:4px 11px;white-space:nowrap;font-weight:600}
+#ct{padding:24px 26px 70px;max-width:1160px;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin-bottom:18px;box-shadow:var(--sh)}
+.card h3{margin:0 0 14px;font-size:15.5px;letter-spacing:-.1px}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+.stat{position:relative;overflow:hidden}
+.stat:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--g2)}
+.stat.w:before{background:var(--org)}.stat.d:before{background:var(--red)}
+.stat .n{font-size:30px;font-weight:800;color:var(--g1);letter-spacing:-.5px;line-height:1.15}.stat .l{color:var(--mut);font-size:12.5px}
+.stat.w .n{color:var(--org)}.stat.d .n{color:var(--red)}
+label{display:block;font-weight:600;font-size:12.5px;margin:14px 0 5px;color:#344054}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g2);box-shadow:var(--ring)}
+textarea{min-height:84px;resize:vertical}
+input[type=checkbox],input[type=radio]{width:auto;accent-color:var(--g2)}
+input[type=file]{padding:8px;background:#fafcfb;border-style:dashed}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--g2);color:#fff;border:1px solid transparent;border-radius:10px;padding:10px 18px;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 1px 2px rgba(16,24,40,.12);transition:background .15s,transform .05s,box-shadow .15s}
+.btn:hover{background:var(--g1)}.btn:active{transform:translateY(1px)}.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.o{background:#fff;color:var(--g1);border-color:#b7d9c2;box-shadow:none}.btn.o:hover{background:var(--g3)}
+.btn.s{padding:5px 11px;font-size:12px;border-radius:8px}.btn.r{background:var(--red)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}.row>div{flex:1;min-width:140px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;max-height:70vh}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #eef1ef;vertical-align:top}
+th{background:#f4f8f5;white-space:nowrap;font-size:12px;color:#475467;text-transform:uppercase;letter-spacing:.3px;position:sticky;top:0;z-index:1}
+tr:last-child td{border-bottom:0}
+tr:hover td{background:#fafdfb}tr.cl{cursor:pointer}
+.bd{display:inline-block;white-space:nowrap;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#eef0f2;color:#475467}
+.t1{background:#ffe9c7;color:#b45309}.t2{background:#ffd49a;color:#b45309}.t3{background:#f8b4b4;color:#9b1c1c}.t4{background:#d9b3e6;color:#4a148c}.t5{background:#9b1c1c;color:#fff}
+.ok{background:#d9f2e0;color:#14532d}.wr{background:#fff0c2;color:#7a5b00}.in{background:#dbeafe;color:#1e40af}
+.note{background:#fff9e6;border:1px solid #f5df99;border-radius:10px;padding:11px 14px;font-size:12.8px;color:#6d4c00;margin-bottom:14px}
+.good{background:#ecf8ef;border-color:#b3dfbf;color:#14532d}
+.mut{color:var(--mut)}
+a{color:var(--g2);font-weight:600}a:hover{color:var(--g1)}.empty{text-align:center;color:var(--mut);padding:34px}
+.seg{display:inline-flex;border:1px solid #b7d9c2;border-radius:10px;overflow:hidden;background:#fff}
+.seg button{border:0;background:#fff;color:var(--g1);padding:8px 16px;font-weight:600;cursor:pointer;transition:background .15s}
+.seg button:hover{background:var(--g3)}.seg button.on{background:var(--g2);color:#fff}
+.pick{max-height:270px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.pick label{display:flex;gap:9px;align-items:center;margin:0;padding:8px 12px;font-weight:400;border-bottom:1px solid #f1f3f2;cursor:pointer;color:var(--txt)}
+.pick label:hover{background:#f6faf7}
+.sts{display:flex;gap:5px;flex-wrap:wrap}
+.sts button{border:1px solid #d0d5dd;background:#fff;border-radius:8px;padding:4px 10px;cursor:pointer;font-size:12px;transition:background .12s}
+.sts button:hover{background:#f4f8f5}.sts button.on{color:#fff;border-color:transparent}
+.sts .Hadir.on{background:#1f7a3f}.sts .Sakit.on{background:#1d6fd1}.sts .Izin.on{background:#f5a623;color:#222}.sts .Alpha.on{background:#c62828}.sts .Haid.on{background:#8e24aa}
+.bar{height:10px;border-radius:5px;background:#e8ebe9;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--g2),#43a05f);border-radius:5px}
+.mbg{position:fixed;inset:0;background:rgba(16,24,40,.5);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;z-index:50;padding:14px;animation:fade .15s ease}
+.modal{background:#fff;border-radius:16px;padding:22px;width:660px;max-width:100%;max-height:90vh;overflow:auto;box-shadow:0 20px 50px rgba(16,24,40,.3);animation:pop .18s ease}
+@keyframes pop{from{opacity:0;transform:scale(.97) translateY(6px)}to{opacity:1;transform:none}}
+.modal.sm{width:440px}
+.x{float:right;border:0;background:#f2f4f3;border-radius:50%;width:30px;height:30px;font-size:19px;line-height:1;cursor:pointer;color:#667085}
+.x:hover{background:#e4e8e6}
+#toast{position:fixed;top:16px;right:16px;z-index:99;display:flex;flex-direction:column;gap:8px;max-width:min(380px,calc(100vw - 32px))}
+#toast div{padding:12px 16px;border-radius:12px;color:#fff;font-weight:600;box-shadow:0 8px 24px rgba(16,24,40,.25);animation:fade .2s ease}
+#toast .s{background:var(--g2)}#toast .e{background:var(--red)}
+.load{display:flex;justify-content:center;align-items:center;padding:50px;color:var(--mut)}
+.sp{width:18px;height:18px;border:3px solid #dfe5e1;border-top-color:var(--g2);border-radius:50%;animation:s .7s linear infinite;margin-right:10px}
+@keyframes s{to{transform:rotate(360deg)}}
+.auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px;background:radial-gradient(900px 500px at 12% -10%,#d7efdd 0%,transparent 60%),radial-gradient(700px 420px at 100% 110%,#f4ead0 0%,transparent 55%),var(--bg)}
+.auth .box{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px;width:420px;max-width:100%;box-shadow:0 18px 50px rgba(16,24,40,.12)}
+.auth .lg{max-width:300px;margin:0 auto 10px}
+.tabs{display:flex;gap:6px;background:#eef3ef;padding:4px;border-radius:12px;margin:16px 0}
+.tabs button{flex:1;border:0;background:none;padding:9px;border-radius:9px;font-weight:700;color:var(--mut);cursor:pointer;transition:background .15s}
+.tabs button.on{background:#fff;color:var(--g1);box-shadow:0 1px 3px rgba(16,24,40,.12)}
+.ban{display:flex;justify-content:center;background:linear-gradient(135deg,#f1f9f3,#fff)}.ban .lg{max-width:340px;width:100%}
+@media(max-width:800px){
+ #app{flex-direction:column}
+ #side{width:100%;height:auto;position:static;overflow:visible;background:linear-gradient(90deg,#14532d,#0b3a1e)}
+ #side .brand{display:none}
+ .me{order:-1;margin:0;border-radius:0;display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:transparent}
+ .me button{width:auto;margin:0}
+ .nav{position:fixed;left:0;right:0;bottom:0;z-index:40;flex-direction:row;overflow-x:auto;padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:2px;background:#0f4224;box-shadow:0 -4px 18px rgba(0,0,0,.25)}
+ .nav a{flex:1 0 74px;flex-direction:column;gap:2px;padding:7px 4px;font-size:10.5px;text-align:center;border-radius:10px;box-shadow:none!important}
+ .nav a span{max-width:78px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .nav a.on{background:rgba(255,255,255,.18)}
+ #top{padding:12px 16px}#top h2{font-size:17px}
+ .g2,.g4{grid-template-columns:1fr 1fr}#ct{padding:16px 14px 100px}
+ .card{padding:16px}.btn{padding:11px 16px}.btn.s{padding:6px 11px}
+ input,select,textarea{font-size:16px}
+}
+@media(max-width:480px){.g2,.g4{grid-template-columns:1fr}.modal{padding:18px;border-radius:16px 16px 0 0;align-self:flex-end;max-height:92vh}.mbg{align-items:flex-end;padding:0}.auth .box{padding:24px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
 <div id="toast"></div>
@@ -22,12 +127,651 @@ setTimeout(function () {
   r.innerHTML = '<div style="font-family:Segoe UI,Arial,sans-serif;max-width:560px;margin:40px auto;padding:22px;background:#fff;border:1px solid #e5e7eb;border-radius:14px">' +
     '<h3 style="margin:0 0 8px;color:#1b5e20">Al-Ittihad Integrity System belum bisa dimulai</h3>' +
     '<p style="color:#444">Halaman sudah terbuka tetapi belum selesai memuat. Rincian untuk Admin:</p>' +
-    '<ul style="color:#444;font-size:14px"><li>Bagian skrip termuat: '+((window.__AIS.parts||[]).join(', ')||'tidak ada')+' (harus 1, 2, 3, 4)</li><li>Skrip utama berjalan: <b>' + (window.__AIS.main ? 'ya' : 'TIDAK') + '</b></li><li>Koneksi ke Apps Script (google.script.run): <b>' + adaGoogle + '</b></li>' +
+    '<ul style="color:#444;font-size:14px"><li>Skrip utama berjalan: <b>' + (window.__AIS.main ? 'ya' : 'TIDAK') + '</b></li><li>Koneksi ke Apps Script (google.script.run): <b>' + adaGoogle + '</b></li>' +
     '<li>Pesan kesalahan: <b>' + (window.__AIS.err.length ? esc(window.__AIS.err.join(' | ')) : '(tidak ada)') + '</b></li></ul>' +
     '<p style="color:#444;font-size:14px">Jika &ldquo;Skrip utama&rdquo; TIDAK, salah satu file <b>JavaScript, JavaScript2, JavaScript3, JavaScript4</b> di editor belum lengkap atau masih versi lama (lihat kemungkinan besar isi file <b>JavaScript.html</b> di editor masih versi lama: hapus semua isinya, tempel ulang dari file terbaru, simpan.ldquo;Bagian skrip termuatkemungkinan besar isi file <b>JavaScript.html</b> di editor masih versi lama: hapus semua isinya, tempel ulang dari file terbaru, simpan.rdquo;): hapus isinya, tempel ulang dari file terbaru sampai baris terakhir, simpan. Coba: (1) muat ulang dengan Ctrl+Shift+R; (2) di editor Apps Script jalankan fungsi <b>setup</b> dan setujui izin; (3) Deploy &rarr; Kelola deployment &rarr; Versi baru.</p>' +
     '<button onclick="try{sessionStorage.removeItem(\'ais_t\')}catch(e){};location.reload()" style="background:#2e7d32;color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:600;cursor:pointer">Hapus sesi &amp; muat ulang</button></div>';
 }, 10000);
 </script>
-<?!= include('JavaScript'); ?><?!= include('JavaScript2'); ?><?!= include('JavaScript3'); ?><?!= include('JavaScript4'); ?>
+<script>
+window.__AIS.main = true;
+const VERSI = '2026-10-14.9-SIMPLE';
+const LOGO = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="100%" height="100%" role="img" aria-label="Logo Al-Ittihad Integrity System">
+  <defs>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#058C4B" />
+      <stop offset="100%" stop-color="#024022" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#AA7C11" />
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#046A38" flood-opacity="0.25" />
+    </filter>
+  </defs>
+  <g transform="translate(10, 8)" filter="url(#softGlow)">
+    <path d="M50 4 L92 20 V56 C92 82 50 102 50 102 C50 102 8 82 8 56 V20 Z"
+          fill="url(#emeraldGrad)" stroke="url(#goldGrad)" stroke-width="3.5" stroke-linejoin="round"/>
+    <g opacity="0.2" stroke="#FFFFFF" stroke-width="1.5" fill="none">
+      <rect x="34" y="32" width="32" height="32" transform="rotate(0 50 48)"/>
+      <rect x="34" y="32" width="32" height="32" transform="rotate(45 50 48)"/>
+    </g>
+    <polygon points="50,22 52.5,28 58,28 53.5,31.5 55,37 50,33.5 45,37 46.5,31.5 42,28 47.5,28" fill="url(#goldGrad)" />
+    <path d="M50 40 V76" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round"/>
+    <path d="M30 65 L44 48 L50 55" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M70 65 L56 48 L50 55" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M32 75 H68" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <text x="118" y="58" font-family="'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif" font-weight="900" font-size="44" fill="#0F172A" letter-spacing="2">AIS</text>
+  <text x="118" y="80" font-family="'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif" font-weight="700" font-size="14" fill="#046A38" letter-spacing="1.5">AL-ITTIHAD INTEGRITY SYSTEM</text>
+  <text x="118" y="98" font-family="'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif" font-weight="500" font-size="11" fill="#64748B" letter-spacing="0.5">Sistem Kedisiplinan &amp; Prestasi Siswa Berdasarkan SHB</text>
+</svg>`;
+const LOGO_IKON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 18 112 104" width="100%" height="100%" role="img" aria-label="Ikon AIS">
+  <defs>
+    <linearGradient id="emeraldGradIkon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#058C4B" />
+      <stop offset="100%" stop-color="#024022" />
+    </linearGradient>
+    <linearGradient id="goldGradIkon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#AA7C11" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(10, 8)">
+    <path d="M50 4 L92 20 V56 C92 82 50 102 50 102 C50 102 8 82 8 56 V20 Z"
+          fill="url(#emeraldGradIkon)" stroke="url(#goldGradIkon)" stroke-width="3.5" stroke-linejoin="round"/>
+    <polygon points="50,22 52.5,28 58,28 53.5,31.5 55,37 50,33.5 45,37 46.5,31.5 42,28 47.5,28" fill="url(#goldGradIkon)" />
+    <path d="M50 40 V76" stroke="url(#goldGradIkon)" stroke-width="5" stroke-linecap="round"/>
+    <path d="M30 65 L44 48 L50 55" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M70 65 L56 48 L50 55" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M32 75 H68" stroke="url(#goldGradIkon)" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>`;
+const NAMA = 'Al-Ittihad Integrity System';
+
+// ---------- util ----------
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const esc = v => String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hariIni = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+const ST = { token: null, user: null, awal: null, halaman: null, rid: 0 };
+const PENGELOLA = ['BK','Wakasis','Kepsek','Admin'], ADMIN = ['Admin','BK'];
+const isPeng = () => PENGELOLA.indexOf(ST.user.role) >= 0;
+const isAdmin = () => ADMIN.indexOf(ST.user.role) >= 0;
+
+function toast(m, tipe) {
+  const d = document.createElement('div'); d.className = tipe === 'e' ? 'e' : 's'; d.textContent = m;
+  $('#toast').appendChild(d); setTimeout(() => d.remove(), tipe === 'e' ? 6000 : 3000);
+}
+// Alamat Web App (deployment). Dipakai HANYA bila halaman ini dibuka di luar Apps Script (mis. di GitHub Pages / Blogger / file lokal).
+const API_URL = 'https://script.google.com/macros/s/AKfycbzOR8g81rlAZWgoYbFrjSPYekVE5FAy2C-2tI-nBcOceWrQUxyeIQHcyGA83ta9tkod/exec';
+const adaGAS = () => typeof google !== 'undefined' && google.script && google.script.run;
+function proses(raw, ok, gagal) {
+  let r; try { r = JSON.parse(raw); } catch (e) { return gagal(new Error('Respons server tidak terbaca. Muat ulang halaman.')); }
+  if (r.ok) return ok(r.data);
+  if (r.error === 'SESI_HABIS') { keluarLokal(); return gagal(new Error('Sesi berakhir, silakan login lagi.')); }
+  gagal(new Error(r.error));
+}
+function call(aksi, data, batasDetik) {
+  return new Promise((ok, gagal) => {
+    const mandiri = !adaGAS() && API_URL && /^https?:$/.test(location.protocol);
+    if (!adaGAS() && !mandiri) return gagal(new Error('Halaman ini tidak berjalan di dalam Google Apps Script (google.script.run tidak tersedia).'));
+    let selesai = false;
+    const ok0 = ok, gagal0 = gagal;
+    const t = setTimeout(() => { if (!selesai) { selesai = true; gagal0(new Error('Server tidak merespons (' + (batasDetik || 30) + ' detik). Coba muat ulang. Jika tetap begini: Admin buka editor Apps Script → jalankan fungsi setup → Deploy versi baru.')); } }, (batasDetik || 30) * 1000);
+    ok = v => { if (!selesai) { selesai = true; clearTimeout(t); ok0(v); } };
+    gagal = e => { if (!selesai) { selesai = true; clearTimeout(t); gagal0(e); } };
+    if (adaGAS()) {
+      google.script.run
+        .withSuccessHandler(raw => proses(raw, ok, gagal))
+        .withFailureHandler(e => gagal(new Error((e && e.message) || 'Gagal menghubungi server.')))
+        .api(ST.token, aksi, data || {});
+      return;
+    }
+    // Mode mandiri: POST teks biasa (tanpa preflight CORS) ke Web App.
+    fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ token: ST.token, aksi: aksi, data: data || {} }), redirect: 'follow' })
+      .then(r => { if (!r.ok) throw new Error('Server menjawab ' + r.status + '. Pastikan deployment Web App "Siapa yang memiliki akses: Siapa saja".'); return r.text(); })
+      .then(raw => proses(raw, ok, gagal))
+      .catch(e => gagal(new Error(/Failed to fetch|NetworkError|Load failed/i.test(String(e && e.message)) ? 'Tidak dapat menghubungi server. Periksa koneksi internet dan deployment Web App.' : e.message)));
+  });
+}
+function simpanToken(t) { try { sessionStorage.setItem('ais_t', t || ''); } catch (e) {} }
+function bacaToken() { try { return sessionStorage.getItem('ais_t') || ''; } catch (e) { return ''; } }
+function loading(el) { el.innerHTML = '<div class="load"><div class="sp"></div> Memuat...</div>'; }
+function modal(html, kecil) {
+  const m = document.createElement('div'); m.className = 'mbg';
+  m.innerHTML = `<div class="modal ${kecil ? 'sm' : ''}"><button class="x" aria-label="Tutup">&times;</button>${html}</div>`;
+  const tutup = () => m.remove();
+  m.addEventListener('mousedown', e => { if (e.target === m) tutup(); });
+  $('.x', m).onclick = tutup;
+  document.body.appendChild(m);
+  m.tutup = tutup; return m;
+}
+async function tombol(btn, fn, label) {
+  const lama = btn.textContent; btn.disabled = true; if (label) btn.textContent = label;
+  try { await fn(); } catch (e) { toast(e.message, 'e'); } finally { btn.disabled = false; btn.textContent = lama; }
+}
+const badgeT = t => t ? `<span class="bd t${t}">Tingkat ${t}</span>` : '';
+const opsiKelas = (pilih, semua) => (semua ? '<option value="">Semua kelas</option>' : '<option value="">-- pilih kelas --</option>') +
+  ST.awal.kelas.map(k => `<option ${k === pilih ? 'selected' : ''}>${esc(k)}</option>`).join('');
+
+// ---------- login ----------
+function layarLogin(mode, pesan) {
+  mode = mode || 'staf';
+  $('#root').innerHTML = `<div class="auth"><div class="box">
+    <div class="lg">${LOGO}</div>
+    <div class="tabs"><button id="tS" class="${mode !== 'siswa' ? 'on' : ''}">Staf / Guru</button><button id="tW" class="${mode === 'siswa' ? 'on' : ''}">Siswa</button></div>
+    <div id="fm"></div>
+    <div style="text-align:center;margin-top:12px;font-size:10.5px;color:#aaa">Versi ${esc(VERSI)}</div></div></div>`;
+  window.__AIS.siap = true;
+  $('#tS').onclick = () => layarLogin('staf'); $('#tW').onclick = () => layarLogin('siswa');
+  const fm = $('#fm');
+  if (mode === 'siswa') {
+    fm.innerHTML = `<div class="note">Login siswa hanya untuk membuka <b>Al-Ittihad Care and Report</b> (jalur lapor aman, boleh anonim).</div>
+      <label>NISN</label><input id="nisn" inputmode="numeric" autocomplete="username">
+      <label>Tanggal Lahir</label><input id="tgl" type="date">
+      <button class="btn" id="go" style="width:100%;margin-top:16px;justify-content:center">Masuk</button>`;
+    const go = () => tombol($('#go'), async () => {
+      const r = await call('loginSiswa', { nisn: $('#nisn').value, tanggalLahir: $('#tgl').value });
+      masuk(r);
+    }, 'Memeriksa...');
+    $('#go').onclick = go; $('#tgl').onkeydown = $('#nisn').onkeydown = e => { if (e.key === 'Enter') go(); };
+  } else if (mode === 'daftar') {
+    fm.innerHTML = `<div class="note">Akun pertama otomatis menjadi Admin. Akun berikutnya menunggu persetujuan Admin/BK.</div>
+      <label>Nama Lengkap</label><input id="nm"><label>Email</label><input id="em" type="email"><label>Password (min. 6 karakter)</label><input id="pw" type="password">
+      <button class="btn" id="go" style="width:100%;margin-top:16px;justify-content:center">Daftar</button>
+      <p style="text-align:center"><a href="#" id="bk">Sudah punya akun? Masuk</a></p>`;
+    $('#bk').onclick = e => { e.preventDefault(); layarLogin('staf'); };
+    $('#go').onclick = () => tombol($('#go'), async () => {
+      const r = await call('daftar', { nama: $('#nm').value, email: $('#em').value, password: $('#pw').value });
+      layarLogin('staf'); toast(r.pesan);
+    }, 'Mendaftar...');
+  } else {
+    fm.innerHTML = `${pesan ? `<div class="note">${esc(pesan)}</div>` : ''}
+      <label>Email</label><input id="em" type="email" autocomplete="username"><label>Password</label><input id="pw" type="password" autocomplete="current-password">
+      <button class="btn" id="go" style="width:100%;margin-top:16px;justify-content:center">Masuk</button>
+      <p style="text-align:center"><a href="#" id="df">Belum punya akun? Daftar</a></p>`;
+    $('#df').onclick = e => { e.preventDefault(); layarLogin('daftar'); };
+    const go = () => tombol($('#go'), async () => masuk(await call('login', { email: $('#em').value, password: $('#pw').value })), 'Memeriksa...');
+    $('#go').onclick = go; $('#pw').onkeydown = $('#em').onkeydown = e => { if (e.key === 'Enter') go(); };
+  }
+}
+function masuk(r) { ST.token = r.token; ST.user = r.user; simpanToken(r.token); mulaiApp(); }
+function keluarLokal() { ST.token = null; ST.user = null; ST.awal = null; simpanToken(''); layarLogin('staf', 'Silakan login.'); }
+
+// ---------- shell ----------
+const MENU = [
+  { id: 'beranda', ikon: '📊', nama: 'Beranda', staf: true },
+  { id: 'catat', ikon: '✍️', nama: 'Catat Poin', staf: true },
+  { id: 'absensi', ikon: '🗓️', nama: 'Kehadiran', staf: true },
+  { id: 'siswa', ikon: '🎓', nama: 'Siswa & Poin', staf: true },
+  { id: 'riwayat', ikon: '📋', nama: 'Riwayat', staf: true },
+  { id: 'care', ikon: '🛡️', nama: 'Al-Ittihad Care and Report', staf: true, siswa: true },
+  { id: 'riwayatCare', ikon: '🗂️', nama: 'Riwayat Care and Report', bk: true },
+  { id: 'data', ikon: '⚙️', nama: 'Data & Pengaturan', admin: true }
+];
+const menuUser = () => MENU.filter(m => ST.user.role === 'Siswa' ? m.siswa : ((!m.admin || isAdmin()) && (!m.bk || ST.user.role === 'BK')));
+
+async function mulaiApp() {
+  $('#root').innerHTML = `<div class="load"><div class="sp"></div> Memuat data...</div>`;
+  try { if (ST.user.role !== 'Siswa') ST.awal = await call('awal'); }
+  catch (e) { toast(e.message, 'e'); return layarLogin('staf'); }
+  const u = ST.user;
+  $('#root').innerHTML = `<div id="app"><div id="side"><div class="brand"><div class="ic">${LOGO_IKON}</div><b>${NAMA}</b><small>Disiplin & Prestasi Siswa</small></div>
+    <div class="nav" id="nav"></div>
+    <div class="me"><div><b>${esc(u.nama)}</b><br><span class="mut" style="color:#c8e6c9">${u.role === 'Siswa' ? esc(u.nisn) + ' · ' + esc(u.kelas) : esc(u.email)}</span><br><span class="rl">${esc(u.role)}</span></div><button class="btn o s" id="out">Keluar</button></div></div>
+    <div id="main"><div id="top"><div><h2 id="jd"></h2><small id="sb"></small></div><span id="ver">v${esc(VERSI)}</span></div><div id="ct"></div></div></div>`;
+  window.__AIS.siap = true;
+  $('#nav').innerHTML = menuUser().map(m => `<a data-m="${m.id}">${m.ikon}<span>${esc(m.nama)}</span></a>`).join('');
+  $$('#nav a').forEach(a => a.onclick = () => buka(a.dataset.m));
+  $('#out').onclick = async () => { try { await call('keluar'); } catch (e) {} keluarLokal(); };
+  buka(u.role === 'Siswa' ? 'care' : 'beranda');
+}
+function buka(id) {
+  if (!menuUser().some(m => m.id === id)) id = menuUser()[0].id;
+  ST.halaman = id; const rid = ++ST.rid;
+  $$('#nav a').forEach(a => a.classList.toggle('on', a.dataset.m === id));
+  const m = MENU.find(x => x.id === id);
+  $('#jd').textContent = m.nama; $('#sb').textContent = ST.awal ? `${ST.awal.tahunAjaran} · Semester ${ST.awal.semesterAktif}` : 'Jalur pelaporan aman — boleh anonim';
+  const ct = $('#ct'); loading(ct);
+  Promise.resolve().then(() => HAL[id](ct, () => rid === ST.rid)).catch(e => { if (rid === ST.rid) ct.innerHTML = `<div class="card"><div class="note">${esc(e.message)}</div></div>`; });
+}
+
+// ---------- BERANDA ----------
+async function halBeranda(ct, hidup) {
+  const d = await call('dashboard', { cakupan: ST.cakupan || 'semester' }); if (!hidup()) return;
+  const lbl = d.cakupan === 'semua' ? 'seluruh waktu' : 'semester ini';
+  const mx = Math.max(1, ...[1,2,3,4,5].map(t => d.perTingkat[t] || 0));
+  ct.innerHTML = `<div class="card ban"><div class="lg">${LOGO}</div></div>
+   <div class="row" style="margin-bottom:12px"><div style="flex:3"><div class="seg"><button data-c="semester" class="${d.cakupan === 'semester' ? 'on' : ''}">Semester ${esc(d.semester)}</button><button data-c="semua" class="${d.cakupan === 'semua' ? 'on' : ''}">Seluruh waktu</button></div></div></div>
+   ${d.otomatis ? `<div class="note">Semester aktif <b>${esc(d.semester)}</b> belum punya catatan, jadi Beranda menampilkan <b>seluruh waktu</b>. Jika data Anda seharusnya ada di semester aktif, periksa Tahun Ajaran/Semester di <i>Data & Pengaturan → Pengaturan</i>.</div>` : ''}
+   ${d.cakupan === 'semester' && d.semesterLain.length ? `<div class="note">Ada catatan di semester lain: ${d.semesterLain.map(x => `${esc(x.semester)} (${x.jumlah})`).join(', ')}. Klik "Seluruh waktu" untuk melihat semuanya.</div>` : ''}
+   <div class="grid g4" style="margin-bottom:16px">
+    <div class="card stat" style="margin:0"><div class="n">${d.totalPelanggaran}</div><div class="l">Pelanggaran ${lbl} (${d.poinPelanggaran} poin)</div></div>
+    <div class="card stat" style="margin:0"><div class="n">${d.totalPrestasi}</div><div class="l">Prestasi ${lbl} (${d.poinPrestasi} poin)</div></div>
+    <div class="card stat w" style="margin:0"><div class="n">${d.tlMenunggu}</div><div class="l">Menunggu tindak lanjut</div></div>
+    ${d.laporanBaru !== undefined ? `<div class="card stat d" style="margin:0"><div class="n">${d.laporanBaru}</div><div class="l">Laporan Care baru</div></div>` : `<div class="card stat" style="margin:0"><div class="n">${d.jumlahSiswa}</div><div class="l">Siswa aktif</div></div>`}
+   </div>
+   <div class="grid g2"><div class="card"><h3>Pelanggaran per Tingkat (${lbl})</h3>${[1,2,3,4,5].map(t => `<div style="display:flex;gap:10px;align-items:center;margin:8px 0"><span style="width:70px">${badgeT(t)}</span><div class="bar" style="flex:1"><i style="width:${(d.perTingkat[t] || 0) * 100 / mx}%"></i></div><b style="width:30px;text-align:right">${d.perTingkat[t] || 0}</b></div>`).join('')}</div>
+   <div class="card"><h3>Siswa Perlu Perhatian</h3>${d.perhatian.length ? `<div class="tw"><table><tr><th>Nama</th><th>Kelas</th><th>Poin</th><th>Tingkat semester ini</th></tr>${d.perhatian.map(p => `<tr class="cl" data-n="${esc(p.nisn)}"><td>${esc(p.nama)}</td><td>${esc(p.kelas)}</td><td>${p.poin}</td><td>${p.tingkat ? badgeT(p.tingkat) : '<span class="mut">-</span>'}</td></tr>`).join('')}</table></div>` : '<div class="empty">Belum ada pelanggaran ' + lbl + ' 🎉</div>'}</div></div>`;
+  $$('tr.cl', ct).forEach(r => r.onclick = () => bukaKartu(r.dataset.n));
+  $$('[data-c]', ct).forEach(b => b.onclick = () => { ST.cakupan = b.dataset.c; buka('beranda'); });
+}
+
+// ---------- pemilih siswa (dipakai Catat Poin) ----------
+function pemilihSiswa(el, terpilih) {
+  el.innerHTML = `<div class="row"><div><label>Kelas</label><select id="pk">${opsiKelas('', true)}</select></div><div><label>Cari nama</label><input id="pc" placeholder="Ketik nama..."></div></div>
+    <div class="pick" id="pl" style="margin-top:8px"></div><div class="mut" style="margin-top:6px"><span id="pj">0</span> siswa dipilih · <a href="#" id="pr">kosongkan</a></div>`;
+  const gambar = () => {
+    const k = $('#pk', el).value, q = $('#pc', el).value.toLowerCase();
+    const daf = ST.awal.siswa.filter(s => (!k || s.kelas === k) && (!q || s.nama.toLowerCase().includes(q) || s.nisn.includes(q))).slice(0, 200);
+    $('#pl', el).innerHTML = daf.length ? daf.map(s => `<label><input type="checkbox" value="${esc(s.nisn)}" ${terpilih.has(s.nisn) ? 'checked' : ''}> ${esc(s.nama)} <span class="mut">· ${esc(s.kelas)}</span></label>`).join('') : '<div class="empty">Tidak ada siswa</div>';
+    $$('input', $('#pl', el)).forEach(c => c.onchange = () => { c.checked ? terpilih.add(c.value) : terpilih.delete(c.value); $('#pj', el).textContent = terpilih.size; });
+    $('#pj', el).textContent = terpilih.size;
+  };
+  $('#pk', el).onchange = $('#pc', el).oninput = gambar;
+  $('#pr', el).onclick = e => { e.preventDefault(); terpilih.clear(); gambar(); };
+  gambar();
+}
+
+// ---------- CATAT POIN ----------
+function halCatat(ct) {
+  let jenis = 'Pelanggaran'; const pilih = new Set();
+  ct.innerHTML = `<div class="card"><div class="seg"><button id="jP" class="on">Pelanggaran</button><button id="jR">Prestasi</button></div>
+    <div class="row"><div><label>Tanggal kejadian</label><input id="tg" type="date" value="${hariIni()}" max="${hariIni()}"></div><div style="flex:3"><label id="lb">Jenis pelanggaran</label><select id="kd"></select></div></div>
+    <div id="inf" class="note" style="margin-top:10px"></div>
+    <label>Keterangan (opsional)</label><textarea id="ket" placeholder="Kronologi singkat..."></textarea>
+    <h3 style="margin:16px 0 0">Siswa</h3><div id="ps"></div>
+    <div style="margin-top:14px"><button class="btn" id="sv">Simpan Catatan</button></div></div>`;
+  const isi = () => {
+    const ar = ST.awal.aturan.filter(a => a.jenis === jenis);
+    let h = '<option value="">-- pilih --</option>';
+    if (jenis === 'Pelanggaran') [1,2,3,4,5].forEach(t => { h += `<optgroup label="Tingkat ${t}">` + ar.filter(a => a.tingkat === t).map(a => `<option value="${esc(a.kode)}">${esc(a.deskripsi)} (${a.poin} poin)</option>`).join('') + '</optgroup>'; });
+    else h += ar.map(a => `<option value="${esc(a.kode)}">${esc(a.deskripsi)} (+${a.poin} poin)</option>`).join('');
+    $('#kd').innerHTML = h; $('#lb').textContent = jenis === 'Pelanggaran' ? 'Jenis pelanggaran' : 'Jenis prestasi'; info();
+  };
+  const info = () => {
+    const a = ST.awal.aturan.find(x => x.kode === $('#kd').value && x.jenis === jenis);
+    $('#inf').className = 'note' + (jenis === 'Prestasi' ? ' good' : '');
+    $('#inf').innerHTML = a ? (jenis === 'Pelanggaran' ? `${badgeT(a.tingkat)} · <b>${a.poin}</b> poin · Tindak lanjut: ${esc(({1:'Dinasehati (Guru)',2:'Pembinaan (Wali Kelas)',3:'Pembinaan (Wali Kelas & BK)',4:'Surat Perjanjian 1',5:'Surat Perjanjian Bermaterai'})[a.tingkat])}` : `<b>+${a.poin}</b> poin prestasi`) : 'Pilih jenis ' + jenis.toLowerCase() + ' terlebih dahulu.';
+  };
+  $('#jP').onclick = () => { jenis = 'Pelanggaran'; $('#jP').classList.add('on'); $('#jR').classList.remove('on'); isi(); };
+  $('#jR').onclick = () => { jenis = 'Prestasi'; $('#jR').classList.add('on'); $('#jP').classList.remove('on'); isi(); };
+  $('#kd').onchange = info; isi(); pemilihSiswa($('#ps'), pilih);
+  $('#sv').onclick = () => tombol($('#sv'), async () => {
+    if (!$('#kd').value) throw new Error('Pilih jenis ' + jenis.toLowerCase() + '.');
+    if (!pilih.size) throw new Error('Pilih minimal satu siswa.');
+    const r = await call('catat', { jenis, kode: $('#kd').value, tanggal: $('#tg').value, keterangan: $('#ket').value, nisnList: Array.from(pilih) });
+    toast(`${r.jumlah} catatan ${jenis.toLowerCase()} tersimpan.`); pilih.clear(); $('#ket').value = ''; pemilihSiswa($('#ps'), pilih);
+  }, 'Menyimpan...');
+}
+
+// ---------- KEHADIRAN ----------
+function halAbsensi(ct) {
+  ct.innerHTML = `<div class="seg" style="margin-bottom:14px"><button id="aI" class="on">Input</button><button id="aR">Rekap</button></div><div id="ab"></div>`;
+  const tab = (t) => { $('#aI').classList.toggle('on', t === 'i'); $('#aR').classList.toggle('on', t === 'r'); (t === 'i' ? absInput : absRekap)($('#ab')); };
+  $('#aI').onclick = () => tab('i'); $('#aR').onclick = () => tab('r'); tab('i');
+}
+function absInput(el) {
+  el.innerHTML = `<div class="card"><div class="row"><div><label>Jenis</label><select id="aj">${ST.awal.jenisHadir.map(j => `<option>${j}</option>`).join('')}</select></div>
+    <div><label>Kelas</label><select id="ak">${opsiKelas('')}</select></div><div><label>Tanggal</label><input id="at" type="date" value="${hariIni()}" max="${hariIni()}"></div>
+    <div style="flex:0"><button class="btn" id="am">Tampilkan</button></div></div></div><div id="ad"></div>`;
+  $('#am').onclick = () => tombol($('#am'), async () => {
+    const jenis = $('#aj').value, kelas = $('#ak').value, tanggal = $('#at').value;
+    if (!kelas) throw new Error('Pilih kelas.');
+    const r = await call('hadirGet', { jenis, kelas, tanggal });
+    const sts = ST.awal.statusHadir.filter(s => s !== 'Haid' || jenis !== 'Kelas');
+    const nilai = {}; r.siswa.forEach(s => { if (s.status) nilai[s.nisn] = s.status; });
+    $('#ad').innerHTML = `<div class="card"><div class="row" style="margin-bottom:8px"><b style="flex:3">${esc(kelas)} · ${esc(jenis)} · ${esc(tanggal)}</b>${r.sudahAda ? '<span class="bd wr">Sudah pernah diisi — perubahan akan menimpa</span>' : ''}<button class="btn o s" id="sh" style="flex:0;white-space:nowrap">Semua Hadir</button></div>
+      <div class="tw"><table>${r.siswa.map((s, i) => `<tr><td>${i + 1}</td><td>${esc(s.nama)}</td><td><div class="sts" data-n="${esc(s.nisn)}">${sts.map(x => `<button class="${x} ${nilai[s.nisn] === x ? 'on' : ''}" data-s="${x}">${x}</button>`).join('')}</div></td></tr>`).join('')}</table></div>
+      <div style="margin-top:12px"><button class="btn" id="asv">Simpan Kehadiran</button> <span class="mut" id="acn"></span></div></div>`;
+    const hit = () => { $('#acn').textContent = Object.keys(nilai).length + ' dari ' + r.siswa.length + ' siswa terisi'; }; hit();
+    $$('.sts button', $('#ad')).forEach(b => b.onclick = () => {
+      const n = b.parentNode.dataset.n; nilai[n] = b.dataset.s;
+      $$('button', b.parentNode).forEach(x => x.classList.toggle('on', x === b)); hit();
+    });
+    $('#sh').onclick = () => { $$('.sts', $('#ad')).forEach(g => { if (!nilai[g.dataset.n]) { nilai[g.dataset.n] = 'Hadir'; $$('button', g).forEach(x => x.classList.toggle('on', x.dataset.s === 'Hadir')); } }); hit(); };
+    $('#asv').onclick = () => tombol($('#asv'), async () => {
+      const items = Object.keys(nilai).map(n => ({ nisn: n, status: nilai[n] }));
+      const h = await call('hadirSimpan', { jenis, kelas, tanggal, items });
+      toast(`Tersimpan: ${h.baru} baru, ${h.diubah} diubah.`);
+    }, 'Menyimpan...');
+  }, 'Memuat...');
+}
+function absRekap(el) {
+  const awal = new Date(); awal.setDate(1); const a = new Date(awal.getTime() - awal.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  el.innerHTML = `<div class="card"><div class="row"><div><label>Jenis</label><select id="rj">${ST.awal.jenisHadir.map(j => `<option>${j}</option>`).join('')}</select></div>
+    <div><label>Kelas</label><select id="rk">${opsiKelas('')}</select></div><div><label>Dari</label><input id="rd" type="date" value="${a}"></div><div><label>Sampai</label><input id="rs" type="date" value="${hariIni()}"></div>
+    <div style="flex:0"><button class="btn" id="rm">Tampilkan</button></div></div></div><div id="rh"></div>`;
+  $('#rm').onclick = () => tombol($('#rm'), async () => {
+    if (!$('#rk').value) throw new Error('Pilih kelas.');
+    const r = await call('hadirRekap', { jenis: $('#rj').value, kelas: $('#rk').value, dari: $('#rd').value, sampai: $('#rs').value });
+    const sts = ST.awal.statusHadir;
+    $('#rh').innerHTML = `<div class="card"><div class="tw"><table><tr><th>Nama</th>${sts.map(s => `<th>${s}</th>`).join('')}<th>% Hadir</th></tr>${r.data.map(s => `<tr><td>${esc(s.nama)}</td>${sts.map(x => `<td>${s.hitung[x] || 0}</td>`).join('')}<td>${s.persenHadir === null ? '-' : `<b style="color:${s.persenHadir < 75 ? '#c62828' : '#2e7d32'}">${s.persenHadir}%</b>`}</td></tr>`).join('')}</table></div></div>`;
+  }, 'Memuat...');
+}
+
+// ---------- SISWA & POIN ----------
+async function halSiswa(ct, hidup) {
+  ct.innerHTML = `<div class="card"><div class="row"><div><label>Kelas</label><select id="sk">${opsiKelas('', true)}</select></div><div style="flex:2"><label>Cari nama / NISN</label><input id="sc" placeholder="Ketik untuk mencari..."></div></div></div><div id="sl"></div>`;
+  let timer; const muat = async () => {
+    const rid = ST.rid; loading($('#sl'));
+    try {
+      const r = await call('siswaPoin', { kelas: $('#sk').value, cari: $('#sc').value }); if (rid !== ST.rid) return;
+      $('#sl').innerHTML = `<div class="card"><div class="mut" style="margin-bottom:8px">${r.data.length} siswa · tingkat dihitung untuk semester ${esc(r.semester)} · klik baris untuk kartu poin</div>
+        <div class="tw"><table><tr><th>Nama</th><th>Kelas</th><th>Poin Pelanggaran</th><th>Poin Prestasi</th><th>Tingkat Semester Ini</th></tr>${r.data.map(s => `<tr class="cl" data-n="${esc(s.nisn)}"><td>${esc(s.nama)}</td><td>${esc(s.kelas)}</td><td><b style="color:${s.poinPelanggaran ? '#c62828' : 'inherit'}">${s.poinPelanggaran}</b></td><td><b style="color:#2e7d32">${s.poinPrestasi}</b></td><td>${s.tingkat ? badgeT(s.tingkat) : '<span class="mut">-</span>'}</td></tr>`).join('') || '<tr><td colspan="5" class="empty">Tidak ada siswa</td></tr>'}</table></div></div>`;
+      $$('tr.cl', $('#sl')).forEach(x => x.onclick = () => bukaKartu(x.dataset.n));
+    } catch (e) { if (rid === ST.rid) $('#sl').innerHTML = `<div class="note">${esc(e.message)}</div>`; }
+  };
+  $('#sk').onchange = muat; $('#sc').oninput = () => { clearTimeout(timer); timer = setTimeout(muat, 350); };
+  muat();
+}
+async function bukaKartu(nisn) {
+  const m = modal('<div class="load"><div class="sp"></div> Memuat kartu poin...</div>');
+  try {
+    const k = await call('kartu', { nisn });
+    const e = k.eskalasi, t = k.total;
+    $('.modal', m).innerHTML = `<button class="x" aria-label="Tutup">&times;</button><h3 style="margin:0">${esc(k.siswa.nama)}</h3><div class="mut">NISN ${esc(k.siswa.nisn)} · Kelas ${esc(k.siswa.kelas)}</div>
+     <div class="grid g2" style="margin:14px 0"><div class="card stat d" style="margin:0"><div class="n">${t.pelanggaran}</div><div class="l">Total poin pelanggaran (semester ini: ${t.pelanggaranSemester})</div></div>
+     <div class="card stat" style="margin:0"><div class="n">${t.prestasi}</div><div class="l">Total poin prestasi (semester ini: ${t.prestasiSemester})</div></div></div>
+     <div class="note ${e.tingkat ? '' : 'good'}"><b>Status SHB semester ${esc(k.semester)}:</b> ${e.tingkat ? `${badgeT(e.tingkat)} — ${esc(e.konsekuensi.proses)} <span class="mut">(PIC: ${esc(e.konsekuensi.pic)})</span>` : 'Tidak ada pelanggaran aktif.'}
+      ${e.catatan.map(c => `<div>• ${esc(c)}</div>`).join('')}
+      <div class="mut" style="margin-top:4px">Jumlah: ${[1,2,3,4,5].map(x => `T${x}: ${e.jumlah[x] || 0}`).join(' · ')}</div></div>
+     ${Object.keys(k.hadir).length ? `<div class="mut" style="margin-bottom:10px"><b>Kehadiran:</b> ${Object.keys(k.hadir).map(j => `${esc(j)} (${Object.keys(k.hadir[j]).map(s => s + ' ' + k.hadir[j][s]).join(', ')})`).join(' · ')}</div>` : ''}
+     <h3>Riwayat</h3><div class="tw"><table><tr><th>Tanggal</th><th>Jenis</th><th>Keterangan</th><th>Poin</th></tr>${k.riwayat.map(r => `<tr style="${r.status === 'Batal' ? 'opacity:.45;text-decoration:line-through' : ''}"><td>${esc(r.tanggal)}</td><td>${r.jenis === 'Pelanggaran' ? badgeT(r.tingkat) : '<span class="bd ok">Prestasi</span>'}</td><td>${esc(r.deskripsi)}${r.keterangan ? `<div class="mut">${esc(r.keterangan)}</div>` : ''}</td><td><b>${r.jenis === 'Pelanggaran' ? '-' : '+'}${r.poin}</b></td></tr>`).join('') || '<tr><td colspan="4" class="empty">Belum ada catatan</td></tr>'}</table></div>`;
+    $('.x', m).onclick = m.tutup;
+  } catch (e) { m.tutup(); toast(e.message, 'e'); }
+}
+
+// ---------- RIWAYAT ----------
+function halRiwayat(ct) {
+  ct.innerHTML = `<div class="card"><div class="row"><div><label>Jenis</label><select id="fj"><option value="">Semua</option><option>Pelanggaran</option><option>Prestasi</option></select></div>
+    <div><label>Kelas</label><select id="fk">${opsiKelas('', true)}</select></div><div><label>Cari nama/NISN</label><input id="fc"></div>
+    ${isPeng() ? '<div style="flex:0;white-space:nowrap"><label>&nbsp;</label><label style="margin:0;font-weight:400"><input type="checkbox" id="ft"> Perlu tindak lanjut</label></div>' : ''}</div></div><div id="rl"></div>`;
+  let timer; const muat = async () => {
+    const rid = ST.rid; loading($('#rl'));
+    try {
+      const r = await call('riwayat', { jenis: $('#fj').value, kelas: $('#fk').value, cari: $('#fc').value, perluTL: $('#ft') && $('#ft').checked }); if (rid !== ST.rid) return;
+      $('#rl').innerHTML = `<div class="card"><div class="mut" style="margin-bottom:8px">${r.total} catatan${r.total > 300 ? ' (menampilkan 300 terbaru)' : ''}</div><div class="tw"><table><tr><th>Tanggal</th><th>Siswa</th><th>Catatan</th><th>Poin</th><th>Pencatat</th><th>Tindak lanjut</th>${isPeng() ? '<th></th>' : ''}</tr>
+       ${r.data.map(x => `<tr style="${x.status === 'Batal' ? 'opacity:.5' : ''}"><td>${esc(x.tanggal)}</td><td>${esc(x.nama)}<div class="mut">${esc(x.kelas)}</div></td>
+        <td>${x.jenis === 'Pelanggaran' ? badgeT(x.tingkat) : '<span class="bd ok">Prestasi</span>'} ${esc(x.deskripsi)}${x.keterangan ? `<div class="mut">${esc(x.keterangan)}</div>` : ''}</td><td>${x.jenis === 'Pelanggaran' ? '-' : '+'}${x.poin}</td><td class="mut">${esc(x.pencatat)}</td>
+        <td>${x.status === 'Batal' ? '<span class="bd">Dibatalkan</span>' : x.tl ? `<span class="bd ${x.tl === 'Selesai' ? 'ok' : 'wr'}">${esc(x.tl)}</span>` : '<span class="mut">-</span>'}${x.catatanTL ? `<div class="mut">${esc(x.catatanTL)}</div>` : ''}</td>
+        ${isPeng() ? `<td style="white-space:nowrap">${x.status !== 'Batal' ? `${x.tl ? `<button class="btn o s" data-tl="${esc(x.id)}">Tindak lanjut</button> ` : ''}<button class="btn r s" data-bt="${esc(x.id)}">Batalkan</button>` : ''}</td>` : ''}</tr>`).join('') || '<tr><td colspan="7" class="empty">Tidak ada data</td></tr>'}</table></div></div>`;
+      $$('[data-tl]', $('#rl')).forEach(b => b.onclick = () => formTL(b.dataset.tl, muat));
+      $$('[data-bt]', $('#rl')).forEach(b => b.onclick = () => formBatal(b.dataset.bt, muat));
+    } catch (e) { if (rid === ST.rid) $('#rl').innerHTML = `<div class="note">${esc(e.message)}</div>`; }
+  };
+  ['fj', 'fk', 'ft'].forEach(i => { if ($('#' + i)) $('#' + i).onchange = muat; });
+  $('#fc').oninput = () => { clearTimeout(timer); timer = setTimeout(muat, 350); };
+  muat();
+}
+function formTL(id, ulang) {
+  const m = modal(`<h3>Tindak Lanjut</h3><label>Status</label><select id="ts"><option>Belum</option><option>Selesai</option></select><label>Catatan pembinaan</label><textarea id="tc"></textarea><div style="margin-top:12px"><button class="btn" id="tv">Simpan</button></div>`, true);
+  $('#tv', m).onclick = () => tombol($('#tv', m), async () => { await call('tindakLanjut', { id, status: $('#ts', m).value, catatan: $('#tc', m).value }); m.tutup(); toast('Tindak lanjut disimpan.'); ulang(); });
+}
+function formBatal(id, ulang) {
+  const m = modal(`<h3>Batalkan Catatan</h3><div class="note">Poin akan dikeluarkan dari rekap. Catatan tetap tersimpan sebagai arsip.</div><label>Alasan pembatalan</label><textarea id="ba"></textarea><div style="margin-top:12px"><button class="btn r" id="bv">Batalkan Catatan</button></div>`, true);
+  $('#bv', m).onclick = () => tombol($('#bv', m), async () => { await call('batalkan', { id, alasan: $('#ba', m).value }); m.tutup(); toast('Catatan dibatalkan.'); ulang(); });
+}
+
+
+// ---------- lampiran bukti ----------
+const fmtUkuran = n => n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+async function siapkanBerkas(f) {
+  const ext = (f.name.split('.').pop() || '').toLowerCase();
+  if (/^image\//.test(f.type) || ['jpg', 'jpeg', 'png', 'webp', 'gif'].indexOf(ext) >= 0) {
+    let bmp;
+    try { bmp = await createImageBitmap(f, { imageOrientation: 'from-image' }); }
+    catch (e) { try { bmp = await createImageBitmap(f); } catch (e2) { throw new Error('Format foto "' + f.name + '" tidak didukung. Gunakan JPG atau PNG.'); } }
+    const sk = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(bmp.width * sk)); c.height = Math.max(1, Math.round(bmp.height * sk));
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(bmp, 0, 0, c.width, c.height);
+    const url = c.toDataURL('image/jpeg', 0.82);   // render ulang = metadata EXIF (lokasi, tipe HP) hilang
+    const data = url.split(',')[1];
+    return { ext: 'jpg', data: data, ukuran: Math.floor(data.length * 0.75), thumb: url, label: f.name };
+  }
+  if (['pdf', 'docx', 'xlsx', 'txt'].indexOf(ext) < 0) throw new Error('Jenis file "' + f.name + '" tidak didukung (boleh: foto, PDF, DOCX, XLSX, TXT).');
+  if (f.size > 4 * 1024 * 1024) throw new Error('"' + f.name + '" lebih dari 4 MB.');
+  const data = await new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.onerror = () => no(new Error('Gagal membaca file.')); r.readAsDataURL(f); });
+  return { ext: ext, data: data, ukuran: f.size, thumb: '', label: f.name };
+}
+/** Sel tabel "Bukti": tombol Lihat Berkas bila ada lampiran. */
+const selBukti = x => x.lampiran && x.lampiran.length ? `<button class="btn o s" data-b="${esc(x.id)}">📎 Lihat Berkas (${x.lampiran.length})</button>` : '<span class="mut">-</span>';
+/** Pasang aksi tombol "Lihat Berkas" pada tabel: membuka jendela daftar bukti laporan. */
+function pasangBukti(wadah, daftar) {
+  $$('[data-b]', wadah).forEach(b => b.onclick = () => {
+    const x = daftar.find(y => y.id === b.dataset.b); if (!x) return;
+    const m = modal(`<h3>📎 Bukti ${esc(x.kode)}</h3><div class="mut">${esc(x.kategori)} · ${esc(x.waktu)}</div><div id="lmp" style="margin-top:8px"></div>`);
+    tampilLampiran(m, x);
+  });
+}
+/** Daftar lampiran pada laporan (untuk pengelola): Lihat Berkas (tampil/unduh di dalam AIS) dan Buka di Drive (tab baru). */
+function tampilLampiran(m, x) {
+  const el = $('#lmp', m); if (!el) return;
+  if (!x.lampiran || !x.lampiran.length) { el.innerHTML = '<div class="mut">Tidak ada lampiran bukti.</div>'; return; }
+  el.innerHTML = `<label>Lampiran bukti (${x.lampiran.length})</label>` + x.lampiran.map((f, i) => `<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px"><button class="btn o s" data-l="${i}">📎 Lihat Berkas · ${esc(f.nama)} · ${fmtUkuran(f.ukuran)}</button>${f.url ? `<a class="btn s" href="${esc(f.url)}" target="_blank" rel="noopener noreferrer" title="Hanya terbuka untuk pemilik folder Drive">↗ Buka di Drive</a>` : ''}</div>`).join('') + '<div id="lmv"></div>';
+  $$('[data-l]', el).forEach(b => b.onclick = () => tombol(b, async () => {
+    $('#lmv', el).innerHTML = '<div class="load"><div class="sp"></div> Mengambil berkas dari Google Drive...</div>';
+    try {
+      const r = await call('laporLampiran', { id: x.id, idx: +b.dataset.l }, 90);
+      const src = `data:${r.tipe};base64,${r.data}`;
+      $('#lmv', el).innerHTML = /^image\//.test(r.tipe) ? `<img src="${src}" alt="Bukti" style="max-width:100%;border-radius:8px;margin-top:8px;border:1px solid var(--line)"><div style="margin-top:8px"><a class="btn s" href="${src}" download="${esc(r.nama)}">⬇ Unduh foto</a></div>` : `<a class="btn s" href="${src}" download="${esc(r.nama)}" style="margin-top:8px">⬇ Unduh ${esc(r.nama)}</a>`;
+    } catch (e) { $('#lmv', el).innerHTML = ''; throw e; }
+  }, 'Memuat...'));
+}
+
+// ---------- CARE AND REPORT ----------
+const KAT = ['Perundungan (Bullying)', 'Kekerasan Fisik/Verbal', 'Pelecehan', 'Kecurangan Akademik', 'Narkoba/Rokok/Vape', 'Dugaan Pelanggaran oleh Guru/Staf', 'Kondisi Tidak Aman', 'Lainnya'];
+const STL = ['Baru', 'Diproses', 'Selesai', 'Ditutup'];
+const bdStatus = s => `<span class="bd ${s === 'Selesai' ? 'ok' : s === 'Baru' ? 'wr' : s === 'Ditutup' ? '' : 'in'}">${esc(s)}</span>`;
+function halCare(ct) {
+  ct.innerHTML = `<div class="note good">🛡️ <b>Al-Ittihad Care and Report</b> adalah jalur lapor AMAN untuk siswa dan guru/staf. Pilih <b>anonim</b> bila ingin: identitas Anda <b>tidak disimpan sama sekali</b>. Laporan hanya dapat dibaca BK, Wakasis, Kepala Sekolah, dan Admin.</div>
+   <div class="grid g2"><div class="card"><h3>📨 Kirim Laporan</h3><label>Kategori</label><select id="ck"><option value="">-- pilih --</option>${KAT.map(k => `<option>${esc(k)}</option>`).join('')}</select>
+    <label>Ceritakan kejadiannya (min. 20 karakter)</label><textarea id="cd" style="min-height:120px" placeholder="Apa yang terjadi, siapa yang terlibat (nama/ciri-ciri), kapan, di mana..."></textarea>
+    <label>Lokasi & waktu (opsional)</label><input id="cl" placeholder="Contoh: Kantin, Senin pagi">
+    <label style="display:flex;gap:8px;align-items:center;font-weight:600"><input type="checkbox" id="ca"> Laporkan secara ANONIM (identitas tidak disimpan)</label>
+    <div id="kw"><label>Kontak (opsional, agar tim bisa menghubungi Anda)</label><input id="cn" placeholder="No. WA / email"></div>
+    <label>Bukti foto / file (opsional, maks. 3)</label>
+    <input type="file" id="cf" multiple accept="image/*,.pdf,.docx,.xlsx,.txt">
+    <div id="cfl" style="margin-top:8px"></div><div id="cup"></div>
+    <div class="mut" style="font-size:12px;margin-top:4px">Bukti disimpan aman di Google Drive sekolah (folder privat). Foto otomatis diperkecil dan data lokasi/kamera (EXIF)-nya dihapus. File PDF/Word/Excel dikirim apa adanya dan dapat memuat nama penulis — bila ingin anonim, lebih aman pakai foto atau tangkapan layar. Maks. 4 MB per file.</div>
+    <div style="margin-top:14px"><button class="btn" id="cs">Kirim Laporan</button></div></div>
+   <div class="card"><h3>🔍 Lacak Status Laporan</h3><div class="note">Setiap laporan mendapat <b>Kode Pelacakan</b> yang tampil SEKALI setelah dikirim. Simpan kodenya untuk memeriksa perkembangan — tanpa membuka identitas.</div>
+    <label>Kode Pelacakan</label><input id="lk" placeholder="CR-XXXXXX" style="text-transform:uppercase"><div style="margin-top:12px"><button class="btn o" id="lc">Cek Status</button></div><div id="lh" style="margin-top:12px"></div></div></div>
+   <div id="kl"></div>`;
+  $('#ca').onchange = () => { $('#kw').style.display = $('#ca').checked ? 'none' : ''; };
+  const lamp = [];
+  const gambarLamp = () => {
+    $('#cfl').innerHTML = lamp.map((f, i) => `<div style="display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-bottom:6px">${f.thumb ? `<img src="${f.thumb}" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:6px">` : '<span style="font-size:26px">📄</span>'}<div style="flex:1;min-width:0"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(f.label)}</div><div class="mut" style="font-size:12px">${fmtUkuran(f.ukuran)}</div></div><button class="btn r s" data-h="${i}">Hapus</button></div>`).join('');
+    $$('[data-h]', $('#cfl')).forEach(b => b.onclick = () => { lamp.splice(+b.dataset.h, 1); gambarLamp(); });
+  };
+  $('#cf').onchange = async () => {
+    const files = Array.from($('#cf').files); $('#cf').value = '';
+    for (const f of files) {
+      try {
+        if (lamp.length >= 3) throw new Error('Maksimal 3 file bukti.');
+        const b = await siapkanBerkas(f);
+        if (lamp.reduce((a, x) => a + x.ukuran, 0) + b.ukuran > 8 * 1024 * 1024) throw new Error('Total ukuran bukti maksimal 8 MB.');
+        lamp.push(b);
+      } catch (e) { toast(e.message, 'e'); }
+    }
+    gambarLamp();
+  };
+  $('#cs').onclick = () => tombol($('#cs'), async () => {
+    const adaBukti = lamp.length > 0, ind = $('#cup');
+    if (ind) ind.innerHTML = adaBukti ? '<div class="load" style="padding:10px 0;justify-content:flex-start"><div class="sp"></div> Mengunggah bukti ke Google Drive... mohon tunggu, jangan tutup halaman.</div>' : '';
+    try {
+    const r = await call('laporKirim', { kategori: $('#ck').value, deskripsi: $('#cd').value, lokasi: $('#cl').value, anonim: $('#ca').checked, kontak: $('#cn') ? $('#cn').value : '',
+      lampiran: lamp.map(f => ({ nama: 'x.' + f.ext, data: f.data })) }, adaBukti ? 150 : 30);
+    modal(`<h3>✅ Laporan Terkirim</h3><p>Simpan kode pelacakan ini. Kode ini <b>tidak akan ditampilkan lagi</b>:</p><div style="font-size:28px;font-weight:800;letter-spacing:3px;text-align:center;background:#e8f5e9;border-radius:10px;padding:14px;user-select:all">${esc(r.kode)}</div><p class="mut">Foto/catat kode ini. Gunakan di kotak "Lacak Status Laporan".${r.lampiran ? ' ' + r.lampiran + ' file bukti ikut terkirim.' : ''}</p>`, true);
+    $('#cd').value = ''; $('#cl').value = ''; if ($('#cn')) $('#cn').value = ''; $('#ck').value = ''; lamp.length = 0; gambarLamp();
+    } finally { if (ind) ind.innerHTML = ''; }
+  }, 'Mengirim...');
+  $('#lc').onclick = () => tombol($('#lc'), async () => {
+    try {
+      const r = await call('laporLacak', { kode: $('#lk').value });
+      $('#lh').innerHTML = `<div class="card" style="margin:0"><b>${esc(r.kode)}</b> ${bdStatus(r.status)}<div class="mut">${esc(r.kategori)} · dikirim ${esc(r.waktu)}</div>${r.catatan ? `<div class="note" style="margin-top:8px"><b>Catatan tim:</b> ${esc(r.catatan)}</div>` : '<div class="mut" style="margin-top:6px">Belum ada catatan dari tim.</div>'}</div>`;
+    } catch (e) { $('#lh').innerHTML = `<div class="note">${esc(e.message)}</div>`; }
+  }, 'Memeriksa...');
+  if (isPeng()) kelolaLaporan($('#kl'));
+  else if (ST.user.role !== 'Siswa') $('#kl').innerHTML = `<div class="note">Anda masuk sebagai <b>${esc(ST.user.role)}</b>. Untuk membaca dan menangani laporan, role akun harus <b>BK</b> (atau Wakasis/Kepsek/Admin). Minta Admin mengubahnya di <i>Data & Pengaturan → Pengguna</i>, lalu login ulang.</div>`;
+}
+async function kelolaLaporan(el) {
+  el.innerHTML = '<div class="card"><h3>📁 Laporan Aktif (Baru & Diproses)</h3><div id="kb"></div></div>';
+  const muat = async () => {
+    loading($('#kb'));
+    try {
+      const d = await call('laporDaftar', {});
+      $('#kb').innerHTML = `<div class="mut" style="margin-bottom:8px">${d.length} laporan · ${d.filter(x => x.status === 'Baru').length} baru</div><div class="tw"><table><tr><th>Waktu</th><th>Kode</th><th>Kategori</th><th>Pelapor</th><th>Bukti</th><th>Status</th><th></th></tr>
+        ${d.map(x => `<tr><td>${esc(x.waktu)}</td><td><b>${esc(x.kode)}</b>${x.lampiran && x.lampiran.length ? ' 📎' : ''}</td><td>${esc(x.kategori)}</td><td>${x.anonim ? '<span class="bd">Anonim</span>' : esc(x.pelaporNama) + `<div class="mut">${esc(x.pelaporRole)} ${esc(x.pelaporKelas)}</div>`}</td><td>${selBukti(x)}</td><td>${bdStatus(x.status)}</td><td><button class="btn o s" data-i="${esc(x.id)}">Buka</button></td></tr>`).join('') || '<tr><td colspan="7" class="empty">Tidak ada laporan aktif</td></tr>'}</table></div>`;
+      pasangBukti($('#kb'), d);
+      $$('[data-i]', $('#kb')).forEach(b => b.onclick = () => {
+        const x = d.find(y => y.id === b.dataset.i);
+        const m = modal(`<h3>${esc(x.kode)} ${bdStatus(x.status)}</h3><div class="mut">${esc(x.kategori)} · ${esc(x.waktu)}${x.lokasi ? ' · ' + esc(x.lokasi) : ''}</div>
+          <div class="note" style="white-space:pre-wrap;margin-top:10px">${esc(x.deskripsi)}</div>
+          <div class="mut">Pelapor: ${x.anonim ? '<b>Anonim</b> (identitas tidak disimpan)' : esc(x.pelaporNama) + ' · ' + esc(x.pelaporRole) + ' ' + esc(x.pelaporKelas) + (x.kontak ? ' · ' + esc(x.kontak) : '')}</div>
+          <label>Status</label><select id="us">${STL.map(s => `<option ${s === x.status ? 'selected' : ''}>${s}</option>`).join('')}</select>
+          <label>Catatan untuk pelapor (terlihat saat dilacak, jangan memuat data sensitif)</label><textarea id="uc">${esc(x.catatan)}</textarea>
+          ${x.ditanganiOleh ? `<div class="mut">Terakhir ditangani: ${esc(x.ditanganiOleh)} · ${esc(x.tanggalDitangani)}</div>` : ''}
+          <div id="lmp" style="margin-top:8px"></div>
+          <div style="margin-top:12px"><button class="btn" id="uv">Simpan</button></div>`);
+        tampilLampiran(m, x);
+        $('#uv', m).onclick = () => tombol($('#uv', m), async () => { await call('laporUbah', { id: x.id, status: $('#us', m).value, catatan: $('#uc', m).value }); m.tutup(); toast('Laporan diperbarui.'); muat(); });
+      });
+    } catch (e) { $('#kb').innerHTML = `<div class="note">${esc(e.message)}</div>`; }
+  };
+  muat();
+}
+
+
+// ---------- RIWAYAT CARE AND REPORT (khusus BK) ----------
+function halRiwayatCare(ct, hidup) {
+  ct.innerHTML = `<div class="note">🔒 Halaman ini <b>hanya dapat dibuka oleh Guru BK</b>. Berisi seluruh arsip laporan, termasuk yang sudah Selesai/Ditutup. Untuk mengubah status laporan aktif, gunakan menu Al-Ittihad Care and Report.</div>
+   <div id="rcs"></div>
+   <div class="card"><div class="row"><div><label>Status</label><select id="rs1"><option value="">Semua</option>${STL.map(s => `<option>${s}</option>`).join('')}</select></div>
+   <div><label>Kategori</label><select id="rk1"><option value="">Semua</option>${KAT.map(k => `<option>${esc(k)}</option>`).join('')}</select></div>
+   <div><label>Dari</label><input id="rd1" type="date"></div><div><label>Sampai</label><input id="re1" type="date"></div>
+   <div style="flex:2"><label>Cari kata / kode</label><input id="rc1" placeholder="Kode, isi laporan, lokasi..."></div></div></div><div id="rcl"></div>`;
+  let timer; const muat = async () => {
+    const rid = ST.rid; loading($('#rcl'));
+    try {
+      const r = await call('laporRiwayat', { status: $('#rs1').value, kategori: $('#rk1').value, dari: $('#rd1').value, sampai: $('#re1').value, cari: $('#rc1').value });
+      if (rid !== ST.rid) return;
+      $('#rcs').innerHTML = `<div class="grid g4" style="margin-bottom:16px">${[['Total laporan', r.semua, ''], ['Baru', r.hitung.Baru || 0, 'w'], ['Diproses', r.hitung.Diproses || 0, ''], ['Selesai / Ditutup', (r.hitung.Selesai || 0) + (r.hitung.Ditutup || 0), '']].map(x => `<div class="card stat ${x[2]}" style="margin:0"><div class="n">${x[1]}</div><div class="l">${x[0]}</div></div>`).join('')}</div>`;
+      $('#rcl').innerHTML = `<div class="card"><div class="mut" style="margin-bottom:8px">${r.total} laporan ditampilkan${r.total > 500 ? ' (500 terbaru)' : ''}</div><div class="tw"><table><tr><th>Waktu</th><th>Kode</th><th>Kategori</th><th>Ringkasan</th><th>Pelapor</th><th>Bukti</th><th>Status</th><th></th></tr>
+        ${r.data.map(x => `<tr><td style="white-space:nowrap">${esc(x.waktu)}</td><td><b>${esc(x.kode)}</b>${x.lampiran && x.lampiran.length ? ' 📎' : ''}</td><td>${esc(x.kategori)}</td><td style="max-width:280px">${esc(x.deskripsi.length > 90 ? x.deskripsi.slice(0, 90) + '…' : x.deskripsi)}</td><td>${x.anonim ? '<span class="bd">Anonim</span>' : esc(x.pelaporNama) + `<div class="mut">${esc(x.pelaporRole)} ${esc(x.pelaporKelas)}</div>`}</td><td>${selBukti(x)}</td><td>${bdStatus(x.status)}</td><td><button class="btn o s" data-i="${esc(x.id)}">Lihat</button></td></tr>`).join('') || '<tr><td colspan="7" class="empty">Tidak ada laporan</td></tr>'}</table></div></div>`;
+      pasangBukti($('#rcl'), r.data);
+      $$('[data-i]', $('#rcl')).forEach(b => b.onclick = () => {
+        const x = r.data.find(y => y.id === b.dataset.i);
+        const mr = modal(`<h3>${esc(x.kode)} ${bdStatus(x.status)}</h3><div class="mut">${esc(x.kategori)} · ${esc(x.waktu)}${x.lokasi ? ' · ' + esc(x.lokasi) : ''}</div>
+          <div class="note" style="white-space:pre-wrap;margin-top:10px">${esc(x.deskripsi)}</div>
+          <div class="mut">Pelapor: ${x.anonim ? '<b>Anonim</b> (identitas tidak disimpan)' : esc(x.pelaporNama) + ' · ' + esc(x.pelaporRole) + ' ' + esc(x.pelaporKelas) + (x.kontak ? ' · ' + esc(x.kontak) : '')}</div>
+          <div id="lmp" style="margin-top:8px"></div>
+          ${x.catatan ? `<div class="note good" style="margin-top:10px"><b>Catatan penanganan:</b> ${esc(x.catatan)}</div>` : '<div class="mut" style="margin-top:10px">Belum ada catatan penanganan.</div>'}
+          ${x.ditanganiOleh ? `<div class="mut">Ditangani: ${esc(x.ditanganiOleh)} · ${esc(x.tanggalDitangani)}</div>` : ''}`);
+        tampilLampiran(mr, x);
+      });
+    } catch (e) { if (rid === ST.rid) $('#rcl').innerHTML = `<div class="note">${esc(e.message)}</div>`; }
+  };
+  ['rs1', 'rk1', 'rd1', 're1'].forEach(i => { $('#' + i).onchange = muat; });
+  $('#rc1').oninput = () => { clearTimeout(timer); timer = setTimeout(muat, 350); };
+  muat();
+}
+
+// ---------- DATA & PENGATURAN (Admin/BK) ----------
+function halData(ct) {
+  ct.innerHTML = `<div class="seg" style="margin-bottom:14px"><button data-t="s" class="on">Siswa</button><button data-t="u">Pengguna</button><button data-t="p">Pengaturan</button></div><div id="db"></div>`;
+  const tab = t => { $$('.seg button', ct).forEach(b => b.classList.toggle('on', b.dataset.t === t)); ({ s: dataSiswa, u: dataUser, p: dataSet })[t]($('#db')); };
+  $$('.seg button', ct).forEach(b => b.onclick = () => tab(b.dataset.t)); tab('s');
+}
+async function dataSiswa(el) {
+  loading(el);
+  const muatUlang = async () => { ST.awal = await call('awal'); dataSiswa(el); };
+  const daf = await call('siswaAdmin');
+  const tanpaTgl = daf.filter(s => !s.tanggalLahir && s.status === 'Aktif').length;
+  el.innerHTML = `<div class="card"><div class="row"><div style="flex:3"><b>${daf.length} siswa</b>${tanpaTgl ? ` <span class="bd wr">${tanpaTgl} belum ada tanggal lahir (tidak bisa login)</span>` : ''}</div>
+    <button class="btn" id="sn" style="flex:0;white-space:nowrap">+ Tambah</button><button class="btn o" id="si" style="flex:0;white-space:nowrap">Impor Massal</button></div>
+    <div class="row" style="margin-top:8px"><div><input id="dc" placeholder="Cari nama / NISN / kelas..."></div></div>
+    <div class="tw" style="max-height:480px;overflow:auto;margin-top:8px"><table id="dt"></table></div></div>`;
+  const tabel = () => {
+    const q = $('#dc').value.toLowerCase();
+    $('#dt').innerHTML = '<tr><th>NISN</th><th>Nama</th><th>Kelas</th><th>Tgl Lahir</th><th>Status</th><th></th></tr>' + daf.filter(s => !q || (s.nama + s.nisn + s.kelas).toLowerCase().includes(q)).slice(0, 300).map(s =>
+      `<tr><td>${esc(s.nisn)}</td><td>${esc(s.nama)}</td><td>${esc(s.kelas)}</td><td>${s.tanggalLahir ? esc(s.tanggalLahir) : '<span class="bd wr">kosong</span>'}</td><td>${esc(s.status)}</td><td><button class="btn o s" data-n="${esc(s.nisn)}">Ubah</button></td></tr>`).join('');
+    $$('[data-n]', $('#dt')).forEach(b => b.onclick = () => formSiswa(daf.find(x => x.nisn === b.dataset.n), muatUlang));
+  };
+  $('#dc').oninput = tabel; tabel();
+  $('#sn').onclick = () => formSiswa(null, muatUlang);
+  $('#si').onclick = () => {
+    const m = modal(`<h3>Impor Massal Siswa</h3><div class="note">Tempel dari Excel/Sheets, satu siswa per baris, kolom: <b>NISN, Nama, Kelas, Tanggal Lahir</b> (dipisah tab/koma/titik-koma). Tanggal lahir boleh <i>2008-05-17</i> atau <i>17/05/2008</i>. NISN yang sudah ada akan diperbarui.</div><textarea id="im" style="min-height:200px" placeholder="1234567890	Ahmad Fulan	X 1	17/05/2008"></textarea><div style="margin-top:12px"><button class="btn" id="iv">Impor</button></div>`);
+    $('#iv', m).onclick = () => tombol($('#iv', m), async () => {
+      const r = await call('siswaImpor', { teks: $('#im', m).value }); m.tutup();
+      toast(`Impor: ${r.baru} baru, ${r.diubah} diperbarui${r.gagal.length ? ', ' + r.gagal.length + ' gagal' : ''}.`, r.gagal.length ? 'e' : 's');
+      if (r.gagal.length) modal(`<h3>Baris gagal</h3><ul>${r.gagal.map(g => `<li>${esc(g)}</li>`).join('')}</ul>`, true);
+      muatUlang();
+    }, 'Mengimpor...');
+  };
+}
+function formSiswa(s, selesai) {
+  const m = modal(`<h3>${s ? 'Ubah' : 'Tambah'} Siswa</h3><label>NISN</label><input id="fn" value="${esc(s ? s.nisn : '')}"><label>Nama</label><input id="fm" value="${esc(s ? s.nama : '')}">
+    <div class="row"><div><label>Kelas</label><input id="fk2" list="dl" value="${esc(s ? s.kelas : '')}"><datalist id="dl">${ST.awal.kelas.map(k => `<option>${esc(k)}</option>`).join('')}</datalist></div>
+    <div><label>Tanggal lahir (untuk login siswa)</label><input id="ft2" type="date" value="${esc(s ? s.tanggalLahir : '')}"></div></div>
+    <label>Status</label><select id="fs"><option ${s && s.status === 'Aktif' || !s ? 'selected' : ''}>Aktif</option><option ${s && s.status === 'Nonaktif' ? 'selected' : ''}>Nonaktif</option></select>
+    <div style="margin-top:12px"><button class="btn" id="fv">Simpan</button></div>`, true);
+  $('#fv', m).onclick = () => tombol($('#fv', m), async () => {
+    await call('siswaSimpan', { nisnLama: s ? s.nisn : '', nisn: $('#fn', m).value, nama: $('#fm', m).value, kelas: $('#fk2', m).value, tanggalLahir: $('#ft2', m).value, status: $('#fs', m).value });
+    m.tutup(); toast('Data siswa tersimpan.'); selesai();
+  });
+}
+async function dataUser(el) {
+  loading(el); const daf = await call('userList');
+  el.innerHTML = `<div class="card"><div class="tw"><table><tr><th>Nama</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr>${daf.map(u => `<tr><td>${esc(u.nama)}</td><td>${esc(u.email)}</td><td>${esc(u.role)}</td><td><span class="bd ${u.status === 'Aktif' ? 'ok' : 'wr'}">${esc(u.status)}</span></td><td><button class="btn o s" data-e="${esc(u.email)}">Ubah</button></td></tr>`).join('')}</table></div></div>`;
+  $$('[data-e]', el).forEach(b => b.onclick = () => {
+    const u = daf.find(x => x.email === b.dataset.e);
+    const m = modal(`<h3>${esc(u.nama)}</h3><div class="mut">${esc(u.email)}</div><label>Role</label><select id="ur">${['Guru','Piket','WaliKelas','BK','Wakasis','Kepsek','Admin'].map(r => `<option ${r === u.role ? 'selected' : ''}>${r}</option>`).join('')}</select>
+      <label>Status</label><select id="uu">${['Aktif','Nonaktif','Menunggu Persetujuan'].map(r => `<option ${r === u.status ? 'selected' : ''}>${r}</option>`).join('')}</select><div style="margin-top:12px"><button class="btn" id="uv">Simpan</button></div>`, true);
+    $('#uv', m).onclick = () => tombol($('#uv', m), async () => { await call('userSimpan', { email: u.email, role: $('#ur', m).value, status: $('#uu', m).value }); m.tutup(); toast('Pengguna diperbarui.'); dataUser(el); });
+  });
+}
+function dataSet(el) {
+  const a = ST.awal;
+  el.innerHTML = `<div class="card" style="max-width:460px"><h3>Tahun Ajaran & Semester Aktif</h3><div class="note">Ubah saat pergantian semester. Tingkat eskalasi SHB dihitung per semester.</div>
+    <label>Tahun ajaran</label><input id="pt" value="${esc(a.tahunAjaran)}" placeholder="2026/2027"><label>Semester</label><select id="pm"><option ${a.semesterAktif === 'Ganjil' ? 'selected' : ''}>Ganjil</option><option ${a.semesterAktif === 'Genap' ? 'selected' : ''}>Genap</option></select>
+    <div style="margin-top:12px"><button class="btn" id="pv">Simpan</button></div>
+    <hr style="border:0;border-top:1px solid #e5e7eb;margin:18px 0"><h3>Impor Data Versi Lama</h3><div class="note">Menyalin riwayat pelanggaran, prestasi, kehadiran, dan laporan Care dari sheet versi lama (LogPelanggaran, LogPrestasi, Absensi, AbsensiShalat, LaporanCare) ke AIS. Aman diklik berulang — data yang sudah disalin dilewati. Sheet lama tidak diubah.</div>
+    <button class="btn o" id="mg">Impor Data Lama</button>
+    <p class="mut" style="margin-top:16px">Daftar pelanggaran/prestasi & poinnya ada di sheet <b>Aturan</b> pada Google Sheet — ubah langsung di sana lalu muat ulang halaman.</p></div>`;
+  $('#mg').onclick = () => tombol($('#mg'), async () => {
+    const r = await call('migrasi');
+    ST.awal = await call('awal');
+    modal(`<h3>Impor selesai</h3><ul><li><b>${r.pelanggaran}</b> pelanggaran</li><li><b>${r.prestasi}</b> prestasi</li><li><b>${r.kehadiran}</b> data kehadiran</li><li><b>${r.laporan}</b> laporan Care</li></ul><p class="mut">Angka 0 berarti semua data sudah pernah disalin.</p>`, true);
+  }, 'Mengimpor...');
+  $('#pv').onclick = () => tombol($('#pv'), async () => { await call('setSimpan', { tahunAjaran: $('#pt').value, semester: $('#pm').value }); ST.awal = await call('awal'); $('#sb').textContent = `${ST.awal.tahunAjaran} · Semester ${ST.awal.semesterAktif}`; toast('Pengaturan tersimpan.'); });
+}
+
+// ---------- start ----------
+function panelError(judul, detail) {
+  const r = $('#root'); if (!r) return;
+  window.__AIS.siap = true;
+  r.innerHTML = `<div class="auth"><div class="box"><div class="lg">${LOGO}</div><h3>${esc(judul)}</h3><div class="note">${esc(detail)}</div>
+    <div class="mut" style="font-size:12px;margin-bottom:12px">Versi tampilan: ${esc(VERSI)}</div>
+    <button class="btn" id="re1" style="width:100%;justify-content:center">Muat ulang</button>
+    <button class="btn o" id="re2" style="width:100%;justify-content:center;margin-top:8px">Hapus sesi & ke halaman login</button></div></div>`;
+  $('#re1').onclick = () => location.reload();
+  $('#re2').onclick = () => { simpanToken(''); ST.token = null; layarLogin('staf'); };
+}
+const HAL = { beranda: halBeranda, catat: halCatat, absensi: halAbsensi, siswa: halSiswa, riwayat: halRiwayat, care: halCare, riwayatCare: halRiwayatCare, data: halData };
+window.addEventListener('error', e => { if ($('#root') && $('#root .load') && !$('#root .auth') && !$('#app')) panelError('Terjadi kesalahan pada halaman', e.message || 'Kesalahan tidak diketahui'); });
+window.addEventListener('unhandledrejection', e => { toast((e.reason && e.reason.message) || 'Terjadi kesalahan.', 'e'); });
+(async function boot() {
+  const t = bacaToken();
+  if (!t) return layarLogin('staf');
+  ST.token = t;
+  try { const r = await call('sesi', {}, 12); ST.user = r.user; mulaiApp(); }
+  catch (e) { ST.token = null; simpanToken(''); layarLogin('staf', /berakhir|SESI/i.test(e.message) ? 'Silakan login.' : e.message); }
+})();
+</script>
 </body>
 </html>
