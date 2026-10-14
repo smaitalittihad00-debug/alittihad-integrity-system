@@ -109,6 +109,12 @@ a{color:var(--g2);font-weight:600}a:hover{color:var(--g1)}.empty{text-align:cent
  input,select,textarea{font-size:16px}
 }
 @media(max-width:480px){.g2,.g4{grid-template-columns:1fr}.modal{padding:18px;border-radius:16px 16px 0 0;align-self:flex-end;max-height:92vh}.mbg{align-items:flex-end;padding:0}.auth .box{padding:24px}}
+.izr{display:flex;justify-content:space-between;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:background .15s}
+.izr:hover,.izr:focus-visible{background:#f6faf7}.izr .izw{text-align:right;font-size:12.5px;color:var(--mut);white-space:nowrap}
+.nb{margin-left:auto;background:#e11d48;color:#fff;border-radius:20px;font-size:10px;padding:1px 7px;line-height:1.5}
+#cetak{display:none}
+@media print{body.mencetak #root,body.mencetak #toast,body.mencetak .mbg{display:none!important}body.mencetak #cetak{display:block;padding:12px;font-family:Arial,sans-serif;color:#000}#cetak table{width:100%;border-collapse:collapse;font-size:11px}#cetak th,#cetak td{border:1px solid #444;padding:4px 6px;text-align:left;vertical-align:top;position:static;background:#fff;color:#000;text-transform:none}}
+@media(max-width:800px){.nb{position:absolute;margin:0;transform:translate(18px,-4px)}.nav a{position:relative}.izr{flex-direction:column}.izr .izw{text-align:left;white-space:normal}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -135,7 +141,7 @@ setTimeout(function () {
 </script>
 <script>
 window.__AIS.main = true;
-const VERSI = '2026-10-14.9-SIMPLE';
+const VERSI = '2026-10-15.10-SIMPLE';
 const LOGO = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="100%" height="100%" role="img" aria-label="Logo Al-Ittihad Integrity System">
   <defs>
     <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -309,6 +315,7 @@ const MENU = [
   { id: 'absensi', ikon: '🗓️', nama: 'Kehadiran', staf: true },
   { id: 'siswa', ikon: '🎓', nama: 'Siswa & Poin', staf: true },
   { id: 'riwayat', ikon: '📋', nama: 'Riwayat', staf: true },
+  { id: 'izin', ikon: '🚪', nama: 'Perizinan', staf: true, siswa: true },
   { id: 'care', ikon: '🛡️', nama: 'Al-Ittihad Care and Report', staf: true, siswa: true },
   { id: 'riwayatCare', ikon: '🗂️', nama: 'Riwayat Care and Report', bk: true },
   { id: 'data', ikon: '⚙️', nama: 'Data & Pengaturan', admin: true }
@@ -329,6 +336,7 @@ async function mulaiApp() {
   $$('#nav a').forEach(a => a.onclick = () => buka(a.dataset.m));
   $('#out').onclick = async () => { try { await call('keluar'); } catch (e) {} keluarLokal(); };
   buka(u.role === 'Siswa' ? 'care' : 'beranda');
+  izBadge();
 }
 function buka(id) {
   if (!menuUser().some(m => m.id === id)) id = menuUser()[0].id;
@@ -727,12 +735,12 @@ function formSiswa(s, selesai) {
 }
 async function dataUser(el) {
   loading(el); const daf = await call('userList');
-  el.innerHTML = `<div class="card"><div class="tw"><table><tr><th>Nama</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr>${daf.map(u => `<tr><td>${esc(u.nama)}</td><td>${esc(u.email)}</td><td>${esc(u.role)}</td><td><span class="bd ${u.status === 'Aktif' ? 'ok' : 'wr'}">${esc(u.status)}</span></td><td><button class="btn o s" data-e="${esc(u.email)}">Ubah</button></td></tr>`).join('')}</table></div></div>`;
+  el.innerHTML = `<div class="card"><div class="tw"><table><tr><th>Nama</th><th>Email</th><th>Role</th><th>Kelas tanggung jawab</th><th>Status</th><th></th></tr>${daf.map(u => `<tr><td>${esc(u.nama)}</td><td>${esc(u.email)}</td><td>${esc(u.role)}</td><td>${esc(u.kelasBinaan) || '<span class="mut">-</span>'}</td><td><span class="bd ${u.status === 'Aktif' ? 'ok' : 'wr'}">${esc(u.status)}</span></td><td><button class="btn o s" data-e="${esc(u.email)}">Ubah</button></td></tr>`).join('')}</table></div></div>`;
   $$('[data-e]', el).forEach(b => b.onclick = () => {
     const u = daf.find(x => x.email === b.dataset.e);
     const m = modal(`<h3>${esc(u.nama)}</h3><div class="mut">${esc(u.email)}</div><label>Role</label><select id="ur">${['Guru','Piket','WaliKelas','BK','Wakasis','Kepsek','Admin'].map(r => `<option ${r === u.role ? 'selected' : ''}>${r}</option>`).join('')}</select>
-      <label>Status</label><select id="uu">${['Aktif','Nonaktif','Menunggu Persetujuan'].map(r => `<option ${r === u.status ? 'selected' : ''}>${r}</option>`).join('')}</select><div style="margin-top:12px"><button class="btn" id="uv">Simpan</button></div>`, true);
-    $('#uv', m).onclick = () => tombol($('#uv', m), async () => { await call('userSimpan', { email: u.email, role: $('#ur', m).value, status: $('#uu', m).value }); m.tutup(); toast('Pengguna diperbarui.'); dataUser(el); });
+      <label>Kelas tanggung jawab (Wali Kelas / delegasi izin siswa)</label><input id="uk" value="${esc(u.kelasBinaan)}" placeholder="mis. X 1, X 2 (kosongkan jika tidak ada)" maxlength="200"><label>Status</label><select id="uu">${['Aktif','Nonaktif','Menunggu Persetujuan'].map(r => `<option ${r === u.status ? 'selected' : ''}>${r}</option>`).join('')}</select><div style="margin-top:12px"><button class="btn" id="uv">Simpan</button></div>`, true);
+    $('#uv', m).onclick = () => tombol($('#uv', m), async () => { await call('userSimpan', { email: u.email, role: $('#ur', m).value, status: $('#uu', m).value, kelasBinaan: $('#uk', m).value }); m.tutup(); toast('Pengguna diperbarui.'); dataUser(el); });
   });
 }
 function dataSet(el) {
@@ -762,7 +770,339 @@ function panelError(judul, detail) {
   $('#re1').onclick = () => location.reload();
   $('#re2').onclick = () => { simpanToken(''); ST.token = null; layarLogin('staf'); };
 }
-const HAL = { beranda: halBeranda, catat: halCatat, absensi: halAbsensi, siswa: halSiswa, riwayat: halRiwayat, care: halCare, riwayatCare: halRiwayatCare, data: halData };
+
+// ---------- PERIZINAN TERPADU (izin keluar guru & siswa) ----------
+const IZ = { kon: null, tab: 'dash', timer: null, cache: {} };
+const IZ_SETUJU_CLS = { 'Menunggu Persetujuan': 'wr', 'Disetujui': 'ok', 'Ditolak': 't3', 'Dibatalkan': '' };
+const IZ_OPER_CLS = { 'Sedang Izin': 'in', 'Selesai': 'ok', 'Terlambat Kembali': 't5', 'Belum Dimulai': '' };
+const bdIzin = x => {
+  let h = `<span class="bd ${IZ_SETUJU_CLS[x.setuju] || ''}">${esc(x.setuju)}</span>`;
+  if (x.setuju === 'Disetujui' && x.oper && x.oper !== '-') h += ` <span class="bd ${IZ_OPER_CLS[x.oper] || ''}">${esc(x.oper)}${x.telat ? ' ' + x.menitTelat + ' mnt' : ''}</span>`;
+  if (x.pulangAwal) h += ' <span class="bd in">Pulang awal</span>';
+  if (x.mendesak && x.setuju === 'Menunggu Persetujuan') h += ' <span class="bd t3">Mendesak</span>';
+  if (x.dikoreksi) h += ' <span class="bd">Dikoreksi</span>';
+  return h;
+};
+const izWaktu = x => `${esc(x.tanggal)} · ${esc(x.mulai)}${x.selesai ? '–' + esc(x.selesai) : ''}`;
+const izOrang = x => `<b>${esc(x.nama)}</b><div class="mut">${x.jenis === 'guru' ? 'Guru' + (x.nip ? ' · NIP ' + esc(x.nip) : '') : esc(x.kelas) + ' · ' + esc(x.jenisIzin)}</div>`;
+const izSimpan = a => { a.forEach(x => { IZ.cache[x.id] = x; }); return a; };
+const izHentikan = () => { if (IZ.timer) { clearInterval(IZ.timer); IZ.timer = null; } };
+
+async function izBadge() {
+  try {
+    const b = await call('izinBadge');
+    const a = $('#nav a[data-m="izin"]'); if (!a) return;
+    const o = $('.nb', a); if (o) o.remove();
+    const n = b.perlu + b.telat;
+    if (n > 0) a.insertAdjacentHTML('beforeend', `<b class="nb" title="${b.perlu} menunggu keputusan, ${b.telat} terlambat kembali">${n}</b>`);
+  } catch (e) { /* lencana bersifat tambahan; abaikan */ }
+}
+
+async function halIzin(ct, hidup) {
+  izHentikan();
+  IZ.kon = await call('izinKonteks');
+  if (!hidup()) return;
+  const b = IZ.kon.bisa, tabs = [['dash', 'Dashboard']];
+  if (b.ajukanGuru || b.ajukanSiswa || b.siswaMandiriDimatikan) tabs.push(['form', 'Ajukan Izin']);
+  tabs.push(['saya', 'Izin Saya']);
+  if (b.putuskanGuru || b.putuskanSiswa) tabs.push(['setuju', 'Persetujuan']);
+  if (b.lihatGuruSemua || b.lihatSiswaSemua) tabs.push(['pantau', 'Pemantauan & Rekap']);
+  if (b.pengaturan) tabs.push(['set', 'Pengaturan']);
+  if (!tabs.some(t => t[0] === IZ.tab)) IZ.tab = 'dash';
+  ct.innerHTML = `<div class="seg" id="izt" style="margin-bottom:16px;max-width:100%;overflow-x:auto">${tabs.map(t => `<button data-t="${t[0]}" class="${t[0] === IZ.tab ? 'on' : ''}">${t[1]}</button>`).join('')}</div><div id="izb"></div>`;
+  const tampil = async () => {
+    izHentikan();
+    $$('#izt button').forEach(x => x.classList.toggle('on', x.dataset.t === IZ.tab));
+    const el = $('#izb'); if (!el) return;
+    const h = () => hidup() && $('#izb') === el && IZ.tab === (tabs.find(t => t[0] === IZ.tab) || [])[0];
+    try {
+      if (IZ.tab === 'dash') await izDash(el, h);
+      else if (IZ.tab === 'form') izForm(el);
+      else if (IZ.tab === 'saya') izTabel(el, h, { tampilan: 'saya', judul: 'Riwayat Izin Saya' });
+      else if (IZ.tab === 'setuju') izTabel(el, h, { tampilan: 'persetujuan', judul: 'Menunggu Keputusan Anda' });
+      else if (IZ.tab === 'pantau') izTabel(el, h, { tampilan: 'semua', judul: 'Pemantauan & Rekapitulasi', pantau: true });
+      else if (IZ.tab === 'set') izPengaturan(el);
+    } catch (e) { if (h()) el.innerHTML = `<div class="card"><div class="note">${esc(e.message)}</div></div>`; }
+  };
+  $$('#izt button').forEach(x => x.onclick = () => { IZ.tab = x.dataset.t; tampil(); });
+  await tampil();
+  izBadge();
+}
+
+// ----- dashboard -----
+async function izDash(el, hidup) {
+  loading(el);
+  const d = await call('izinDashboard');
+  if (!hidup()) return;
+  [d.guruLuar, d.siswaLuar, d.pulangAwal, d.terlambat, d.segera, d.perluTindakan, d.terbaru, d.mendesak].forEach(izSimpan);
+  const st = (n, l, c) => `<div class="card stat ${c || ''}" style="margin:0"><div class="n">${n}</div><div class="l">${l}</div></div>`;
+  const baris = (x, ekstra) => `<div class="izr" data-d="${esc(x.id)}" tabindex="0" role="button"><div>${izOrang(x)}</div><div class="izw">${izWaktu(x)}${ekstra ? `<div>${ekstra}</div>` : ''}</div></div>`;
+  const daftar = (judul, a, kosong, ekstra) => `<div class="card" style="margin:0"><h3>${judul} <span class="bd">${a.length}</span></h3>${a.length ? a.slice(0, 8).map(x => baris(x, ekstra ? ekstra(x) : '')).join('') + (a.length > 8 ? `<div class="mut" style="margin-top:6px">dan ${a.length - 8} lainnya — lihat tab Pemantauan.</div>` : '') : `<div class="mut">${kosong}</div>`}</div>`;
+  const peringatan = [];
+  if (d.terlambat.length) peringatan.push(`<div class="note" style="background:#fdecea;border-color:#f5b5ae;color:#8a1c12">⚠️ <b>${d.terlambat.length}</b> pengguna melewati batas waktu kembali dan belum dikonfirmasi.</div>`);
+  if (d.perluTindakan.length) peringatan.push(`<div class="note">🔔 <b>${d.perluTindakan.length}</b> pengajuan menunggu keputusan Anda.</div>`);
+  if (d.mendesak.length) peringatan.push(`<div class="note" style="background:#fdecea;border-color:#f5b5ae;color:#8a1c12">❗ <b>${d.mendesak.length}</b> pengajuan ditandai mendesak dan belum diputuskan.</div>`);
+  if (d.segera.length) peringatan.push(`<div class="note">⏳ <b>${d.segera.length}</b> izin akan segera berakhir (≤ 30 menit).</div>`);
+  if (d.tanpaWali) peringatan.push(`<div class="note">🧑‍🏫 <b>${d.tanpaWali}</b> pengajuan siswa dari kelas yang belum memiliki Wali Kelas. Atur kelas tanggung jawab di Data &amp; Pengaturan → Pengguna.</div>`);
+  el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap"><div class="mut">Data diperbarui otomatis tiap 60 detik.</div><button class="btn o s" id="izr">↻ Perbarui</button></div>
+    ${peringatan.join('')}
+    <div class="grid g4" style="margin-bottom:16px">${st(d.totalHariIni, 'Pengajuan masuk hari ini')}${st(d.menunggu, 'Menunggu persetujuan', 'w')}${st(d.disetujui, 'Izin disetujui (hari ini)')}${st(d.ditolak, 'Izin ditolak (hari ini)', 'd')}</div>
+    <div class="grid g4" style="margin-bottom:16px">${st(d.guruLuar.length, 'Guru di luar sekolah')}${st(d.siswaLuar.length, 'Siswa di luar sekolah')}${st(d.pulangAwal.length, 'Siswa pulang lebih awal')}${st(d.terlambat.length, 'Terlambat kembali', 'd')}</div>
+    <div class="grid g2" style="margin-bottom:16px">${daftar('🔴 Terlambat Kembali', d.terlambat, 'Tidak ada yang terlambat.', x => `Terlambat ${x.menitTelat} menit`)}${daftar('🔔 Perlu Keputusan Anda', d.perluTindakan, 'Tidak ada pengajuan menunggu Anda.')}</div>
+    <div class="grid g2" style="margin-bottom:16px">${daftar('Guru di Luar Sekolah', d.guruLuar, 'Tidak ada guru di luar sekolah.')}${daftar('Siswa di Luar Sekolah', d.siswaLuar, 'Tidak ada siswa di luar sekolah.')}</div>
+    ${daftar('Riwayat Izin Terbaru', d.terbaru, 'Belum ada pengajuan.', x => bdIzin(x))}`;
+  $('#izr', el).onclick = () => izDash(el, hidup).catch(e => toast(e.message, 'e'));
+  $$('.izr', el).forEach(r => { const f = () => izDetail(IZ.cache[r.dataset.d], () => izDash(el, hidup)); r.onclick = f; r.onkeydown = e => { if (e.key === 'Enter') f(); }; });
+  izHentikan();
+  IZ.timer = setInterval(() => { if (!hidup()) return izHentikan(); if (!document.querySelector('.mbg')) izDash(el, hidup).catch(() => {}); }, 60000);
+  izBadge();
+}
+
+// ----- konfirmasi (modal) untuk setujui / tolak / batalkan / kembali -----
+function izKonfirmasi(judul, pesan, o, aksi) {
+  const m = modal(`<h3>${esc(judul)}</h3><div class="note">${pesan}</div>
+    <label>${esc(o.labelCatatan || 'Catatan')} ${o.wajib ? '<span style="color:var(--red)">(wajib)</span>' : '<span class="mut">(opsional)</span>'}</label><textarea id="izc" maxlength="500" placeholder="${esc(o.petunjuk || '')}"></textarea>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn ${o.bahaya ? 'r' : ''}" id="izy">${esc(o.tombol)}</button><button class="btn o" id="izn">Batal</button></div>`, true);
+  $('#izn', m).onclick = () => m.tutup();
+  $('#izy', m).onclick = () => tombol($('#izy', m), async () => {
+    const c = $('#izc', m).value.trim();
+    if (o.wajib && c.length < 3) throw new Error('Catatan/alasan wajib diisi.');
+    await aksi(c); m.tutup();
+  }, 'Memproses...');
+}
+function izAksi(x, setelah) {
+  const nama = esc(x.nama), w = izWaktu(x);
+  const ringkas = `<b>${nama}</b><br>${w}<br>${esc(x.keperluan)}`;
+  return {
+    setuju: () => izKonfirmasi('Setujui pengajuan?', ringkas, { tombol: 'Ya, Setujui', labelCatatan: 'Catatan keputusan' }, async c => { await call('izinKeputusan', { jenis: x.jenis, id: x.id, keputusan: 'Disetujui', catatan: c }); toast('Pengajuan disetujui.'); setelah(); }),
+    tolak: () => izKonfirmasi('Tolak pengajuan?', ringkas, { tombol: 'Ya, Tolak', wajib: true, bahaya: true, labelCatatan: 'Alasan penolakan', petunjuk: 'Alasan akan terlihat oleh pemohon.' }, async c => { await call('izinKeputusan', { jenis: x.jenis, id: x.id, keputusan: 'Ditolak', catatan: c }); toast('Pengajuan ditolak.'); setelah(); }),
+    batal: () => izKonfirmasi('Batalkan pengajuan?', ringkas + '<br><br>Pembatalan tidak dapat diurungkan.', { tombol: 'Ya, Batalkan', bahaya: true, labelCatatan: 'Alasan pembatalan' }, async c => { await call('izinBatal', { jenis: x.jenis, id: x.id, catatan: c }); toast('Pengajuan dibatalkan.'); setelah(); }),
+    kembali: () => izKonfirmasi('Konfirmasi sudah kembali?', ringkas + `<br><br>Pastikan ${x.jenis === 'guru' ? 'guru' : 'siswa'} benar-benar sudah ${x.pulangAwal ? 'pulang' : 'kembali ke sekolah'}.`, { tombol: 'Ya, Sudah Kembali', labelCatatan: 'Catatan' }, async c => { const r = await call('izinKembali', { jenis: x.jenis, id: x.id, catatan: c }); toast(r.telat ? `Dikonfirmasi (terlambat ${r.menitTelat} menit).` : 'Kembali dikonfirmasi.'); setelah(); })
+  };
+}
+const izTombol = x => {
+  const b = x.bisa, o = [];
+  if (b.putuskan) o.push(`<button class="btn s" data-a="setuju">Setujui</button><button class="btn s r" data-a="tolak">Tolak</button>`);
+  if (b.kembali) o.push(`<button class="btn s o" data-a="kembali">${x.pulangAwal || x.jenisIzin === 'Izin pulang lebih awal' ? 'Konfirmasi Pulang' : 'Konfirmasi Kembali'}</button>`);
+  if (b.batal) o.push(`<button class="btn s o" data-a="batal">Batalkan</button>`);
+  return o.join(' ');
+};
+
+// ----- detail -----
+function izDetail(x, setelah) {
+  if (!x) return;
+  const kv = (k, v) => v ? `<div style="display:flex;gap:10px;padding:5px 0;border-bottom:1px solid #f1f3f2"><div class="mut" style="width:150px;flex-shrink:0">${k}</div><div style="min-width:0;overflow-wrap:anywhere">${v}</div></div>` : '';
+  const m = modal(`<h3>${x.jenis === 'guru' ? '👨‍🏫 Izin Guru' : '🎓 Izin Siswa'} <span class="mut" style="font-size:12px">${esc(x.id)}</span></h3><div style="margin-bottom:10px">${bdIzin(x)}</div>
+    ${kv('Nama', esc(x.nama))}${x.jenis === 'guru' ? kv('NIP', esc(x.nip)) : kv('Kelas', esc(x.kelas)) + kv('NIS / NISN', esc([x.nis, x.nisn].filter(Boolean).join(' / '))) + kv('Jenis izin', esc(x.jenisIzin))}
+    ${kv('Tanggal izin', esc(x.tanggal))}${kv(x.pulangAwal || x.jenisIzin === 'Izin pulang lebih awal' ? 'Jam kepulangan' : 'Jam mulai', esc(x.mulai))}${x.selesai ? kv(x.jenis === 'guru' ? 'Jam selesai / kembali' : 'Perkiraan kembali', esc(x.selesai)) : ''}
+    ${kv('Keperluan', esc(x.keperluan))}${kv('Keterangan', esc(x.keterangan))}${kv('Diajukan', esc(x.diajukan))}${x.jenis === 'siswa' ? kv('Pemohon', esc(x.pemohon)) + kv('Wali Kelas', esc(x.waliEmail) || '<span style="color:var(--red)">Belum ada Wali Kelas untuk kelas ini</span>') : ''}
+    ${kv('Keputusan oleh', esc(x.penyetuju))}${kv('Waktu keputusan', esc(x.waktuKeputusan))}${kv('Catatan keputusan', esc(x.catatan))}${kv('Kembali aktual', esc(x.kembaliAktual))}
+    ${x.setuju !== 'Disetujui' && x.setuju !== 'Dibatalkan' ? '<div class="note" style="margin-top:10px">Pengajuan ini <b>belum menjadi izin resmi</b>.</div>' : ''}
+    <div id="izl" style="margin-top:10px"></div><div class="row" style="margin-top:12px;gap:6px">${izTombol(x)}${x.bisa.koreksi ? '<button class="btn s o" data-a="koreksi">Koreksi Data</button>' : ''}${x.bisa.audit ? '<button class="btn s o" data-a="audit">Riwayat Audit</button>' : ''}</div><div id="iza" style="margin-top:10px"></div>`);
+  const aksi = izAksi(x, () => { m.tutup(); (setelah || (() => {}))(); izBadge(); });
+  $$('[data-a]', m).forEach(b => b.onclick = () => {
+    const a = b.dataset.a;
+    if (aksi[a]) return aksi[a]();
+    if (a === 'audit') return tombol(b, async () => {
+      const r = await call('izinAudit', { id: x.id });
+      $('#iza', m).innerHTML = `<h3 style="font-size:14px">Riwayat Audit</h3><div class="tw"><table><tr><th>Waktu</th><th>Aktor</th><th>Aksi</th><th>Status</th><th>Catatan</th></tr>${r.map(a => `<tr><td>${esc(a.waktu)}</td><td>${esc(a.aktor)}<div class="mut">${esc(a.role)}</div></td><td>${esc(a.aksi)}</td><td>${esc(a.sebelum)} → ${esc(a.sesudah)}</td><td style="white-space:normal;min-width:180px">${esc(a.catatan)}</td></tr>`).join('') || '<tr><td colspan="5" class="empty">Belum ada catatan</td></tr>'}</table></div>`;
+    }, 'Memuat...');
+    if (a === 'koreksi') izKoreksi(x, m, setelah);
+  });
+  if (x.jenis === 'guru' && x.lampiran && x.lampiran.length) {
+    const l = $('#izl', m);
+    l.innerHTML = `<label>Lampiran (${x.lampiran.length})</label>` + x.lampiran.map((f, i) => `<button class="btn o s" data-l="${i}" style="margin:0 6px 6px 0">📎 Lihat Berkas · ${esc(f.nama)} · ${fmtUkuran(f.ukuran)}</button>`).join('') + '<div id="izv"></div>';
+    $$('[data-l]', l).forEach(b => b.onclick = () => tombol(b, async () => {
+      const r = await call('izinLampiran', { id: x.id, idx: +b.dataset.l }, 90), src = `data:${r.tipe};base64,${r.data}`;
+      $('#izv', l).innerHTML = /^image\//.test(r.tipe) ? `<img src="${src}" alt="Lampiran" style="max-width:100%;border-radius:8px;margin-top:8px;border:1px solid var(--line)">` : `<a class="btn s" href="${src}" download="${esc(r.nama)}">⬇ Unduh ${esc(r.nama)}</a>`;
+    }, 'Memuat...'));
+  }
+}
+function izKoreksi(x, mdetail, setelah) {
+  const guru = x.jenis === 'guru';
+  const m = modal(`<h3>Koreksi Data ${esc(x.id)}</h3><div class="note">Koreksi dicatat di audit log dan <b>tidak mengubah keputusan persetujuan</b>. Pengajuan ditandai "Dikoreksi".</div>
+    <label>Tanggal izin</label><input type="date" id="kt" value="${esc(x.tanggal)}">
+    <div class="row"><div><label>Jam mulai</label><input type="time" id="km" value="${esc(x.mulai)}"></div><div><label>${guru ? 'Jam selesai' : 'Perkiraan kembali'}</label><input type="time" id="ks" value="${esc(x.selesai)}"></div></div>
+    ${guru ? '' : `<label>Jenis izin</label><select id="kj">${IZ.kon.jenisSiswa.map(j => `<option ${j === x.jenisIzin ? 'selected' : ''}>${esc(j)}</option>`).join('')}</select>`}
+    <label>Keperluan</label><textarea id="kp">${esc(x.keperluan)}</textarea><label>Keterangan</label><textarea id="kk">${esc(x.keterangan)}</textarea>
+    <label>Alasan koreksi <span style="color:var(--red)">(wajib)</span></label><input id="ka" maxlength="300" placeholder="mis. salah ketik jam">
+    <div style="margin-top:12px"><button class="btn" id="kv">Simpan Koreksi</button></div>`);
+  $('#kv', m).onclick = () => tombol($('#kv', m), async () => {
+    const d = { jenis: x.jenis, id: x.id, alasan: $('#ka', m).value, tanggal: $('#kt', m).value, mulai: $('#km', m).value, selesai: $('#ks', m).value, keperluan: $('#kp', m).value, keterangan: $('#kk', m).value };
+    if (!guru) d.jenisIzin = $('#kj', m).value;
+    await call('izinKoreksi', d); m.tutup(); mdetail.tutup(); toast('Koreksi tersimpan & tercatat di audit log.'); if (setelah) setelah();
+  }, 'Menyimpan...');
+}
+
+// ----- tabel (filter, urut, halaman, ekspor, cetak) -----
+function izTabel(el, hidup, o) {
+  const b = IZ.kon.bisa, staf = IZ.kon.role !== 'Siswa';
+  const f = { tampilan: o.tampilan, jenis: staf ? '' : 'siswa', q: '', status: '', kelas: '', jenisIzin: '', dari: '', sampai: '', penyetuju: '', urutKolom: 'diajukan', urut: 'baru', halaman: 1 };
+  const kelasOpsi = staf && IZ.kon.daftarSiswa ? Array.from(new Set(IZ.kon.daftarSiswa.map(s => s.kelas))).sort() : [];
+  el.innerHTML = `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h3 style="margin:0">${esc(o.judul)}</h3><div style="display:flex;gap:6px;flex-wrap:wrap">
+      ${o.pantau ? '<button class="btn s o" id="izcp">🖨 Cetak Laporan Harian</button>' : ''}<button class="btn s o" id="izcs">⬇ Ekspor CSV</button><button class="btn s o" id="izrf">↻</button></div></div>
+    <div class="row" style="margin:10px 0 4px">
+      <div style="flex:2;min-width:180px"><label>Cari nama / NIP / NIS / keperluan</label><input id="fq" placeholder="Ketik untuk mencari..."></div>
+      ${staf ? `<div><label>Jenis</label><select id="fj"><option value="">Guru &amp; Siswa</option><option value="guru">Izin Guru</option><option value="siswa">Izin Siswa</option></select></div>` : ''}
+      <div><label>Status</label><select id="fs"><option value="">Semua</option>${['Menunggu Persetujuan', 'Disetujui', 'Ditolak', 'Dibatalkan', 'Sedang Izin', 'Terlambat Kembali', 'Selesai'].map(s => `<option>${s}</option>`).join('')}</select></div>
+      ${kelasOpsi.length ? `<div><label>Kelas</label><select id="fk"><option value="">Semua</option>${kelasOpsi.map(k => `<option>${esc(k)}</option>`).join('')}</select></div>` : ''}
+      <div><label>Jenis izin siswa</label><select id="fi"><option value="">Semua</option>${IZ.kon.jenisSiswa.map(j => `<option>${esc(j)}</option>`).join('')}</select></div>
+      <div><label>Dari tanggal</label><input type="date" id="fd"></div><div><label>Sampai</label><input type="date" id="fe"></div>
+      ${o.pantau || o.tampilan === 'saya' ? '<div><label>Pemberi persetujuan</label><input id="fp" placeholder="Nama"></div>' : ''}
+      ${o.pantau ? '<div><label>Tampilan</label><select id="fa"><option value="semua">Semua data</option><option value="aktif">Aktif sekarang</option></select></div>' : ''}</div>
+    <div id="izh"></div></div>`;
+  let timer, cekAksi = 0;
+  const muat = async () => {
+    const rid = ++cekAksi, h = $('#izh', el); loading(h);
+    try {
+      const r = await call('izinDaftar', Object.assign({}, f));
+      if (rid !== cekAksi || !hidup()) return;
+      izSimpan(r.data);
+      const th = (k, t) => `<th data-s="${k}" style="cursor:pointer" title="Urutkan">${t}${f.urutKolom === k ? (f.urut === 'baru' ? ' ▼' : ' ▲') : ''}</th>`;
+      h.innerHTML = `<div class="mut" style="margin:6px 0">${r.total} pengajuan${r.jumlah > 1 ? ` · halaman ${r.halaman} dari ${r.jumlah}` : ''}</div><div class="tw"><table><tr>${th('nama', 'Pemohon')}${th('tanggal', 'Tanggal & Jam')}<th>Keperluan</th>${th('setuju', 'Status')}<th>Pemberi keputusan</th><th>Aksi</th></tr>
+        ${r.data.map(x => `<tr><td>${izOrang(x)}</td><td style="white-space:nowrap">${izWaktu(x)}</td><td style="white-space:normal;min-width:160px;max-width:260px">${esc(x.keperluan.length > 80 ? x.keperluan.slice(0, 80) + '…' : x.keperluan)}</td><td>${bdIzin(x)}</td><td>${esc(x.penyetuju)}${x.catatan ? `<div class="mut" style="white-space:normal;max-width:200px">${esc(x.catatan.length > 50 ? x.catatan.slice(0, 50) + '…' : x.catatan)}</div>` : ''}</td>
+        <td style="white-space:nowrap" data-r="${esc(x.id)}"><button class="btn s o" data-a="detail">Lihat Detail</button> ${izTombol(x)}</td></tr>`).join('') || '<tr><td colspan="6" class="empty">Tidak ada data yang sesuai</td></tr>'}</table></div>
+        ${r.jumlah > 1 ? `<div style="display:flex;gap:8px;justify-content:center;align-items:center;margin-top:12px"><button class="btn s o" id="fpv" ${r.halaman <= 1 ? 'disabled' : ''}>‹ Sebelumnya</button><span class="mut">${r.halaman} / ${r.jumlah}</span><button class="btn s o" id="fnx" ${r.halaman >= r.jumlah ? 'disabled' : ''}>Berikutnya ›</button></div>` : ''}`;
+      $$('[data-s]', h).forEach(t => t.onclick = () => { if (f.urutKolom === t.dataset.s) f.urut = f.urut === 'baru' ? 'lama' : 'baru'; else { f.urutKolom = t.dataset.s; f.urut = 'lama'; } f.halaman = 1; muat(); });
+      if ($('#fpv', h)) $('#fpv', h).onclick = () => { f.halaman = r.halaman - 1; muat(); };
+      if ($('#fnx', h)) $('#fnx', h).onclick = () => { f.halaman = r.halaman + 1; muat(); };
+      $$('[data-r]', h).forEach(td => {
+        const x = IZ.cache[td.dataset.r], setelah = () => { muat(); izBadge(); }, aksi = izAksi(x, setelah);
+        $$('[data-a]', td).forEach(bt => bt.onclick = () => bt.dataset.a === 'detail' ? izDetail(x, setelah) : aksi[bt.dataset.a]());
+      });
+    } catch (e) { if (rid === cekAksi && hidup()) h.innerHTML = `<div class="note">${esc(e.message)}</div>`; }
+  };
+  const ikat = (id, k, jeda) => { const n = $('#' + id, el); if (!n) return; n.oninput = n.onchange = () => { f[k] = n.value; f.halaman = 1; clearTimeout(timer); timer = setTimeout(muat, jeda); }; };
+  ikat('fq', 'q', 400); ikat('fj', 'jenis', 0); ikat('fs', 'status', 0); ikat('fk', 'kelas', 0); ikat('fi', 'jenisIzin', 0); ikat('fd', 'dari', 0); ikat('fe', 'sampai', 0); ikat('fp', 'penyetuju', 400); ikat('fa', 'tampilan', 0);
+  $('#izrf', el).onclick = muat;
+  $('#izcs', el).onclick = () => tombol($('#izcs', el), async () => {
+    const r = await call('izinDaftar', Object.assign({}, f, { ukuran: 0 }), 60);
+    izUnduhCsv(r.data); if (r.terpotong) toast('Ekspor dibatasi 3000 baris pertama.', 'e');
+  }, 'Menyiapkan...');
+  if ($('#izcp', el)) $('#izcp', el).onclick = () => tombol($('#izcp', el), async () => {
+    const hari = hariIni(), r = await call('izinDaftar', { tampilan: 'semua', dari: hari, sampai: hari, ukuran: 0, urutKolom: 'tanggal', urut: 'lama' }, 60);
+    izCetak(r.data, hari);
+  }, 'Menyiapkan...');
+  muat();
+}
+
+function izCsvSel(v) { v = String(v === null || v === undefined ? '' : v); if (/^[=+\-@\t\r]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; }
+function izUnduhCsv(rows) {
+  const H = ['ID', 'Jenis', 'Nama', 'NIP/NIS', 'Kelas', 'Jenis Izin', 'Tanggal Izin', 'Jam Mulai', 'Jam Selesai/Kembali', 'Keperluan', 'Status Persetujuan', 'Status Operasional', 'Pemberi Keputusan', 'Waktu Keputusan', 'Catatan Keputusan', 'Kembali Aktual', 'Diajukan'];
+  const baris = rows.map(x => [x.id, x.jenis === 'guru' ? 'Guru' : 'Siswa', x.nama, x.nip || x.nis || '', x.kelas || '', x.jenisIzin || '', x.tanggal, x.mulai, x.selesai, x.keperluan, x.setuju, x.oper, x.penyetuju, x.waktuKeputusan, x.catatan, x.kembaliAktual, x.diajukan]);
+  const csv = '﻿' + [H].concat(baris).map(r => r.map(izCsvSel).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv); a.download = 'rekap-perizinan-' + hariIni() + '.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  toast(`${rows.length} baris diekspor.`);
+}
+function izCetak(rows, hari) {
+  const p = document.createElement('div'); p.id = 'cetak';
+  p.innerHTML = `<h2 style="margin:0">Laporan Harian Perizinan</h2><div>SMAIT Al-Ittihad · Tanggal ${esc(hari)} · dicetak ${esc(new Date().toLocaleString('id-ID'))}</div>
+    <table style="margin-top:10px"><tr><th>No</th><th>Jenis</th><th>Nama</th><th>Kelas/NIP</th><th>Jam</th><th>Keperluan</th><th>Status</th><th>Pemberi Keputusan</th><th>Kembali</th></tr>
+    ${rows.map((x, i) => `<tr><td>${i + 1}</td><td>${x.jenis === 'guru' ? 'Guru' : 'Siswa'}</td><td>${esc(x.nama)}</td><td>${esc(x.kelas || x.nip || '')}</td><td>${esc(x.mulai)}${x.selesai ? '–' + esc(x.selesai) : ''}</td><td>${esc(x.keperluan)}</td><td>${esc(x.setuju)}${x.oper && x.oper !== '-' && x.oper !== x.setuju ? ' / ' + esc(x.oper) : ''}</td><td>${esc(x.penyetuju)}</td><td>${esc(x.kembaliAktual)}</td></tr>`).join('') || '<tr><td colspan="9">Tidak ada izin pada tanggal ini.</td></tr>'}</table>`;
+  document.body.appendChild(p); document.body.classList.add('mencetak');
+  try { window.print(); } catch (e) { toast('Cetak tidak tersedia di peramban ini.', 'e'); }
+  setTimeout(() => { document.body.classList.remove('mencetak'); p.remove(); }, 600);
+}
+
+// ----- formulir pengajuan -----
+function izForm(el) {
+  const b = IZ.kon.bisa;
+  if (b.siswaMandiriDimatikan) { el.innerHTML = '<div class="card"><div class="note">Pengajuan izin mandiri oleh siswa sedang dinonaktifkan. Mintalah bantuan Wali Kelas atau petugas piket untuk mengajukan izin atas nama Anda.</div></div>'; return; }
+  const pilih = [];
+  if (b.ajukanGuru) pilih.push(['guru', 'Izin Guru']);
+  if (b.ajukanSiswa) pilih.push([ 'siswa', b.ajukanUntukSiswa ? 'Izin Siswa (atas nama siswa)' : 'Izin Saya' ]);
+  let jenis = pilih[0][0];
+  el.innerHTML = `${pilih.length > 1 ? `<div class="seg" id="izj" style="margin-bottom:14px">${pilih.map(p => `<button data-j="${p[0]}" class="${p[0] === jenis ? 'on' : ''}">${p[1]}</button>`).join('')}</div>` : ''}<div id="izf"></div>`;
+  const gambar = () => { if (jenis === 'guru') izFormGuru($('#izf', el)); else izFormSiswa($('#izf', el)); };
+  $$('#izj button', el).forEach(t => t.onclick = () => { jenis = t.dataset.j; $$('#izj button', el).forEach(x => x.classList.toggle('on', x === t)); gambar(); });
+  gambar();
+}
+const izTglMin = () => hariIni();
+function izFormGuru(el) {
+  const lamp = [];
+  el.innerHTML = `<div class="card" style="max-width:720px"><h3>Formulir Izin Keluar Guru</h3>
+    <div class="note">Pengajuan akan berstatus <b>Menunggu Persetujuan Kepala Sekolah</b>. Izin belum resmi sebelum disetujui.</div>
+    <div class="row"><div><label>Nama guru</label><input value="${esc(IZ.kon.nama)}" readonly></div><div><label>NIP / identitas (opsional)</label><input id="gn" maxlength="30"></div></div>
+    <div class="row"><div><label>Tanggal pengajuan</label><input value="${esc(hariIni())}" readonly></div><div><label>Tanggal izin</label><input type="date" id="gt" value="${esc(hariIni())}" min="${esc(izTglMin())}"></div></div>
+    <div class="row"><div><label>Jam mulai izin</label><input type="time" id="gm"></div><div><label>Jam berakhir / perkiraan kembali</label><input type="time" id="gs"></div></div>
+    <label>Keperluan izin</label><input id="gk" maxlength="300" placeholder="mis. mengurus dokumen keluarga">
+    <label>Keterangan tambahan (opsional)</label><textarea id="gx" maxlength="500"></textarea>
+    <label>Lampiran pendukung (opsional, maks. 3 file: foto/PDF/DOCX/XLSX/TXT)</label><input type="file" id="gf" multiple accept="image/*,.pdf,.docx,.xlsx,.txt"><div id="gfl" style="margin-top:8px"></div><div id="gup"></div>
+    <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="gd"> Tandai mendesak</label>
+    <div style="margin-top:14px"><button class="btn" id="gv">Kirim Pengajuan</button></div></div>`;
+  const gambar = () => {
+    $('#gfl', el).innerHTML = lamp.map((f, i) => `<div style="display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-bottom:6px">${f.thumb ? `<img src="${f.thumb}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px">` : '📄'}<div style="flex:1;min-width:0;overflow-wrap:anywhere">${esc(f.label)}<div class="mut">${fmtUkuran(f.ukuran)}</div></div><button class="btn s o" data-h="${i}">Hapus</button></div>`).join('');
+    $$('[data-h]', el).forEach(bt => bt.onclick = () => { lamp.splice(+bt.dataset.h, 1); gambar(); });
+  };
+  $('#gf', el).onchange = async e => {
+    const fs = Array.from(e.target.files); e.target.value = '';
+    for (const f of fs) {
+      try {
+        if (lamp.length >= 3) throw new Error('Maksimal 3 file.');
+        const x = await siapkanBerkas(f);
+        if (lamp.reduce((a, y) => a + y.ukuran, 0) + x.ukuran > 8 * 1024 * 1024) throw new Error('Total ukuran lampiran maksimal 8 MB.');
+        lamp.push(x);
+      } catch (er) { toast(er.message, 'e'); }
+    }
+    gambar();
+  };
+  $('#gv', el).onclick = () => tombol($('#gv', el), async () => {
+    const ada = lamp.length > 0, ind = $('#gup', el);
+    if (ada) ind.innerHTML = '<div class="load" style="padding:10px 0;justify-content:flex-start"><div class="sp"></div> Mengunggah lampiran... mohon tunggu, jangan tutup halaman.</div>';
+    try {
+      const r = await call('izinAjukanGuru', { nip: $('#gn', el).value, tanggal: $('#gt', el).value, mulai: $('#gm', el).value, selesai: $('#gs', el).value, keperluan: $('#gk', el).value, keterangan: $('#gx', el).value, mendesak: $('#gd', el).checked,
+        lampiran: lamp.map(f => ({ nama: 'x.' + f.ext, data: f.data })) }, ada ? 150 : 30);
+      modal(`<h3>✅ Pengajuan Terkirim</h3><p>Nomor pengajuan: <b>${esc(r.id)}</b></p><p>Status: <span class="bd wr">Menunggu Persetujuan</span><br>Kepala Sekolah akan memutuskan. Pantau di tab <b>Izin Saya</b>.</p>`, true);
+      IZ.tab = 'saya'; halIzin($('#ct'), () => ST.halaman === 'izin');
+    } finally { ind.innerHTML = ''; }
+  }, 'Mengirim...');
+}
+function izFormSiswa(el) {
+  const staf = IZ.kon.role !== 'Siswa', S0 = IZ.kon.daftarSiswa || [];
+  const kelas = Array.from(new Set(S0.map(s => s.kelas))).sort();
+  el.innerHTML = `<div class="card" style="max-width:720px"><h3>Formulir Izin Keluar Siswa</h3>
+    <div class="note">Pengajuan diteruskan ke <b>Wali Kelas</b> siswa. Izin belum resmi sebelum disetujui Wali Kelas.</div>
+    ${staf ? `<div class="row"><div><label>Kelas</label><select id="sk"><option value="">-- pilih kelas --</option>${kelas.map(k => `<option>${esc(k)}</option>`).join('')}</select></div><div><label>Nama siswa</label><select id="sn"><option value="">-- pilih kelas dahulu --</option></select></div></div>
+      <div class="mut" style="margin-top:6px">Anda mengajukan sebagai <b>${esc(IZ.kon.nama)} (${esc(IZ.kon.role)})</b>; identitas pemohon dicatat.</div>`
+      : `<div class="row"><div><label>Nama siswa</label><input value="${esc(IZ.kon.siswa.nama)}" readonly></div><div><label>Kelas</label><input value="${esc(IZ.kon.siswa.kelas)}" readonly></div></div>`}
+    <div class="row"><div><label>Tanggal pengajuan</label><input value="${esc(hariIni())}" readonly></div><div><label>Tanggal izin</label><input type="date" id="st" value="${esc(hariIni())}" min="${esc(izTglMin())}"></div></div>
+    <label>Jenis izin</label><select id="sj">${IZ.kon.jenisSiswa.map(j => `<option>${esc(j)}</option>`).join('')}</select>
+    <div id="spa" class="note" style="display:none;margin-top:10px">Pulang lebih awal: siswa tidak perlu kembali. Isi jam kepulangan dan alasan; petugas akan mengonfirmasi kepulangan.</div>
+    <div class="row"><div><label id="slm">Jam mulai izin</label><input type="time" id="sm"></div><div id="skb"><label>Perkiraan jam kembali</label><input type="time" id="ss"></div></div>
+    <label id="slk">Keperluan izin</label><input id="sp" maxlength="300">
+    <label>Keterangan tambahan (opsional)</label><textarea id="sx" maxlength="500"></textarea>
+    <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="sd"> Tandai mendesak</label>
+    <div style="margin-top:14px"><button class="btn" id="sv">Kirim Pengajuan</button></div></div>`;
+  if (staf) $('#sk', el).onchange = () => { $('#sn', el).innerHTML = '<option value="">-- pilih siswa --</option>' + S0.filter(s => s.kelas === $('#sk', el).value).sort((a, b) => a.nama.localeCompare(b.nama)).map(s => `<option value="${esc(s.nisn)}">${esc(s.nama)}</option>`).join(''); };
+  const sesuaikan = () => {
+    const pa = $('#sj', el).value === 'Izin pulang lebih awal';
+    $('#spa', el).style.display = pa ? '' : 'none'; $('#skb', el).style.display = pa ? 'none' : '';
+    $('#slm', el).textContent = pa ? 'Jam kepulangan' : 'Jam mulai izin'; $('#slk', el).textContent = pa ? 'Alasan pulang lebih awal' : 'Keperluan izin';
+  };
+  $('#sj', el).onchange = sesuaikan; sesuaikan();
+  $('#sv', el).onclick = () => tombol($('#sv', el), async () => {
+    if (staf && !$('#sn', el).value) throw new Error('Pilih kelas dan nama siswa.');
+    const r = await call('izinAjukanSiswa', { nisn: staf ? $('#sn', el).value : '', jenisIzin: $('#sj', el).value, tanggal: $('#st', el).value, mulai: $('#sm', el).value, selesai: $('#ss', el).value, keperluan: $('#sp', el).value, keterangan: $('#sx', el).value, mendesak: $('#sd', el).checked });
+    modal(`<h3>✅ Pengajuan Terkirim</h3><p>Nomor pengajuan: <b>${esc(r.id)}</b></p><p>Status: <span class="bd wr">Menunggu Persetujuan</span></p>${r.tanpaWali ? '<div class="note">Kelas siswa ini belum memiliki Wali Kelas di sistem. Admin akan diberi tanda; hubungi Admin agar pengajuan dapat diproses.</div>' : '<p>Diteruskan ke Wali Kelas. Pantau di tab <b>Izin Saya</b>.</p>'}`, true);
+    IZ.tab = 'saya'; halIzin($('#ct'), () => ST.halaman === 'izin');
+  }, 'Mengirim...');
+}
+
+// ----- pengaturan (Admin) -----
+function izPengaturan(el) {
+  const s = IZ.kon.pengaturan;
+  el.innerHTML = `<div class="card" style="max-width:560px"><h3>Pengaturan Perizinan</h3>
+    <label>Pengajuan izin mandiri oleh siswa</label><select id="pm"><option value="Ya" ${s.mandiri ? 'selected' : ''}>Aktif — siswa boleh mengajukan sendiri</option><option value="Tidak" ${s.mandiri ? '' : 'selected'}>Nonaktif — hanya lewat petugas/Wali Kelas</option></select>
+    <label>Toleransi keterlambatan kembali (menit)</label><input type="number" id="pt" min="0" max="120" value="${esc(s.toleransi)}">
+    <div style="margin-top:12px"><button class="btn" id="pv">Simpan</button></div>
+    <hr style="border:0;border-top:1px solid #e5e7eb;margin:18px 0"><div class="note"><b>Wali Kelas &amp; delegasi:</b> kelas tanggung jawab diatur di <b>Data &amp; Pengaturan → Pengguna → Edit → Kelas tanggung jawab</b> (pisahkan dengan koma, mis. <i>X 1, X 2</i>). Pengguna yang diberi kelas dapat menyetujui izin siswa kelas tersebut; ini dicatat sebagai delegasi resmi oleh Admin. Admin sendiri tidak dapat mengubah keputusan secara diam-diam; setiap koreksi tercatat di audit log.</div>
+    <div class="note">Notifikasi email/Google Chat belum dikonfigurasi. Pemberitahuan hanya berupa lencana dan peringatan di dalam aplikasi.</div></div>`;
+  $('#pv', el).onclick = () => tombol($('#pv', el), async () => { await call('izinPengaturan', { mandiri: $('#pm', el).value, toleransi: $('#pt', el).value }); IZ.kon = await call('izinKonteks'); toast('Pengaturan tersimpan.'); }, 'Menyimpan...');
+}
+
+const HAL = { izin: halIzin, beranda: halBeranda, catat: halCatat, absensi: halAbsensi, siswa: halSiswa, riwayat: halRiwayat, care: halCare, riwayatCare: halRiwayatCare, data: halData };
 window.addEventListener('error', e => { if ($('#root') && $('#root .load') && !$('#root .auth') && !$('#app')) panelError('Terjadi kesalahan pada halaman', e.message || 'Kesalahan tidak diketahui'); });
 window.addEventListener('unhandledrejection', e => { toast((e.reason && e.reason.message) || 'Terjadi kesalahan.', 'e'); });
 (async function boot() {
