@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Al-Ittihad Integrity System</title>
+<?!= include('Stylesheet'); ?>
+</head>
+<body>
+<div id="toast"></div>
+<div id="root"><div class="load"><div class="sp"></div> Memuat...</div></div>
+<script>
+// Skrip pengaman TERPISAH: tetap berjalan walau skrip utama gagal dimuat/dijalankan.
+window.__AIS = { err: [], main: false, siap: false };
+window.addEventListener('error', function (e) { try { window.__AIS.err.push((e.message || 'kesalahan') + (e.lineno ? ' (baris ' + e.lineno + ')' : '')); } catch (x) {} });
+setTimeout(function () {
+  if (window.__AIS.siap) return;
+  var r = document.getElementById('root'); if (!r) return;
+  var esc = function (v) { return String(v).replace(/[&<>"']/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); };
+  var adaGoogle = (typeof google !== 'undefined' && google.script && google.script.run) ? 'ya' : 'TIDAK';
+  r.innerHTML = '<div style="font-family:Segoe UI,Arial,sans-serif;max-width:560px;margin:40px auto;padding:22px;background:#fff;border:1px solid #e5e7eb;border-radius:14px">' +
+    '<h3 style="margin:0 0 8px;color:#1b5e20">Al-Ittihad Integrity System belum bisa dimulai</h3>' +
+    '<p style="color:#444">Halaman sudah terbuka tetapi belum selesai memuat. Rincian untuk Admin:</p>' +
+    '<ul style="color:#444;font-size:14px"><li>Bagian skrip termuat: '+((window.__AIS.parts||[]).join(', ')||'tidak ada')+' (harus 1, 2, 3, 4)</li><li>Skrip utama berjalan: <b>' + (window.__AIS.main ? 'ya' : 'TIDAK') + '</b></li><li>Koneksi ke Apps Script (google.script.run): <b>' + adaGoogle + '</b></li>' +
+    '<li>Pesan kesalahan: <b>' + (window.__AIS.err.length ? esc(window.__AIS.err.join(' | ')) : '(tidak ada)') + '</b></li></ul>' +
+    '<p style="color:#444;font-size:14px">Jika &ldquo;Skrip utama&rdquo; TIDAK, salah satu file <b>JavaScript, JavaScript2, JavaScript3, JavaScript4</b> di editor belum lengkap atau masih versi lama (lihat kemungkinan besar isi file <b>JavaScript.html</b> di editor masih versi lama: hapus semua isinya, tempel ulang dari file terbaru, simpan.ldquo;Bagian skrip termuatkemungkinan besar isi file <b>JavaScript.html</b> di editor masih versi lama: hapus semua isinya, tempel ulang dari file terbaru, simpan.rdquo;): hapus isinya, tempel ulang dari file terbaru sampai baris terakhir, simpan. Coba: (1) muat ulang dengan Ctrl+Shift+R; (2) di editor Apps Script jalankan fungsi <b>setup</b> dan setujui izin; (3) Deploy &rarr; Kelola deployment &rarr; Versi baru.</p>' +
+    '<button onclick="try{sessionStorage.removeItem(\'ais_t\')}catch(e){};location.reload()" style="background:#2e7d32;color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:600;cursor:pointer">Hapus sesi &amp; muat ulang</button></div>';
+}, 10000);
+</script>
+<?!= include('JavaScript'); ?><?!= include('JavaScript2'); ?><?!= include('JavaScript3'); ?><?!= include('JavaScript4'); ?>
+</body>
+</html>
