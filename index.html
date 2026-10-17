@@ -3,7 +3,14 @@
 <head>
 <base target="_top">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14532d">
+<meta name="description" content="Sistem integritas dan administrasi pelanggaran siswa SMAIT Al-Ittihad">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AIS"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Al-Ittihad Integrity System</title>
 <style>
 :root{--g1:#14532d;--g2:#1f7a3f;--g3:#e8f5ec;--gold:#c9a227;--bg:#f2f5f3;--txt:#1b2430;--mut:#667085;--line:#e4e8e6;--red:#c62828;--org:#ea6a0a;--r:14px;--sh:0 1px 2px rgba(16,24,40,.05),0 4px 14px rgba(16,24,40,.05);--ring:0 0 0 3px rgba(31,122,63,.22)}
@@ -90,7 +97,7 @@ a{color:var(--g2);font-weight:600}a:hover{color:var(--g1)}.empty{text-align:cent
 .auth .box{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px;width:420px;max-width:100%;box-shadow:0 18px 50px rgba(16,24,40,.12)}
 .auth .lg{max-width:300px;margin:0 auto 10px}
 .tabs{display:flex;gap:6px;background:#eef3ef;padding:4px;border-radius:12px;margin:16px 0}
-.tabs button{flex:1;border:0;background:none;padding:9px;border-radius:9px;font-weight:700;color:var(--mut);cursor:pointer;transition:background .15s}
+.tabs button{flex:1;border:0;background:none;padding:9px;border-radius:9px;font-weight:700;color:#566072;cursor:pointer;transition:background .15s}
 .tabs button.on{background:#fff;color:var(--g1);box-shadow:0 1px 3px rgba(16,24,40,.12)}
 .ban{display:flex;justify-content:center;background:linear-gradient(135deg,#f1f9f3,#fff)}.ban .lg{max-width:340px;width:100%}
 @media(max-width:800px){
@@ -115,34 +122,75 @@ a{color:var(--g2);font-weight:600}a:hover{color:var(--g1)}.empty{text-align:cent
 #cetak{display:none}
 @media print{body.mencetak #root,body.mencetak #toast,body.mencetak .mbg{display:none!important}body.mencetak #cetak{display:block;padding:12px;font-family:Arial,sans-serif;color:#000}#cetak table{width:100%;border-collapse:collapse;font-size:11px}#cetak th,#cetak td{border:1px solid #444;padding:4px 6px;text-align:left;vertical-align:top;position:static;background:#fff;color:#000;text-transform:none}}
 @media(max-width:800px){.nb{position:absolute;margin:0;transform:translate(18px,-4px)}.nav a{position:relative}.izr{flex-direction:column}.izr .izw{text-align:left;white-space:normal}}
+
+.er{background:#fde2e2;color:#9b1c1c}.pl{margin:6px 0 8px 18px;padding:0;line-height:1.55}
+#splash{position:fixed;inset:0;z-index:9999;background:radial-gradient(120% 90% at 50% 38%,#1f7a3f 0%,#14532d 55%,#0a2e19 100%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;transition:opacity .4s ease,visibility .4s}
+#splash.hilang{opacity:0;visibility:hidden}
+#splash .sp-lg{width:112px;height:112px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.4));animation:spmasuk .7s ease both}
+#splash h1{font:700 22px/1.2 Georgia,'Times New Roman',serif;margin:18px 0 4px;letter-spacing:.3px}#splash p{margin:0;color:#e8d38a;font-size:14px;font-weight:600}
+#splash .sp-bar{width:140px;height:4px;border-radius:4px;background:rgba(255,255,255,.2);margin-top:26px;overflow:hidden}#splash .sp-bar i{display:block;width:40%;height:100%;border-radius:4px;background:linear-gradient(90deg,#ffe082,#d4af37);animation:spjalan 1.2s ease-in-out infinite}
+#splash .sp-st{margin-top:16px;font-size:13px;color:#d8ebdd;min-height:20px}#splash .sp-st button{margin:8px 4px 0;background:#c9a227;color:#14532d;border:0;border-radius:8px;padding:9px 16px;font-weight:700;cursor:pointer}
+@keyframes spjalan{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}@keyframes spmasuk{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+#offbar{position:fixed;left:0;right:0;top:0;z-index:9000;background:#7a1f1f;color:#fff;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;font-size:13px;text-align:center}#offbar button,#updbar button{margin-left:8px;border:0;border-radius:8px;padding:5px 12px;font-weight:700;cursor:pointer;background:#fff;color:#14532d}
+#updbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom));z-index:9000;background:#14532d;color:#fff;padding:10px 14px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);font-size:13.5px;display:flex;gap:6px;align-items:center;max-width:94vw}
+#bel{position:relative;background:transparent;border:1px solid var(--line);border-radius:10px;font-size:18px;line-height:1;padding:7px 10px;cursor:pointer}#bel .nb{position:absolute;margin:0;top:-6px;right:-6px;transform:none}
+#top{padding-top:calc(14px + env(safe-area-inset-top))}.auth{padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+.lnk{background:none;border:0;color:var(--g2);font-weight:600;cursor:pointer;font-size:13px;padding:8px}
+@media(pointer:coarse){.btn,.nav a,.tabs button,.seg button{min-height:44px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<div id="splash" role="status" aria-live="polite"><div class="sp-lg" id="spLogo"></div><h1>Al-Ittihad Integrity System</h1><p>SMAIT Al-Ittihad</p><div class="sp-bar"><i></i></div><div class="sp-st">Memuat aplikasi...</div></div>
 <div id="toast"></div>
 <div id="root"><div class="load"><div class="sp"></div> Memuat...</div></div>
 <script>
-// Skrip pengaman TERPISAH: tetap berjalan walau skrip utama gagal dimuat/dijalankan.
+
 window.__AIS = { err: [], main: false, siap: false };
-window.addEventListener('error', function (e) { try { window.__AIS.err.push((e.message || 'kesalahan') + (e.lineno ? ' (baris ' + e.lineno + ')' : '')); } catch (x) {} });
+window.addEventListener('error', function (e) { try { if (e.lineno && !window.__AIS.lastLine) window.__AIS.lastLine = e.lineno; window.__AIS.err.push((e.message || 'kesalahan') + (e.lineno ? ' (baris ' + e.lineno + ', kolom ' + e.colno + ')' : '')); } catch (x) {} });
 setTimeout(function () {
   if (window.__AIS.siap) return;
   var r = document.getElementById('root'); if (!r) return;
+  var bagi = '';
+  try {
+    var el = null, ss = document.getElementsByTagName('script');
+    for (var q = 0; q < ss.length; q++) if (ss[q].textContent.indexOf('window.__AIS.main = ' + 'true') >= 0) { el = ss[q]; break; }
+    if (el) {
+      var bar = el.textContent.split('\n'), awal = [0];
+      for (var k = 1; k < bar.length; k++) if (/^(async function |function |const |let |var |\(function|\x2f\x2f ---)/.test(bar[k])) awal.push(k);
+      awal.push(bar.length);
+      var rusak = [];
+      for (var c = 0; c < awal.length - 1 && rusak.length < 3; c++) {
+        var kode = bar.slice(awal[c], awal[c + 1]).join('\n');
+        try { new Function(kode); } catch (x1) {
+          var aneh = [];
+          kode.split('\n').forEach(function (ln, j) { for (var m = 0; m < ln.length && aneh.length < 6; m++) { var cc = ln.charCodeAt(m); if (cc > 126 || (cc < 32 && cc !== 9 && cc !== 13)) aneh.push('baris ' + (awal[c] + j + 1) + ': U+' + cc.toString(16).toUpperCase()); } });
+          rusak.push('potongan baris ' + (awal[c] + 1) + ' [' + String(bar[awal[c]]).slice(0, 70) + '] ' + x1.message + (aneh.length ? ' | karakter aneh: ' + aneh.join(', ') : ''));
+        }
+      }
+      var h = 2166136261; for (var z = 0; z < el.textContent.length; z++) { h ^= el.textContent.charCodeAt(z); h = Math.imul(h, 16777619) >>> 0; }
+      var tl = window.__AIS.lastLine || 0, sekitar = [];
+      if (tl) for (var d = -2; d <= 3; d++) if (bar[tl - 1 + d] !== undefined) sekitar.push((tl + d) + ': ' + bar[tl - 1 + d].slice(0, 90));
+      var info = ' [panjang ' + el.textContent.length + ', baris ' + bar.length + ', sidik ' + h.toString(16) + ']' + (sekitar.length ? ' sekitar baris dilaporkan: ' + sekitar.join(' \x2f/ ') : '');
+      bagi = (rusak.length ? rusak.join(' || ') : 'tiap potongan valid') + info;
+    }
+  } catch (xb) { bagi = 'pemeriksa gagal: ' + xb.message; }
+  var sp = document.getElementById('splash'); if (sp && sp.parentNode) sp.parentNode.removeChild(sp);
   var esc = function (v) { return String(v).replace(/[&<>"']/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); };
   var adaGoogle = (typeof google !== 'undefined' && google.script && google.script.run) ? 'ya' : 'TIDAK';
   r.innerHTML = '<div style="font-family:Segoe UI,Arial,sans-serif;max-width:560px;margin:40px auto;padding:22px;background:#fff;border:1px solid #e5e7eb;border-radius:14px">' +
     '<h3 style="margin:0 0 8px;color:#1b5e20">Al-Ittihad Integrity System belum bisa dimulai</h3>' +
     '<p style="color:#444">Halaman sudah terbuka tetapi belum selesai memuat. Rincian untuk Admin:</p>' +
     '<ul style="color:#444;font-size:14px"><li>Skrip utama berjalan: <b>' + (window.__AIS.main ? 'ya' : 'TIDAK') + '</b></li><li>Koneksi ke Apps Script (google.script.run): <b>' + adaGoogle + '</b></li>' +
-    '<li>Pesan kesalahan: <b>' + (window.__AIS.err.length ? esc(window.__AIS.err.join(' | ')) : '(tidak ada)') + '</b></li></ul>' +
-    '<p style="color:#444;font-size:14px">Jika &ldquo;Skrip utama&rdquo; TIDAK, salah satu file <b>JavaScript, JavaScript2, JavaScript3, JavaScript4</b> di editor belum lengkap atau masih versi lama (lihat kemungkinan besar isi file <b>JavaScript.html</b> di editor masih versi lama: hapus semua isinya, tempel ulang dari file terbaru, simpan.ldquo;Bagian skrip termuatkemungkinan besar isi file <b>JavaScript.html</b> di editor masih versi lama: hapus semua isinya, tempel ulang dari file terbaru, simpan.rdquo;): hapus isinya, tempel ulang dari file terbaru sampai baris terakhir, simpan. Coba: (1) muat ulang dengan Ctrl+Shift+R; (2) di editor Apps Script jalankan fungsi <b>setup</b> dan setujui izin; (3) Deploy &rarr; Kelola deployment &rarr; Versi baru.</p>' +
+    '<li>Pesan kesalahan: <b>' + (window.__AIS.err.length ? esc(window.__AIS.err.join(' | ')) : '(tidak ada)') + '</b></li>' + (bagi ? '<li>Bagian bermasalah: <b style="word-break:break-all">' + esc(bagi) + '</b></li>' : '') + '</ul>' +
+    '<p style="color:#444;font-size:14px">Semua skrip kini ada di dalam <b>Index.html</b> (tidak ada file JavaScript terpisah). Jika &ldquo;Skrip utama&rdquo; TIDAK, kemungkinan isi <b>Index.html</b> di editor terpotong atau masih versi lama: hapus semua isinya, tempel ulang dari file terbaru sampai baris terakhir <code>&lt;/html&gt;</code>, lalu simpan. Coba: (1) muat ulang dengan Ctrl+Shift+R; (2) di editor Apps Script jalankan fungsi <b>setup</b> dan setujui izin; (3) Deploy &rarr; Kelola deployment &rarr; Versi baru.</p>' +
     '<button onclick="try{sessionStorage.removeItem(\'ais_t\')}catch(e){};location.reload()" style="background:#2e7d32;color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:600;cursor:pointer">Hapus sesi &amp; muat ulang</button></div>';
-}, 10000);
+}, 12000);
 </script>
 <script>
 window.__AIS.main = true;
 const VERSI = '2026-10-15.10-SIMPLE';
-const LOGO = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="100%" height="100%" role="img" aria-label="Logo Al-Ittihad Integrity System">
+const LOGO = `<svg xmlns="http:\x2f/www.w3.org/2000/svg" viewBox="0 0 520 120" width="100%" height="100%" role="img" aria-label="Logo Al-Ittihad Integrity System">
   <defs>
     <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#058C4B" />
@@ -174,7 +222,7 @@ const LOGO = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" widt
   <text x="118" y="80" font-family="'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif" font-weight="700" font-size="14" fill="#046A38" letter-spacing="1.5">AL-ITTIHAD INTEGRITY SYSTEM</text>
   <text x="118" y="98" font-family="'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif" font-weight="500" font-size="11" fill="#64748B" letter-spacing="0.5">Sistem Kedisiplinan &amp; Prestasi Siswa Berdasarkan SHB</text>
 </svg>`;
-const LOGO_IKON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 18 112 104" width="100%" height="100%" role="img" aria-label="Ikon AIS">
+const LOGO_IKON = `<svg xmlns="http:\x2f/www.w3.org/2000/svg" viewBox="0 18 112 104" width="100%" height="100%" role="img" aria-label="Ikon AIS">
   <defs>
     <linearGradient id="emeraldGradIkon" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#058C4B" />
@@ -198,7 +246,6 @@ const LOGO_IKON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 18 112 104
 </svg>`;
 const NAMA = 'Al-Ittihad Integrity System';
 
-// ---------- util ----------
 const $ = (s, r) => (r || document).querySelector(s);
 const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
 const esc = v => String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -212,8 +259,9 @@ function toast(m, tipe) {
   const d = document.createElement('div'); d.className = tipe === 'e' ? 'e' : 's'; d.textContent = m;
   $('#toast').appendChild(d); setTimeout(() => d.remove(), tipe === 'e' ? 6000 : 3000);
 }
-// Alamat Web App (deployment). Dipakai HANYA bila halaman ini dibuka di luar Apps Script (mis. di GitHub Pages / Blogger / file lokal).
-const API_URL = 'https://script.google.com/macros/s/AKfycbzOR8g81rlAZWgoYbFrjSPYekVE5FAy2C-2tI-nBcOceWrQUxyeIQHcyGA83ta9tkod/exec';
+
+const ID_DEPLOY = 'AKfycbzOR8g81rlAZWgoYbFrjSPYekVE5FAy2C-2tI-nBcOceWrQUxyeIQHcyGA83ta9tkod';
+const API_URL = 'https:' + '\x2f/script.google.com/macros/s/' + ID_DEPLOY + '/exec';
 const adaGAS = () => typeof google !== 'undefined' && google.script && google.script.run;
 function proses(raw, ok, gagal) {
   let r; try { r = JSON.parse(raw); } catch (e) { return gagal(new Error('Respons server tidak terbaca. Muat ulang halaman.')); }
@@ -223,11 +271,12 @@ function proses(raw, ok, gagal) {
 }
 function call(aksi, data, batasDetik) {
   return new Promise((ok, gagal) => {
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) return gagal(new Error('Anda sedang offline. Data tidak dapat dimuat atau disimpan. Sambungkan internet lalu coba lagi.'));
     const mandiri = !adaGAS() && API_URL && /^https?:$/.test(location.protocol);
     if (!adaGAS() && !mandiri) return gagal(new Error('Halaman ini tidak berjalan di dalam Google Apps Script (google.script.run tidak tersedia).'));
     let selesai = false;
     const ok0 = ok, gagal0 = gagal;
-    const t = setTimeout(() => { if (!selesai) { selesai = true; gagal0(new Error('Server tidak merespons (' + (batasDetik || 30) + ' detik). Coba muat ulang. Jika tetap begini: Admin buka editor Apps Script → jalankan fungsi setup → Deploy versi baru.')); } }, (batasDetik || 30) * 1000);
+    const t = setTimeout(() => { if (!selesai) { selesai = true; gagal0(new Error('Server tidak merespons (' + (batasDetik || 30) + ' detik). Coba muat ulang. Jika tetap begini: Admin buka editor Apps Script \u2192 jalankan fungsi setup \u2192 Deploy versi baru.')); } }, (batasDetik || 30) * 1000);
     ok = v => { if (!selesai) { selesai = true; clearTimeout(t); ok0(v); } };
     gagal = e => { if (!selesai) { selesai = true; clearTimeout(t); gagal0(e); } };
     if (adaGAS()) {
@@ -237,7 +286,7 @@ function call(aksi, data, batasDetik) {
         .api(ST.token, aksi, data || {});
       return;
     }
-    // Mode mandiri: POST teks biasa (tanpa preflight CORS) ke Web App.
+
     fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ token: ST.token, aksi: aksi, data: data || {} }), redirect: 'follow' })
       .then(r => { if (!r.ok) throw new Error('Server menjawab ' + r.status + '. Pastikan deployment Web App "Siapa yang memiliki akses: Siapa saja".'); return r.text(); })
       .then(raw => proses(raw, ok, gagal))
@@ -264,14 +313,14 @@ const badgeT = t => t ? `<span class="bd t${t}">Tingkat ${t}</span>` : '';
 const opsiKelas = (pilih, semua) => (semua ? '<option value="">Semua kelas</option>' : '<option value="">-- pilih kelas --</option>') +
   ST.awal.kelas.map(k => `<option ${k === pilih ? 'selected' : ''}>${esc(k)}</option>`).join('');
 
-// ---------- login ----------
 function layarLogin(mode, pesan) {
   mode = mode || 'staf';
   $('#root').innerHTML = `<div class="auth"><div class="box">
     <div class="lg">${LOGO}</div>
     <div class="tabs"><button id="tS" class="${mode !== 'siswa' ? 'on' : ''}">Staf / Guru</button><button id="tW" class="${mode === 'siswa' ? 'on' : ''}">Siswa</button></div>
     <div id="fm"></div>
-    <div style="text-align:center;margin-top:12px;font-size:10.5px;color:#aaa">Versi ${esc(VERSI)}</div></div></div>`;
+    <div style="text-align:center;margin-top:8px"><button class="lnk" id="lPwa">\uD83D\uDCF2 Pasang aplikasi di perangkat ini</button></div><div style="text-align:center;margin-top:4px;font-size:11px;color:#667085">Versi ${esc(VERSI)}</div></div></div>`;
+  $('#lPwa').onclick = panelPWA;
   window.__AIS.siap = true;
   $('#tS').onclick = () => layarLogin('staf'); $('#tW').onclick = () => layarLogin('siswa');
   const fm = $('#fm');
@@ -306,19 +355,18 @@ function layarLogin(mode, pesan) {
   }
 }
 function masuk(r) { ST.token = r.token; ST.user = r.user; simpanToken(r.token); mulaiApp(); }
-function keluarLokal() { ST.token = null; ST.user = null; ST.awal = null; simpanToken(''); layarLogin('staf', 'Silakan login.'); }
+function keluarLokal() { try { hentikanNotif(); } catch (e) {} ST.token = null; ST.user = null; ST.awal = null; simpanToken(''); layarLogin('staf', 'Silakan login.'); }
 
-// ---------- shell ----------
 const MENU = [
-  { id: 'beranda', ikon: '📊', nama: 'Beranda', staf: true },
-  { id: 'catat', ikon: '✍️', nama: 'Catat Poin', staf: true },
-  { id: 'absensi', ikon: '🗓️', nama: 'Kehadiran', staf: true },
-  { id: 'siswa', ikon: '🎓', nama: 'Siswa & Poin', staf: true },
-  { id: 'riwayat', ikon: '📋', nama: 'Riwayat', staf: true },
-  { id: 'izin', ikon: '🚪', nama: 'Perizinan', staf: true, siswa: true },
-  { id: 'care', ikon: '🛡️', nama: 'Al-Ittihad Care and Report', staf: true, siswa: true },
-  { id: 'riwayatCare', ikon: '🗂️', nama: 'Riwayat Care and Report', bk: true },
-  { id: 'data', ikon: '⚙️', nama: 'Data & Pengaturan', admin: true }
+  { id: 'beranda', ikon: '\uD83D\uDCCA', nama: 'Beranda', staf: true },
+  { id: 'catat', ikon: '\u270D\uFE0F', nama: 'Catat Poin', staf: true },
+  { id: 'absensi', ikon: '\uD83D\uDDD3\uFE0F', nama: 'Kehadiran', staf: true },
+  { id: 'siswa', ikon: '\uD83C\uDF93', nama: 'Siswa & Poin', staf: true },
+  { id: 'riwayat', ikon: '\uD83D\uDCCB', nama: 'Riwayat', staf: true },
+  { id: 'izin', ikon: '\uD83D\uDEAA', nama: 'Perizinan', staf: true, siswa: true },
+  { id: 'care', ikon: '\uD83D\uDEE1\uFE0F', nama: 'Al-Ittihad Care and Report', staf: true, siswa: true },
+  { id: 'riwayatCare', ikon: '\uD83D\uDDC2\uFE0F', nama: 'Riwayat Care and Report', bk: true },
+  { id: 'data', ikon: '\u2699\uFE0F', nama: 'Data & Pengaturan', admin: true }
 ];
 const menuUser = () => MENU.filter(m => ST.user.role === 'Siswa' ? m.siswa : ((!m.admin || isAdmin()) && (!m.bk || ST.user.role === 'BK')));
 
@@ -329,33 +377,35 @@ async function mulaiApp() {
   const u = ST.user;
   $('#root').innerHTML = `<div id="app"><div id="side"><div class="brand"><div class="ic">${LOGO_IKON}</div><b>${NAMA}</b><small>Disiplin & Prestasi Siswa</small></div>
     <div class="nav" id="nav"></div>
-    <div class="me"><div><b>${esc(u.nama)}</b><br><span class="mut" style="color:#c8e6c9">${u.role === 'Siswa' ? esc(u.nisn) + ' · ' + esc(u.kelas) : esc(u.email)}</span><br><span class="rl">${esc(u.role)}</span></div><button class="btn o s" id="out">Keluar</button></div></div>
-    <div id="main"><div id="top"><div><h2 id="jd"></h2><small id="sb"></small></div><span id="ver">v${esc(VERSI)}</span></div><div id="ct"></div></div></div>`;
+    <div class="me"><div><b>${esc(u.nama)}</b><br><span class="mut" style="color:#c8e6c9">${u.role === 'Siswa' ? esc(u.nisn) + ' \u00B7 ' + esc(u.kelas) : esc(u.email)}</span><br><span class="rl">${esc(u.role)}</span></div><button class="btn o s" id="out">Keluar</button></div></div>
+    <div id="main"><div id="top"><div><h2 id="jd"></h2><small id="sb"></small></div><div style="display:flex;align-items:center;gap:10px">${u.role === 'Siswa' ? '' : '<button id="bel" aria-label="Notifikasi" title="Notifikasi">\uD83D\uDD14</button>'}<button id="bapp" class="lnk" title="Pasang aplikasi & notifikasi">\uD83D\uDCF2</button><span id="ver">v${esc(VERSI)}</span></div></div><div id="ct"></div></div></div>`;
   window.__AIS.siap = true;
   $('#nav').innerHTML = menuUser().map(m => `<a data-m="${m.id}">${m.ikon}<span>${esc(m.nama)}</span></a>`).join('');
   $$('#nav a').forEach(a => a.onclick = () => buka(a.dataset.m));
   $('#out').onclick = async () => { try { await call('keluar'); } catch (e) {} keluarLokal(); };
-  buka(u.role === 'Siswa' ? 'care' : 'beranda');
-  izBadge();
+  const bel = $('#bel'); if (bel) bel.onclick = panelNotif; $('#bapp').onclick = panelPWA;
+  const tuju = (() => { try { return new URLSearchParams(location.search).get('buka'); } catch (e) { return null; } })();
+  buka(tuju && menuUser().some(m => m.id === tuju) ? tuju : (u.role === 'Siswa' ? 'care' : 'beranda'));
+  try { if (tuju) history.replaceState(null, '', location.pathname); } catch (e) {}
+  izBadge(); if (ST.notifT) clearInterval(ST.notifT); ST.notifT = setInterval(() => { if (!document.hidden && navigator.onLine !== false && ST.user) izBadge(); }, 60000);
 }
 function buka(id) {
   if (!menuUser().some(m => m.id === id)) id = menuUser()[0].id;
   ST.halaman = id; const rid = ++ST.rid;
   $$('#nav a').forEach(a => a.classList.toggle('on', a.dataset.m === id));
   const m = MENU.find(x => x.id === id);
-  $('#jd').textContent = m.nama; $('#sb').textContent = ST.awal ? `${ST.awal.tahunAjaran} · Semester ${ST.awal.semesterAktif}` : 'Jalur pelaporan aman — boleh anonim';
+  $('#jd').textContent = m.nama; $('#sb').textContent = ST.awal ? `${ST.awal.tahunAjaran} \u00B7 Semester ${ST.awal.semesterAktif}` : 'Jalur pelaporan aman \u2014 boleh anonim';
   const ct = $('#ct'); loading(ct);
   Promise.resolve().then(() => HAL[id](ct, () => rid === ST.rid)).catch(e => { if (rid === ST.rid) ct.innerHTML = `<div class="card"><div class="note">${esc(e.message)}</div></div>`; });
 }
 
-// ---------- BERANDA ----------
 async function halBeranda(ct, hidup) {
   const d = await call('dashboard', { cakupan: ST.cakupan || 'semester' }); if (!hidup()) return;
   const lbl = d.cakupan === 'semua' ? 'seluruh waktu' : 'semester ini';
   const mx = Math.max(1, ...[1,2,3,4,5].map(t => d.perTingkat[t] || 0));
   ct.innerHTML = `<div class="card ban"><div class="lg">${LOGO}</div></div>
    <div class="row" style="margin-bottom:12px"><div style="flex:3"><div class="seg"><button data-c="semester" class="${d.cakupan === 'semester' ? 'on' : ''}">Semester ${esc(d.semester)}</button><button data-c="semua" class="${d.cakupan === 'semua' ? 'on' : ''}">Seluruh waktu</button></div></div></div>
-   ${d.otomatis ? `<div class="note">Semester aktif <b>${esc(d.semester)}</b> belum punya catatan, jadi Beranda menampilkan <b>seluruh waktu</b>. Jika data Anda seharusnya ada di semester aktif, periksa Tahun Ajaran/Semester di <i>Data & Pengaturan → Pengaturan</i>.</div>` : ''}
+   ${d.otomatis ? `<div class="note">Semester aktif <b>${esc(d.semester)}</b> belum punya catatan, jadi Beranda menampilkan <b>seluruh waktu</b>. Jika data Anda seharusnya ada di semester aktif, periksa Tahun Ajaran/Semester di <i>Data & Pengaturan \u2192 Pengaturan</i>.</div>` : ''}
    ${d.cakupan === 'semester' && d.semesterLain.length ? `<div class="note">Ada catatan di semester lain: ${d.semesterLain.map(x => `${esc(x.semester)} (${x.jumlah})`).join(', ')}. Klik "Seluruh waktu" untuk melihat semuanya.</div>` : ''}
    <div class="grid g4" style="margin-bottom:16px">
     <div class="card stat" style="margin:0"><div class="n">${d.totalPelanggaran}</div><div class="l">Pelanggaran ${lbl} (${d.poinPelanggaran} poin)</div></div>
@@ -364,19 +414,18 @@ async function halBeranda(ct, hidup) {
     ${d.laporanBaru !== undefined ? `<div class="card stat d" style="margin:0"><div class="n">${d.laporanBaru}</div><div class="l">Laporan Care baru</div></div>` : `<div class="card stat" style="margin:0"><div class="n">${d.jumlahSiswa}</div><div class="l">Siswa aktif</div></div>`}
    </div>
    <div class="grid g2"><div class="card"><h3>Pelanggaran per Tingkat (${lbl})</h3>${[1,2,3,4,5].map(t => `<div style="display:flex;gap:10px;align-items:center;margin:8px 0"><span style="width:70px">${badgeT(t)}</span><div class="bar" style="flex:1"><i style="width:${(d.perTingkat[t] || 0) * 100 / mx}%"></i></div><b style="width:30px;text-align:right">${d.perTingkat[t] || 0}</b></div>`).join('')}</div>
-   <div class="card"><h3>Siswa Perlu Perhatian</h3>${d.perhatian.length ? `<div class="tw"><table><tr><th>Nama</th><th>Kelas</th><th>Poin</th><th>Tingkat semester ini</th></tr>${d.perhatian.map(p => `<tr class="cl" data-n="${esc(p.nisn)}"><td>${esc(p.nama)}</td><td>${esc(p.kelas)}</td><td>${p.poin}</td><td>${p.tingkat ? badgeT(p.tingkat) : '<span class="mut">-</span>'}</td></tr>`).join('')}</table></div>` : '<div class="empty">Belum ada pelanggaran ' + lbl + ' 🎉</div>'}</div></div>`;
+   <div class="card"><h3>Siswa Perlu Perhatian</h3>${d.perhatian.length ? `<div class="tw"><table><tr><th>Nama</th><th>Kelas</th><th>Poin</th><th>Tingkat semester ini</th></tr>${d.perhatian.map(p => `<tr class="cl" data-n="${esc(p.nisn)}"><td>${esc(p.nama)}</td><td>${esc(p.kelas)}</td><td>${p.poin}</td><td>${p.tingkat ? badgeT(p.tingkat) : '<span class="mut">-</span>'}</td></tr>`).join('')}</table></div>` : '<div class="empty">Belum ada pelanggaran ' + lbl + ' \uD83C\uDF89</div>'}</div></div>`;
   $$('tr.cl', ct).forEach(r => r.onclick = () => bukaKartu(r.dataset.n));
   $$('[data-c]', ct).forEach(b => b.onclick = () => { ST.cakupan = b.dataset.c; buka('beranda'); });
 }
 
-// ---------- pemilih siswa (dipakai Catat Poin) ----------
 function pemilihSiswa(el, terpilih) {
   el.innerHTML = `<div class="row"><div><label>Kelas</label><select id="pk">${opsiKelas('', true)}</select></div><div><label>Cari nama</label><input id="pc" placeholder="Ketik nama..."></div></div>
-    <div class="pick" id="pl" style="margin-top:8px"></div><div class="mut" style="margin-top:6px"><span id="pj">0</span> siswa dipilih · <a href="#" id="pr">kosongkan</a></div>`;
+    <div class="pick" id="pl" style="margin-top:8px"></div><div class="mut" style="margin-top:6px"><span id="pj">0</span> siswa dipilih \u00B7 <a href="#" id="pr">kosongkan</a></div>`;
   const gambar = () => {
     const k = $('#pk', el).value, q = $('#pc', el).value.toLowerCase();
     const daf = ST.awal.siswa.filter(s => (!k || s.kelas === k) && (!q || s.nama.toLowerCase().includes(q) || s.nisn.includes(q))).slice(0, 200);
-    $('#pl', el).innerHTML = daf.length ? daf.map(s => `<label><input type="checkbox" value="${esc(s.nisn)}" ${terpilih.has(s.nisn) ? 'checked' : ''}> ${esc(s.nama)} <span class="mut">· ${esc(s.kelas)}</span></label>`).join('') : '<div class="empty">Tidak ada siswa</div>';
+    $('#pl', el).innerHTML = daf.length ? daf.map(s => `<label><input type="checkbox" value="${esc(s.nisn)}" ${terpilih.has(s.nisn) ? 'checked' : ''}> ${esc(s.nama)} <span class="mut">\u00B7 ${esc(s.kelas)}</span></label>`).join('') : '<div class="empty">Tidak ada siswa</div>';
     $$('input', $('#pl', el)).forEach(c => c.onchange = () => { c.checked ? terpilih.add(c.value) : terpilih.delete(c.value); $('#pj', el).textContent = terpilih.size; });
     $('#pj', el).textContent = terpilih.size;
   };
@@ -385,7 +434,6 @@ function pemilihSiswa(el, terpilih) {
   gambar();
 }
 
-// ---------- CATAT POIN ----------
 function halCatat(ct) {
   let jenis = 'Pelanggaran'; const pilih = new Set();
   ct.innerHTML = `<div class="card"><div class="seg"><button id="jP" class="on">Pelanggaran</button><button id="jR">Prestasi</button></div>
@@ -404,7 +452,7 @@ function halCatat(ct) {
   const info = () => {
     const a = ST.awal.aturan.find(x => x.kode === $('#kd').value && x.jenis === jenis);
     $('#inf').className = 'note' + (jenis === 'Prestasi' ? ' good' : '');
-    $('#inf').innerHTML = a ? (jenis === 'Pelanggaran' ? `${badgeT(a.tingkat)} · <b>${a.poin}</b> poin · Tindak lanjut: ${esc(({1:'Dinasehati (Guru)',2:'Pembinaan (Wali Kelas)',3:'Pembinaan (Wali Kelas & BK)',4:'Surat Perjanjian 1',5:'Surat Perjanjian Bermaterai'})[a.tingkat])}` : `<b>+${a.poin}</b> poin prestasi`) : 'Pilih jenis ' + jenis.toLowerCase() + ' terlebih dahulu.';
+    $('#inf').innerHTML = a ? (jenis === 'Pelanggaran' ? `${badgeT(a.tingkat)} \u00B7 <b>${a.poin}</b> poin \u00B7 Tindak lanjut: ${esc(({1:'Dinasehati (Guru)',2:'Pembinaan (Wali Kelas)',3:'Pembinaan (Wali Kelas & BK)',4:'Surat Perjanjian 1',5:'Surat Perjanjian Bermaterai'})[a.tingkat])}` : `<b>+${a.poin}</b> poin prestasi`) : 'Pilih jenis ' + jenis.toLowerCase() + ' terlebih dahulu.';
   };
   $('#jP').onclick = () => { jenis = 'Pelanggaran'; $('#jP').classList.add('on'); $('#jR').classList.remove('on'); isi(); };
   $('#jR').onclick = () => { jenis = 'Prestasi'; $('#jR').classList.add('on'); $('#jP').classList.remove('on'); isi(); };
@@ -417,7 +465,6 @@ function halCatat(ct) {
   }, 'Menyimpan...');
 }
 
-// ---------- KEHADIRAN ----------
 function halAbsensi(ct) {
   ct.innerHTML = `<div class="seg" style="margin-bottom:14px"><button id="aI" class="on">Input</button><button id="aR">Rekap</button></div><div id="ab"></div>`;
   const tab = (t) => { $('#aI').classList.toggle('on', t === 'i'); $('#aR').classList.toggle('on', t === 'r'); (t === 'i' ? absInput : absRekap)($('#ab')); };
@@ -433,7 +480,7 @@ function absInput(el) {
     const r = await call('hadirGet', { jenis, kelas, tanggal });
     const sts = ST.awal.statusHadir.filter(s => s !== 'Haid' || jenis !== 'Kelas');
     const nilai = {}; r.siswa.forEach(s => { if (s.status) nilai[s.nisn] = s.status; });
-    $('#ad').innerHTML = `<div class="card"><div class="row" style="margin-bottom:8px"><b style="flex:3">${esc(kelas)} · ${esc(jenis)} · ${esc(tanggal)}</b>${r.sudahAda ? '<span class="bd wr">Sudah pernah diisi — perubahan akan menimpa</span>' : ''}<button class="btn o s" id="sh" style="flex:0;white-space:nowrap">Semua Hadir</button></div>
+    $('#ad').innerHTML = `<div class="card"><div class="row" style="margin-bottom:8px"><b style="flex:3">${esc(kelas)} \u00B7 ${esc(jenis)} \u00B7 ${esc(tanggal)}</b>${r.sudahAda ? '<span class="bd wr">Sudah pernah diisi \u2014 perubahan akan menimpa</span>' : ''}<button class="btn o s" id="sh" style="flex:0;white-space:nowrap">Semua Hadir</button></div>
       <div class="tw"><table>${r.siswa.map((s, i) => `<tr><td>${i + 1}</td><td>${esc(s.nama)}</td><td><div class="sts" data-n="${esc(s.nisn)}">${sts.map(x => `<button class="${x} ${nilai[s.nisn] === x ? 'on' : ''}" data-s="${x}">${x}</button>`).join('')}</div></td></tr>`).join('')}</table></div>
       <div style="margin-top:12px"><button class="btn" id="asv">Simpan Kehadiran</button> <span class="mut" id="acn"></span></div></div>`;
     const hit = () => { $('#acn').textContent = Object.keys(nilai).length + ' dari ' + r.siswa.length + ' siswa terisi'; }; hit();
@@ -462,14 +509,13 @@ function absRekap(el) {
   }, 'Memuat...');
 }
 
-// ---------- SISWA & POIN ----------
 async function halSiswa(ct, hidup) {
   ct.innerHTML = `<div class="card"><div class="row"><div><label>Kelas</label><select id="sk">${opsiKelas('', true)}</select></div><div style="flex:2"><label>Cari nama / NISN</label><input id="sc" placeholder="Ketik untuk mencari..."></div></div></div><div id="sl"></div>`;
   let timer; const muat = async () => {
     const rid = ST.rid; loading($('#sl'));
     try {
       const r = await call('siswaPoin', { kelas: $('#sk').value, cari: $('#sc').value }); if (rid !== ST.rid) return;
-      $('#sl').innerHTML = `<div class="card"><div class="mut" style="margin-bottom:8px">${r.data.length} siswa · tingkat dihitung untuk semester ${esc(r.semester)} · klik baris untuk kartu poin</div>
+      $('#sl').innerHTML = `<div class="card"><div class="mut" style="margin-bottom:8px">${r.data.length} siswa \u00B7 tingkat dihitung untuk semester ${esc(r.semester)} \u00B7 klik baris untuk kartu poin</div>
         <div class="tw"><table><tr><th>Nama</th><th>Kelas</th><th>Poin Pelanggaran</th><th>Poin Prestasi</th><th>Tingkat Semester Ini</th></tr>${r.data.map(s => `<tr class="cl" data-n="${esc(s.nisn)}"><td>${esc(s.nama)}</td><td>${esc(s.kelas)}</td><td><b style="color:${s.poinPelanggaran ? '#c62828' : 'inherit'}">${s.poinPelanggaran}</b></td><td><b style="color:#2e7d32">${s.poinPrestasi}</b></td><td>${s.tingkat ? badgeT(s.tingkat) : '<span class="mut">-</span>'}</td></tr>`).join('') || '<tr><td colspan="5" class="empty">Tidak ada siswa</td></tr>'}</table></div></div>`;
       $$('tr.cl', $('#sl')).forEach(x => x.onclick = () => bukaKartu(x.dataset.n));
     } catch (e) { if (rid === ST.rid) $('#sl').innerHTML = `<div class="note">${esc(e.message)}</div>`; }
@@ -482,19 +528,18 @@ async function bukaKartu(nisn) {
   try {
     const k = await call('kartu', { nisn });
     const e = k.eskalasi, t = k.total;
-    $('.modal', m).innerHTML = `<button class="x" aria-label="Tutup">&times;</button><h3 style="margin:0">${esc(k.siswa.nama)}</h3><div class="mut">NISN ${esc(k.siswa.nisn)} · Kelas ${esc(k.siswa.kelas)}</div>
+    $('.modal', m).innerHTML = `<button class="x" aria-label="Tutup">&times;</button><h3 style="margin:0">${esc(k.siswa.nama)}</h3><div class="mut">NISN ${esc(k.siswa.nisn)} \u00B7 Kelas ${esc(k.siswa.kelas)}</div>
      <div class="grid g2" style="margin:14px 0"><div class="card stat d" style="margin:0"><div class="n">${t.pelanggaran}</div><div class="l">Total poin pelanggaran (semester ini: ${t.pelanggaranSemester})</div></div>
      <div class="card stat" style="margin:0"><div class="n">${t.prestasi}</div><div class="l">Total poin prestasi (semester ini: ${t.prestasiSemester})</div></div></div>
-     <div class="note ${e.tingkat ? '' : 'good'}"><b>Status SHB semester ${esc(k.semester)}:</b> ${e.tingkat ? `${badgeT(e.tingkat)} — ${esc(e.konsekuensi.proses)} <span class="mut">(PIC: ${esc(e.konsekuensi.pic)})</span>` : 'Tidak ada pelanggaran aktif.'}
-      ${e.catatan.map(c => `<div>• ${esc(c)}</div>`).join('')}
-      <div class="mut" style="margin-top:4px">Jumlah: ${[1,2,3,4,5].map(x => `T${x}: ${e.jumlah[x] || 0}`).join(' · ')}</div></div>
-     ${Object.keys(k.hadir).length ? `<div class="mut" style="margin-bottom:10px"><b>Kehadiran:</b> ${Object.keys(k.hadir).map(j => `${esc(j)} (${Object.keys(k.hadir[j]).map(s => s + ' ' + k.hadir[j][s]).join(', ')})`).join(' · ')}</div>` : ''}
+     <div class="note ${e.tingkat ? '' : 'good'}"><b>Status SHB semester ${esc(k.semester)}:</b> ${e.tingkat ? `${badgeT(e.tingkat)} \u2014 ${esc(e.konsekuensi.proses)} <span class="mut">(PIC: ${esc(e.konsekuensi.pic)})</span>` : 'Tidak ada pelanggaran aktif.'}
+      ${e.catatan.map(c => `<div>\u2022 ${esc(c)}</div>`).join('')}
+      <div class="mut" style="margin-top:4px">Jumlah: ${[1,2,3,4,5].map(x => `T${x}: ${e.jumlah[x] || 0}`).join(' \u00B7 ')}</div></div>
+     ${Object.keys(k.hadir).length ? `<div class="mut" style="margin-bottom:10px"><b>Kehadiran:</b> ${Object.keys(k.hadir).map(j => `${esc(j)} (${Object.keys(k.hadir[j]).map(s => s + ' ' + k.hadir[j][s]).join(', ')})`).join(' \u00B7 ')}</div>` : ''}
      <h3>Riwayat</h3><div class="tw"><table><tr><th>Tanggal</th><th>Jenis</th><th>Keterangan</th><th>Poin</th></tr>${k.riwayat.map(r => `<tr style="${r.status === 'Batal' ? 'opacity:.45;text-decoration:line-through' : ''}"><td>${esc(r.tanggal)}</td><td>${r.jenis === 'Pelanggaran' ? badgeT(r.tingkat) : '<span class="bd ok">Prestasi</span>'}</td><td>${esc(r.deskripsi)}${r.keterangan ? `<div class="mut">${esc(r.keterangan)}</div>` : ''}</td><td><b>${r.jenis === 'Pelanggaran' ? '-' : '+'}${r.poin}</b></td></tr>`).join('') || '<tr><td colspan="4" class="empty">Belum ada catatan</td></tr>'}</table></div>`;
     $('.x', m).onclick = m.tutup;
   } catch (e) { m.tutup(); toast(e.message, 'e'); }
 }
 
-// ---------- RIWAYAT ----------
 function halRiwayat(ct) {
   ct.innerHTML = `<div class="card"><div class="row"><div><label>Jenis</label><select id="fj"><option value="">Semua</option><option>Pelanggaran</option><option>Prestasi</option></select></div>
     <div><label>Kelas</label><select id="fk">${opsiKelas('', true)}</select></div><div><label>Cari nama/NISN</label><input id="fc"></div>
@@ -525,19 +570,17 @@ function formBatal(id, ulang) {
   $('#bv', m).onclick = () => tombol($('#bv', m), async () => { await call('batalkan', { id, alasan: $('#ba', m).value }); m.tutup(); toast('Catatan dibatalkan.'); ulang(); });
 }
 
-
-// ---------- lampiran bukti ----------
 const fmtUkuran = n => n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
 async function siapkanBerkas(f) {
   const ext = (f.name.split('.').pop() || '').toLowerCase();
-  if (/^image\//.test(f.type) || ['jpg', 'jpeg', 'png', 'webp', 'gif'].indexOf(ext) >= 0) {
+  if (/^image\x2f/.test(f.type) || ['jpg', 'jpeg', 'png', 'webp', 'gif'].indexOf(ext) >= 0) {
     let bmp;
     try { bmp = await createImageBitmap(f, { imageOrientation: 'from-image' }); }
     catch (e) { try { bmp = await createImageBitmap(f); } catch (e2) { throw new Error('Format foto "' + f.name + '" tidak didukung. Gunakan JPG atau PNG.'); } }
     const sk = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
     const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(bmp.width * sk)); c.height = Math.max(1, Math.round(bmp.height * sk));
     const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(bmp, 0, 0, c.width, c.height);
-    const url = c.toDataURL('image/jpeg', 0.82);   // render ulang = metadata EXIF (lokasi, tipe HP) hilang
+    const url = c.toDataURL('image/jpeg', 0.82);
     const data = url.split(',')[1];
     return { ext: 'jpg', data: data, ukuran: Math.floor(data.length * 0.75), thumb: url, label: f.name };
   }
@@ -546,54 +589,53 @@ async function siapkanBerkas(f) {
   const data = await new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.onerror = () => no(new Error('Gagal membaca file.')); r.readAsDataURL(f); });
   return { ext: ext, data: data, ukuran: f.size, thumb: '', label: f.name };
 }
-/** Sel tabel "Bukti": tombol Lihat Berkas bila ada lampiran. */
-const selBukti = x => x.lampiran && x.lampiran.length ? `<button class="btn o s" data-b="${esc(x.id)}">📎 Lihat Berkas (${x.lampiran.length})</button>` : '<span class="mut">-</span>';
-/** Pasang aksi tombol "Lihat Berkas" pada tabel: membuka jendela daftar bukti laporan. */
+
+const selBukti = x => x.lampiran && x.lampiran.length ? `<button class="btn o s" data-b="${esc(x.id)}">\uD83D\uDCCE Lihat Berkas (${x.lampiran.length})</button>` : '<span class="mut">-</span>';
+
 function pasangBukti(wadah, daftar) {
   $$('[data-b]', wadah).forEach(b => b.onclick = () => {
     const x = daftar.find(y => y.id === b.dataset.b); if (!x) return;
-    const m = modal(`<h3>📎 Bukti ${esc(x.kode)}</h3><div class="mut">${esc(x.kategori)} · ${esc(x.waktu)}</div><div id="lmp" style="margin-top:8px"></div>`);
+    const m = modal(`<h3>\uD83D\uDCCE Bukti ${esc(x.kode)}</h3><div class="mut">${esc(x.kategori)} \u00B7 ${esc(x.waktu)}</div><div id="lmp" style="margin-top:8px"></div>`);
     tampilLampiran(m, x);
   });
 }
-/** Daftar lampiran pada laporan (untuk pengelola): Lihat Berkas (tampil/unduh di dalam AIS) dan Buka di Drive (tab baru). */
+
 function tampilLampiran(m, x) {
   const el = $('#lmp', m); if (!el) return;
   if (!x.lampiran || !x.lampiran.length) { el.innerHTML = '<div class="mut">Tidak ada lampiran bukti.</div>'; return; }
-  el.innerHTML = `<label>Lampiran bukti (${x.lampiran.length})</label>` + x.lampiran.map((f, i) => `<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px"><button class="btn o s" data-l="${i}">📎 Lihat Berkas · ${esc(f.nama)} · ${fmtUkuran(f.ukuran)}</button>${f.url ? `<a class="btn s" href="${esc(f.url)}" target="_blank" rel="noopener noreferrer" title="Hanya terbuka untuk pemilik folder Drive">↗ Buka di Drive</a>` : ''}</div>`).join('') + '<div id="lmv"></div>';
+  el.innerHTML = `<label>Lampiran bukti (${x.lampiran.length})</label>` + x.lampiran.map((f, i) => `<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px"><button class="btn o s" data-l="${i}">\uD83D\uDCCE Lihat Berkas \u00B7 ${esc(f.nama)} \u00B7 ${fmtUkuran(f.ukuran)}</button>${f.url ? `<a class="btn s" href="${esc(f.url)}" target="_blank" rel="noopener noreferrer" title="Hanya terbuka untuk pemilik folder Drive">\u2197 Buka di Drive</a>` : ''}</div>`).join('') + '<div id="lmv"></div>';
   $$('[data-l]', el).forEach(b => b.onclick = () => tombol(b, async () => {
     $('#lmv', el).innerHTML = '<div class="load"><div class="sp"></div> Mengambil berkas dari Google Drive...</div>';
     try {
       const r = await call('laporLampiran', { id: x.id, idx: +b.dataset.l }, 90);
       const src = `data:${r.tipe};base64,${r.data}`;
-      $('#lmv', el).innerHTML = /^image\//.test(r.tipe) ? `<img src="${src}" alt="Bukti" style="max-width:100%;border-radius:8px;margin-top:8px;border:1px solid var(--line)"><div style="margin-top:8px"><a class="btn s" href="${src}" download="${esc(r.nama)}">⬇ Unduh foto</a></div>` : `<a class="btn s" href="${src}" download="${esc(r.nama)}" style="margin-top:8px">⬇ Unduh ${esc(r.nama)}</a>`;
+      $('#lmv', el).innerHTML = /^image\x2f/.test(r.tipe) ? `<img src="${src}" alt="Bukti" style="max-width:100%;border-radius:8px;margin-top:8px;border:1px solid var(--line)"><div style="margin-top:8px"><a class="btn s" href="${src}" download="${esc(r.nama)}">\u2B07 Unduh foto</a></div>` : `<a class="btn s" href="${src}" download="${esc(r.nama)}" style="margin-top:8px">\u2B07 Unduh ${esc(r.nama)}</a>`;
     } catch (e) { $('#lmv', el).innerHTML = ''; throw e; }
   }, 'Memuat...'));
 }
 
-// ---------- CARE AND REPORT ----------
 const KAT = ['Perundungan (Bullying)', 'Kekerasan Fisik/Verbal', 'Pelecehan', 'Kecurangan Akademik', 'Narkoba/Rokok/Vape', 'Dugaan Pelanggaran oleh Guru/Staf', 'Kondisi Tidak Aman', 'Lainnya'];
 const STL = ['Baru', 'Diproses', 'Selesai', 'Ditutup'];
 const bdStatus = s => `<span class="bd ${s === 'Selesai' ? 'ok' : s === 'Baru' ? 'wr' : s === 'Ditutup' ? '' : 'in'}">${esc(s)}</span>`;
 function halCare(ct) {
-  ct.innerHTML = `<div class="note good">🛡️ <b>Al-Ittihad Care and Report</b> adalah jalur lapor AMAN untuk siswa dan guru/staf. Pilih <b>anonim</b> bila ingin: identitas Anda <b>tidak disimpan sama sekali</b>. Laporan hanya dapat dibaca BK, Wakasis, Kepala Sekolah, dan Admin.</div>
-   <div class="grid g2"><div class="card"><h3>📨 Kirim Laporan</h3><label>Kategori</label><select id="ck"><option value="">-- pilih --</option>${KAT.map(k => `<option>${esc(k)}</option>`).join('')}</select>
+  ct.innerHTML = `<div class="note good">\uD83D\uDEE1\uFE0F <b>Al-Ittihad Care and Report</b> adalah jalur lapor AMAN untuk siswa dan guru/staf. Pilih <b>anonim</b> bila ingin: identitas Anda <b>tidak disimpan sama sekali</b>. Laporan hanya dapat dibaca BK, Wakasis, Kepala Sekolah, dan Admin.</div>
+   <div class="grid g2"><div class="card"><h3>\uD83D\uDCE8 Kirim Laporan</h3><label>Kategori</label><select id="ck"><option value="">-- pilih --</option>${KAT.map(k => `<option>${esc(k)}</option>`).join('')}</select>
     <label>Ceritakan kejadiannya (min. 20 karakter)</label><textarea id="cd" style="min-height:120px" placeholder="Apa yang terjadi, siapa yang terlibat (nama/ciri-ciri), kapan, di mana..."></textarea>
     <label>Lokasi & waktu (opsional)</label><input id="cl" placeholder="Contoh: Kantin, Senin pagi">
     <label style="display:flex;gap:8px;align-items:center;font-weight:600"><input type="checkbox" id="ca"> Laporkan secara ANONIM (identitas tidak disimpan)</label>
     <div id="kw"><label>Kontak (opsional, agar tim bisa menghubungi Anda)</label><input id="cn" placeholder="No. WA / email"></div>
     <label>Bukti foto / file (opsional, maks. 3)</label>
-    <input type="file" id="cf" multiple accept="image/*,.pdf,.docx,.xlsx,.txt">
+    <input type="file" id="cf" multiple accept="image\x2f*,.pdf,.docx,.xlsx,.txt">
     <div id="cfl" style="margin-top:8px"></div><div id="cup"></div>
-    <div class="mut" style="font-size:12px;margin-top:4px">Bukti disimpan aman di Google Drive sekolah (folder privat). Foto otomatis diperkecil dan data lokasi/kamera (EXIF)-nya dihapus. File PDF/Word/Excel dikirim apa adanya dan dapat memuat nama penulis — bila ingin anonim, lebih aman pakai foto atau tangkapan layar. Maks. 4 MB per file.</div>
+    <div class="mut" style="font-size:12px;margin-top:4px">Bukti disimpan aman di Google Drive sekolah (folder privat). Foto otomatis diperkecil dan data lokasi/kamera (EXIF)-nya dihapus. File PDF/Word/Excel dikirim apa adanya dan dapat memuat nama penulis \u2014 bila ingin anonim, lebih aman pakai foto atau tangkapan layar. Maks. 4 MB per file.</div>
     <div style="margin-top:14px"><button class="btn" id="cs">Kirim Laporan</button></div></div>
-   <div class="card"><h3>🔍 Lacak Status Laporan</h3><div class="note">Setiap laporan mendapat <b>Kode Pelacakan</b> yang tampil SEKALI setelah dikirim. Simpan kodenya untuk memeriksa perkembangan — tanpa membuka identitas.</div>
+   <div class="card"><h3>\uD83D\uDD0D Lacak Status Laporan</h3><div class="note">Setiap laporan mendapat <b>Kode Pelacakan</b> yang tampil SEKALI setelah dikirim. Simpan kodenya untuk memeriksa perkembangan \u2014 tanpa membuka identitas.</div>
     <label>Kode Pelacakan</label><input id="lk" placeholder="CR-XXXXXX" style="text-transform:uppercase"><div style="margin-top:12px"><button class="btn o" id="lc">Cek Status</button></div><div id="lh" style="margin-top:12px"></div></div></div>
    <div id="kl"></div>`;
   $('#ca').onchange = () => { $('#kw').style.display = $('#ca').checked ? 'none' : ''; };
   const lamp = [];
   const gambarLamp = () => {
-    $('#cfl').innerHTML = lamp.map((f, i) => `<div style="display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-bottom:6px">${f.thumb ? `<img src="${f.thumb}" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:6px">` : '<span style="font-size:26px">📄</span>'}<div style="flex:1;min-width:0"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(f.label)}</div><div class="mut" style="font-size:12px">${fmtUkuran(f.ukuran)}</div></div><button class="btn r s" data-h="${i}">Hapus</button></div>`).join('');
+    $('#cfl').innerHTML = lamp.map((f, i) => `<div style="display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-bottom:6px">${f.thumb ? `<img src="${f.thumb}" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:6px">` : '<span style="font-size:26px">\uD83D\uDCC4</span>'}<div style="flex:1;min-width:0"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(f.label)}</div><div class="mut" style="font-size:12px">${fmtUkuran(f.ukuran)}</div></div><button class="btn r s" data-h="${i}">Hapus</button></div>`).join('');
     $$('[data-h]', $('#cfl')).forEach(b => b.onclick = () => { lamp.splice(+b.dataset.h, 1); gambarLamp(); });
   };
   $('#cf').onchange = async () => {
@@ -614,36 +656,36 @@ function halCare(ct) {
     try {
     const r = await call('laporKirim', { kategori: $('#ck').value, deskripsi: $('#cd').value, lokasi: $('#cl').value, anonim: $('#ca').checked, kontak: $('#cn') ? $('#cn').value : '',
       lampiran: lamp.map(f => ({ nama: 'x.' + f.ext, data: f.data })) }, adaBukti ? 150 : 30);
-    modal(`<h3>✅ Laporan Terkirim</h3><p>Simpan kode pelacakan ini. Kode ini <b>tidak akan ditampilkan lagi</b>:</p><div style="font-size:28px;font-weight:800;letter-spacing:3px;text-align:center;background:#e8f5e9;border-radius:10px;padding:14px;user-select:all">${esc(r.kode)}</div><p class="mut">Foto/catat kode ini. Gunakan di kotak "Lacak Status Laporan".${r.lampiran ? ' ' + r.lampiran + ' file bukti ikut terkirim.' : ''}</p>`, true);
+    modal(`<h3>\u2705 Laporan Terkirim</h3><p>Simpan kode pelacakan ini. Kode ini <b>tidak akan ditampilkan lagi</b>:</p><div style="font-size:28px;font-weight:800;letter-spacing:3px;text-align:center;background:#e8f5e9;border-radius:10px;padding:14px;user-select:all">${esc(r.kode)}</div><p class="mut">Foto/catat kode ini. Gunakan di kotak "Lacak Status Laporan".${r.lampiran ? ' ' + r.lampiran + ' file bukti ikut terkirim.' : ''}</p>`, true);
     $('#cd').value = ''; $('#cl').value = ''; if ($('#cn')) $('#cn').value = ''; $('#ck').value = ''; lamp.length = 0; gambarLamp();
     } finally { if (ind) ind.innerHTML = ''; }
   }, 'Mengirim...');
   $('#lc').onclick = () => tombol($('#lc'), async () => {
     try {
       const r = await call('laporLacak', { kode: $('#lk').value });
-      $('#lh').innerHTML = `<div class="card" style="margin:0"><b>${esc(r.kode)}</b> ${bdStatus(r.status)}<div class="mut">${esc(r.kategori)} · dikirim ${esc(r.waktu)}</div>${r.catatan ? `<div class="note" style="margin-top:8px"><b>Catatan tim:</b> ${esc(r.catatan)}</div>` : '<div class="mut" style="margin-top:6px">Belum ada catatan dari tim.</div>'}</div>`;
+      $('#lh').innerHTML = `<div class="card" style="margin:0"><b>${esc(r.kode)}</b> ${bdStatus(r.status)}<div class="mut">${esc(r.kategori)} \u00B7 dikirim ${esc(r.waktu)}</div>${r.catatan ? `<div class="note" style="margin-top:8px"><b>Catatan tim:</b> ${esc(r.catatan)}</div>` : '<div class="mut" style="margin-top:6px">Belum ada catatan dari tim.</div>'}</div>`;
     } catch (e) { $('#lh').innerHTML = `<div class="note">${esc(e.message)}</div>`; }
   }, 'Memeriksa...');
   if (isPeng()) kelolaLaporan($('#kl'));
-  else if (ST.user.role !== 'Siswa') $('#kl').innerHTML = `<div class="note">Anda masuk sebagai <b>${esc(ST.user.role)}</b>. Untuk membaca dan menangani laporan, role akun harus <b>BK</b> (atau Wakasis/Kepsek/Admin). Minta Admin mengubahnya di <i>Data & Pengaturan → Pengguna</i>, lalu login ulang.</div>`;
+  else if (ST.user.role !== 'Siswa') $('#kl').innerHTML = `<div class="note">Anda masuk sebagai <b>${esc(ST.user.role)}</b>. Untuk membaca dan menangani laporan, role akun harus <b>BK</b> (atau Wakasis/Kepsek/Admin). Minta Admin mengubahnya di <i>Data & Pengaturan \u2192 Pengguna</i>, lalu login ulang.</div>`;
 }
 async function kelolaLaporan(el) {
-  el.innerHTML = '<div class="card"><h3>📁 Laporan Aktif (Baru & Diproses)</h3><div id="kb"></div></div>';
+  el.innerHTML = '<div class="card"><h3>\uD83D\uDCC1 Laporan Aktif (Baru & Diproses)</h3><div id="kb"></div></div>';
   const muat = async () => {
     loading($('#kb'));
     try {
       const d = await call('laporDaftar', {});
-      $('#kb').innerHTML = `<div class="mut" style="margin-bottom:8px">${d.length} laporan · ${d.filter(x => x.status === 'Baru').length} baru</div><div class="tw"><table><tr><th>Waktu</th><th>Kode</th><th>Kategori</th><th>Pelapor</th><th>Bukti</th><th>Status</th><th></th></tr>
-        ${d.map(x => `<tr><td>${esc(x.waktu)}</td><td><b>${esc(x.kode)}</b>${x.lampiran && x.lampiran.length ? ' 📎' : ''}</td><td>${esc(x.kategori)}</td><td>${x.anonim ? '<span class="bd">Anonim</span>' : esc(x.pelaporNama) + `<div class="mut">${esc(x.pelaporRole)} ${esc(x.pelaporKelas)}</div>`}</td><td>${selBukti(x)}</td><td>${bdStatus(x.status)}</td><td><button class="btn o s" data-i="${esc(x.id)}">Buka</button></td></tr>`).join('') || '<tr><td colspan="7" class="empty">Tidak ada laporan aktif</td></tr>'}</table></div>`;
+      $('#kb').innerHTML = `<div class="mut" style="margin-bottom:8px">${d.length} laporan \u00B7 ${d.filter(x => x.status === 'Baru').length} baru</div><div class="tw"><table><tr><th>Waktu</th><th>Kode</th><th>Kategori</th><th>Pelapor</th><th>Bukti</th><th>Status</th><th></th></tr>
+        ${d.map(x => `<tr><td>${esc(x.waktu)}</td><td><b>${esc(x.kode)}</b>${x.lampiran && x.lampiran.length ? ' \uD83D\uDCCE' : ''}</td><td>${esc(x.kategori)}</td><td>${x.anonim ? '<span class="bd">Anonim</span>' : esc(x.pelaporNama) + `<div class="mut">${esc(x.pelaporRole)} ${esc(x.pelaporKelas)}</div>`}</td><td>${selBukti(x)}</td><td>${bdStatus(x.status)}</td><td><button class="btn o s" data-i="${esc(x.id)}">Buka</button></td></tr>`).join('') || '<tr><td colspan="7" class="empty">Tidak ada laporan aktif</td></tr>'}</table></div>`;
       pasangBukti($('#kb'), d);
       $$('[data-i]', $('#kb')).forEach(b => b.onclick = () => {
         const x = d.find(y => y.id === b.dataset.i);
-        const m = modal(`<h3>${esc(x.kode)} ${bdStatus(x.status)}</h3><div class="mut">${esc(x.kategori)} · ${esc(x.waktu)}${x.lokasi ? ' · ' + esc(x.lokasi) : ''}</div>
+        const m = modal(`<h3>${esc(x.kode)} ${bdStatus(x.status)}</h3><div class="mut">${esc(x.kategori)} \u00B7 ${esc(x.waktu)}${x.lokasi ? ' \u00B7 ' + esc(x.lokasi) : ''}</div>
           <div class="note" style="white-space:pre-wrap;margin-top:10px">${esc(x.deskripsi)}</div>
-          <div class="mut">Pelapor: ${x.anonim ? '<b>Anonim</b> (identitas tidak disimpan)' : esc(x.pelaporNama) + ' · ' + esc(x.pelaporRole) + ' ' + esc(x.pelaporKelas) + (x.kontak ? ' · ' + esc(x.kontak) : '')}</div>
+          <div class="mut">Pelapor: ${x.anonim ? '<b>Anonim</b> (identitas tidak disimpan)' : esc(x.pelaporNama) + ' \u00B7 ' + esc(x.pelaporRole) + ' ' + esc(x.pelaporKelas) + (x.kontak ? ' \u00B7 ' + esc(x.kontak) : '')}</div>
           <label>Status</label><select id="us">${STL.map(s => `<option ${s === x.status ? 'selected' : ''}>${s}</option>`).join('')}</select>
           <label>Catatan untuk pelapor (terlihat saat dilacak, jangan memuat data sensitif)</label><textarea id="uc">${esc(x.catatan)}</textarea>
-          ${x.ditanganiOleh ? `<div class="mut">Terakhir ditangani: ${esc(x.ditanganiOleh)} · ${esc(x.tanggalDitangani)}</div>` : ''}
+          ${x.ditanganiOleh ? `<div class="mut">Terakhir ditangani: ${esc(x.ditanganiOleh)} \u00B7 ${esc(x.tanggalDitangani)}</div>` : ''}
           <div id="lmp" style="margin-top:8px"></div>
           <div style="margin-top:12px"><button class="btn" id="uv">Simpan</button></div>`);
         tampilLampiran(m, x);
@@ -654,10 +696,8 @@ async function kelolaLaporan(el) {
   muat();
 }
 
-
-// ---------- RIWAYAT CARE AND REPORT (khusus BK) ----------
 function halRiwayatCare(ct, hidup) {
-  ct.innerHTML = `<div class="note">🔒 Halaman ini <b>hanya dapat dibuka oleh Guru BK</b>. Berisi seluruh arsip laporan, termasuk yang sudah Selesai/Ditutup. Untuk mengubah status laporan aktif, gunakan menu Al-Ittihad Care and Report.</div>
+  ct.innerHTML = `<div class="note">\uD83D\uDD12 Halaman ini <b>hanya dapat dibuka oleh Guru BK</b>. Berisi seluruh arsip laporan, termasuk yang sudah Selesai/Ditutup. Untuk mengubah status laporan aktif, gunakan menu Al-Ittihad Care and Report.</div>
    <div id="rcs"></div>
    <div class="card"><div class="row"><div><label>Status</label><select id="rs1"><option value="">Semua</option>${STL.map(s => `<option>${s}</option>`).join('')}</select></div>
    <div><label>Kategori</label><select id="rk1"><option value="">Semua</option>${KAT.map(k => `<option>${esc(k)}</option>`).join('')}</select></div>
@@ -670,16 +710,16 @@ function halRiwayatCare(ct, hidup) {
       if (rid !== ST.rid) return;
       $('#rcs').innerHTML = `<div class="grid g4" style="margin-bottom:16px">${[['Total laporan', r.semua, ''], ['Baru', r.hitung.Baru || 0, 'w'], ['Diproses', r.hitung.Diproses || 0, ''], ['Selesai / Ditutup', (r.hitung.Selesai || 0) + (r.hitung.Ditutup || 0), '']].map(x => `<div class="card stat ${x[2]}" style="margin:0"><div class="n">${x[1]}</div><div class="l">${x[0]}</div></div>`).join('')}</div>`;
       $('#rcl').innerHTML = `<div class="card"><div class="mut" style="margin-bottom:8px">${r.total} laporan ditampilkan${r.total > 500 ? ' (500 terbaru)' : ''}</div><div class="tw"><table><tr><th>Waktu</th><th>Kode</th><th>Kategori</th><th>Ringkasan</th><th>Pelapor</th><th>Bukti</th><th>Status</th><th></th></tr>
-        ${r.data.map(x => `<tr><td style="white-space:nowrap">${esc(x.waktu)}</td><td><b>${esc(x.kode)}</b>${x.lampiran && x.lampiran.length ? ' 📎' : ''}</td><td>${esc(x.kategori)}</td><td style="max-width:280px">${esc(x.deskripsi.length > 90 ? x.deskripsi.slice(0, 90) + '…' : x.deskripsi)}</td><td>${x.anonim ? '<span class="bd">Anonim</span>' : esc(x.pelaporNama) + `<div class="mut">${esc(x.pelaporRole)} ${esc(x.pelaporKelas)}</div>`}</td><td>${selBukti(x)}</td><td>${bdStatus(x.status)}</td><td><button class="btn o s" data-i="${esc(x.id)}">Lihat</button></td></tr>`).join('') || '<tr><td colspan="7" class="empty">Tidak ada laporan</td></tr>'}</table></div></div>`;
+        ${r.data.map(x => `<tr><td style="white-space:nowrap">${esc(x.waktu)}</td><td><b>${esc(x.kode)}</b>${x.lampiran && x.lampiran.length ? ' \uD83D\uDCCE' : ''}</td><td>${esc(x.kategori)}</td><td style="max-width:280px">${esc(x.deskripsi.length > 90 ? x.deskripsi.slice(0, 90) + '\u2026' : x.deskripsi)}</td><td>${x.anonim ? '<span class="bd">Anonim</span>' : esc(x.pelaporNama) + `<div class="mut">${esc(x.pelaporRole)} ${esc(x.pelaporKelas)}</div>`}</td><td>${selBukti(x)}</td><td>${bdStatus(x.status)}</td><td><button class="btn o s" data-i="${esc(x.id)}">Lihat</button></td></tr>`).join('') || '<tr><td colspan="7" class="empty">Tidak ada laporan</td></tr>'}</table></div></div>`;
       pasangBukti($('#rcl'), r.data);
       $$('[data-i]', $('#rcl')).forEach(b => b.onclick = () => {
         const x = r.data.find(y => y.id === b.dataset.i);
-        const mr = modal(`<h3>${esc(x.kode)} ${bdStatus(x.status)}</h3><div class="mut">${esc(x.kategori)} · ${esc(x.waktu)}${x.lokasi ? ' · ' + esc(x.lokasi) : ''}</div>
+        const mr = modal(`<h3>${esc(x.kode)} ${bdStatus(x.status)}</h3><div class="mut">${esc(x.kategori)} \u00B7 ${esc(x.waktu)}${x.lokasi ? ' \u00B7 ' + esc(x.lokasi) : ''}</div>
           <div class="note" style="white-space:pre-wrap;margin-top:10px">${esc(x.deskripsi)}</div>
-          <div class="mut">Pelapor: ${x.anonim ? '<b>Anonim</b> (identitas tidak disimpan)' : esc(x.pelaporNama) + ' · ' + esc(x.pelaporRole) + ' ' + esc(x.pelaporKelas) + (x.kontak ? ' · ' + esc(x.kontak) : '')}</div>
+          <div class="mut">Pelapor: ${x.anonim ? '<b>Anonim</b> (identitas tidak disimpan)' : esc(x.pelaporNama) + ' \u00B7 ' + esc(x.pelaporRole) + ' ' + esc(x.pelaporKelas) + (x.kontak ? ' \u00B7 ' + esc(x.kontak) : '')}</div>
           <div id="lmp" style="margin-top:8px"></div>
           ${x.catatan ? `<div class="note good" style="margin-top:10px"><b>Catatan penanganan:</b> ${esc(x.catatan)}</div>` : '<div class="mut" style="margin-top:10px">Belum ada catatan penanganan.</div>'}
-          ${x.ditanganiOleh ? `<div class="mut">Ditangani: ${esc(x.ditanganiOleh)} · ${esc(x.tanggalDitangani)}</div>` : ''}`);
+          ${x.ditanganiOleh ? `<div class="mut">Ditangani: ${esc(x.ditanganiOleh)} \u00B7 ${esc(x.tanggalDitangani)}</div>` : ''}`);
         tampilLampiran(mr, x);
       });
     } catch (e) { if (rid === ST.rid) $('#rcl').innerHTML = `<div class="note">${esc(e.message)}</div>`; }
@@ -689,7 +729,6 @@ function halRiwayatCare(ct, hidup) {
   muat();
 }
 
-// ---------- DATA & PENGATURAN (Admin/BK) ----------
 function halData(ct) {
   ct.innerHTML = `<div class="seg" style="margin-bottom:14px"><button data-t="s" class="on">Siswa</button><button data-t="u">Pengguna</button><button data-t="p">Pengaturan</button></div><div id="db"></div>`;
   const tab = t => { $$('.seg button', ct).forEach(b => b.classList.toggle('on', b.dataset.t === t)); ({ s: dataSiswa, u: dataUser, p: dataSet })[t]($('#db')); };
@@ -738,7 +777,7 @@ async function dataUser(el) {
   el.innerHTML = `<div class="card"><div class="tw"><table><tr><th>Nama</th><th>Email</th><th>Role</th><th>Kelas tanggung jawab</th><th>Status</th><th></th></tr>${daf.map(u => `<tr><td>${esc(u.nama)}</td><td>${esc(u.email)}</td><td>${esc(u.role)}</td><td>${esc(u.kelasBinaan) || '<span class="mut">-</span>'}</td><td><span class="bd ${u.status === 'Aktif' ? 'ok' : 'wr'}">${esc(u.status)}</span></td><td><button class="btn o s" data-e="${esc(u.email)}">Ubah</button></td></tr>`).join('')}</table></div></div>`;
   $$('[data-e]', el).forEach(b => b.onclick = () => {
     const u = daf.find(x => x.email === b.dataset.e);
-    const m = modal(`<h3>${esc(u.nama)}</h3><div class="mut">${esc(u.email)}</div><label>Role</label><select id="ur">${['Guru','Piket','WaliKelas','BK','Wakasis','Kepsek','Admin'].map(r => `<option ${r === u.role ? 'selected' : ''}>${r}</option>`).join('')}</select>
+    const m = modal(`<h3>${esc(u.nama)}</h3><div class="mut">${esc(u.email)}</div><label>Role</label><select id="ur">${['Guru','Piket','WaliKelas','BK','Wakur','Wakasis','Kepsek','Admin'].map(r => `<option ${r === u.role ? 'selected' : ''}>${r}</option>`).join('')}</select>
       <label>Kelas tanggung jawab (Wali Kelas / delegasi izin siswa)</label><input id="uk" value="${esc(u.kelasBinaan)}" placeholder="mis. X 1, X 2 (kosongkan jika tidak ada)" maxlength="200"><label>Status</label><select id="uu">${['Aktif','Nonaktif','Menunggu Persetujuan'].map(r => `<option ${r === u.status ? 'selected' : ''}>${r}</option>`).join('')}</select><div style="margin-top:12px"><button class="btn" id="uv">Simpan</button></div>`, true);
     $('#uv', m).onclick = () => tombol($('#uv', m), async () => { await call('userSimpan', { email: u.email, role: $('#ur', m).value, status: $('#uu', m).value, kelasBinaan: $('#uk', m).value }); m.tutup(); toast('Pengguna diperbarui.'); dataUser(el); });
   });
@@ -748,18 +787,17 @@ function dataSet(el) {
   el.innerHTML = `<div class="card" style="max-width:460px"><h3>Tahun Ajaran & Semester Aktif</h3><div class="note">Ubah saat pergantian semester. Tingkat eskalasi SHB dihitung per semester.</div>
     <label>Tahun ajaran</label><input id="pt" value="${esc(a.tahunAjaran)}" placeholder="2026/2027"><label>Semester</label><select id="pm"><option ${a.semesterAktif === 'Ganjil' ? 'selected' : ''}>Ganjil</option><option ${a.semesterAktif === 'Genap' ? 'selected' : ''}>Genap</option></select>
     <div style="margin-top:12px"><button class="btn" id="pv">Simpan</button></div>
-    <hr style="border:0;border-top:1px solid #e5e7eb;margin:18px 0"><h3>Impor Data Versi Lama</h3><div class="note">Menyalin riwayat pelanggaran, prestasi, kehadiran, dan laporan Care dari sheet versi lama (LogPelanggaran, LogPrestasi, Absensi, AbsensiShalat, LaporanCare) ke AIS. Aman diklik berulang — data yang sudah disalin dilewati. Sheet lama tidak diubah.</div>
+    <hr style="border:0;border-top:1px solid #e5e7eb;margin:18px 0"><h3>Impor Data Versi Lama</h3><div class="note">Menyalin riwayat pelanggaran, prestasi, kehadiran, dan laporan Care dari sheet versi lama (LogPelanggaran, LogPrestasi, Absensi, AbsensiShalat, LaporanCare) ke AIS. Aman diklik berulang \u2014 data yang sudah disalin dilewati. Sheet lama tidak diubah.</div>
     <button class="btn o" id="mg">Impor Data Lama</button>
-    <p class="mut" style="margin-top:16px">Daftar pelanggaran/prestasi & poinnya ada di sheet <b>Aturan</b> pada Google Sheet — ubah langsung di sana lalu muat ulang halaman.</p></div>`;
+    <p class="mut" style="margin-top:16px">Daftar pelanggaran/prestasi & poinnya ada di sheet <b>Aturan</b> pada Google Sheet \u2014 ubah langsung di sana lalu muat ulang halaman.</p></div>`;
   $('#mg').onclick = () => tombol($('#mg'), async () => {
     const r = await call('migrasi');
     ST.awal = await call('awal');
     modal(`<h3>Impor selesai</h3><ul><li><b>${r.pelanggaran}</b> pelanggaran</li><li><b>${r.prestasi}</b> prestasi</li><li><b>${r.kehadiran}</b> data kehadiran</li><li><b>${r.laporan}</b> laporan Care</li></ul><p class="mut">Angka 0 berarti semua data sudah pernah disalin.</p>`, true);
   }, 'Mengimpor...');
-  $('#pv').onclick = () => tombol($('#pv'), async () => { await call('setSimpan', { tahunAjaran: $('#pt').value, semester: $('#pm').value }); ST.awal = await call('awal'); $('#sb').textContent = `${ST.awal.tahunAjaran} · Semester ${ST.awal.semesterAktif}`; toast('Pengaturan tersimpan.'); });
+  $('#pv').onclick = () => tombol($('#pv'), async () => { await call('setSimpan', { tahunAjaran: $('#pt').value, semester: $('#pm').value }); ST.awal = await call('awal'); $('#sb').textContent = `${ST.awal.tahunAjaran} \u00B7 Semester ${ST.awal.semesterAktif}`; toast('Pengaturan tersimpan.'); });
 }
 
-// ---------- start ----------
 function panelError(judul, detail) {
   const r = $('#root'); if (!r) return;
   window.__AIS.siap = true;
@@ -771,31 +809,31 @@ function panelError(judul, detail) {
   $('#re2').onclick = () => { simpanToken(''); ST.token = null; layarLogin('staf'); };
 }
 
-// ---------- PERIZINAN TERPADU (izin keluar guru & siswa) ----------
 const IZ = { kon: null, tab: 'dash', timer: null, cache: {} };
 const IZ_SETUJU_CLS = { 'Menunggu Persetujuan': 'wr', 'Disetujui': 'ok', 'Ditolak': 't3', 'Dibatalkan': '' };
 const IZ_OPER_CLS = { 'Sedang Izin': 'in', 'Selesai': 'ok', 'Terlambat Kembali': 't5', 'Belum Dimulai': '' };
 const bdIzin = x => {
   let h = `<span class="bd ${IZ_SETUJU_CLS[x.setuju] || ''}">${esc(x.setuju)}</span>`;
   if (x.setuju === 'Disetujui' && x.oper && x.oper !== '-') h += ` <span class="bd ${IZ_OPER_CLS[x.oper] || ''}">${esc(x.oper)}${x.telat ? ' ' + x.menitTelat + ' mnt' : ''}</span>`;
-  if (x.pulangAwal) h += ' <span class="bd in">Pulang awal</span>';
+  if (x.pulangAwal) h += ' <span class="bd in">' + (x.jenisIzin === 'Izin Datang Terlambat' ? 'Datang terlambat' : 'Pulang') + '</span>';
   if (x.mendesak && x.setuju === 'Menunggu Persetujuan') h += ' <span class="bd t3">Mendesak</span>';
   if (x.dikoreksi) h += ' <span class="bd">Dikoreksi</span>';
   return h;
 };
-const izWaktu = x => `${esc(x.tanggal)} · ${esc(x.mulai)}${x.selesai ? '–' + esc(x.selesai) : ''}`;
-const izOrang = x => `<b>${esc(x.nama)}</b><div class="mut">${x.jenis === 'guru' ? 'Guru' + (x.nip ? ' · NIP ' + esc(x.nip) : '') : esc(x.kelas) + ' · ' + esc(x.jenisIzin)}</div>`;
+const izWaktu = x => `${esc(x.tanggal)} \u00B7 ${esc(x.mulai)}${x.selesai ? '\u2013' + esc(x.selesai) : ''}`;
+const izOrang = x => `<b>${esc(x.nama)}</b><div class="mut">${x.jenis === 'guru' ? 'Guru' + (x.nip ? ' \u00B7 NIY ' + esc(x.nip) : '') : esc(x.kelas) + ' \u00B7 ' + esc(x.jenisIzin)}</div>`;
 const izSimpan = a => { a.forEach(x => { IZ.cache[x.id] = x; }); return a; };
 const izHentikan = () => { if (IZ.timer) { clearInterval(IZ.timer); IZ.timer = null; } };
 
 async function izBadge() {
   try {
     const b = await call('izinBadge');
+    perbaruiNotif({ perlu: b.perlu, telat: b.telat });
     const a = $('#nav a[data-m="izin"]'); if (!a) return;
     const o = $('.nb', a); if (o) o.remove();
     const n = b.perlu + b.telat;
     if (n > 0) a.insertAdjacentHTML('beforeend', `<b class="nb" title="${b.perlu} menunggu keputusan, ${b.telat} terlambat kembali">${n}</b>`);
-  } catch (e) { /* lencana bersifat tambahan; abaikan */ }
+  } catch (e) {  }
 }
 
 async function halIzin(ct, hidup) {
@@ -805,6 +843,7 @@ async function halIzin(ct, hidup) {
   const b = IZ.kon.bisa, tabs = [['dash', 'Dashboard']];
   if (b.ajukanGuru || b.ajukanSiswa || b.siswaMandiriDimatikan) tabs.push(['form', 'Ajukan Izin']);
   tabs.push(['saya', 'Izin Saya']);
+  if (b.laporKembali) tabs.push(['kembali', 'Laporan Kembali']);
   if (b.putuskanGuru || b.putuskanSiswa) tabs.push(['setuju', 'Persetujuan']);
   if (b.lihatGuruSemua || b.lihatSiswaSemua) tabs.push(['pantau', 'Pemantauan & Rekap']);
   if (b.pengaturan) tabs.push(['set', 'Pengaturan']);
@@ -819,6 +858,7 @@ async function halIzin(ct, hidup) {
       if (IZ.tab === 'dash') await izDash(el, h);
       else if (IZ.tab === 'form') izForm(el);
       else if (IZ.tab === 'saya') izTabel(el, h, { tampilan: 'saya', judul: 'Riwayat Izin Saya' });
+      else if (IZ.tab === 'kembali') await izTabKembali(el, h);
       else if (IZ.tab === 'setuju') izTabel(el, h, { tampilan: 'persetujuan', judul: 'Menunggu Keputusan Anda' });
       else if (IZ.tab === 'pantau') izTabel(el, h, { tampilan: 'semua', judul: 'Pemantauan & Rekapitulasi', pantau: true });
       else if (IZ.tab === 'set') izPengaturan(el);
@@ -829,7 +869,6 @@ async function halIzin(ct, hidup) {
   izBadge();
 }
 
-// ----- dashboard -----
 async function izDash(el, hidup) {
   loading(el);
   const d = await call('izinDashboard');
@@ -837,18 +876,18 @@ async function izDash(el, hidup) {
   [d.guruLuar, d.siswaLuar, d.pulangAwal, d.terlambat, d.segera, d.perluTindakan, d.terbaru, d.mendesak].forEach(izSimpan);
   const st = (n, l, c) => `<div class="card stat ${c || ''}" style="margin:0"><div class="n">${n}</div><div class="l">${l}</div></div>`;
   const baris = (x, ekstra) => `<div class="izr" data-d="${esc(x.id)}" tabindex="0" role="button"><div>${izOrang(x)}</div><div class="izw">${izWaktu(x)}${ekstra ? `<div>${ekstra}</div>` : ''}</div></div>`;
-  const daftar = (judul, a, kosong, ekstra) => `<div class="card" style="margin:0"><h3>${judul} <span class="bd">${a.length}</span></h3>${a.length ? a.slice(0, 8).map(x => baris(x, ekstra ? ekstra(x) : '')).join('') + (a.length > 8 ? `<div class="mut" style="margin-top:6px">dan ${a.length - 8} lainnya — lihat tab Pemantauan.</div>` : '') : `<div class="mut">${kosong}</div>`}</div>`;
+  const daftar = (judul, a, kosong, ekstra) => `<div class="card" style="margin:0"><h3>${judul} <span class="bd">${a.length}</span></h3>${a.length ? a.slice(0, 8).map(x => baris(x, ekstra ? ekstra(x) : '')).join('') + (a.length > 8 ? `<div class="mut" style="margin-top:6px">dan ${a.length - 8} lainnya \u2014 lihat tab Pemantauan.</div>` : '') : `<div class="mut">${kosong}</div>`}</div>`;
   const peringatan = [];
-  if (d.terlambat.length) peringatan.push(`<div class="note" style="background:#fdecea;border-color:#f5b5ae;color:#8a1c12">⚠️ <b>${d.terlambat.length}</b> pengguna melewati batas waktu kembali dan belum dikonfirmasi.</div>`);
-  if (d.perluTindakan.length) peringatan.push(`<div class="note">🔔 <b>${d.perluTindakan.length}</b> pengajuan menunggu keputusan Anda.</div>`);
-  if (d.mendesak.length) peringatan.push(`<div class="note" style="background:#fdecea;border-color:#f5b5ae;color:#8a1c12">❗ <b>${d.mendesak.length}</b> pengajuan ditandai mendesak dan belum diputuskan.</div>`);
-  if (d.segera.length) peringatan.push(`<div class="note">⏳ <b>${d.segera.length}</b> izin akan segera berakhir (≤ 30 menit).</div>`);
-  if (d.tanpaWali) peringatan.push(`<div class="note">🧑‍🏫 <b>${d.tanpaWali}</b> pengajuan siswa dari kelas yang belum memiliki Wali Kelas. Atur kelas tanggung jawab di Data &amp; Pengaturan → Pengguna.</div>`);
-  el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap"><div class="mut">Data diperbarui otomatis tiap 60 detik.</div><button class="btn o s" id="izr">↻ Perbarui</button></div>
+  if (d.terlambat.length) peringatan.push(`<div class="note" style="background:#fdecea;border-color:#f5b5ae;color:#8a1c12">\u26A0\uFE0F <b>${d.terlambat.length}</b> pengguna melewati batas waktu kembali dan belum dikonfirmasi.</div>`);
+  if (d.perluTindakan.length) peringatan.push(`<div class="note">\uD83D\uDD14 <b>${d.perluTindakan.length}</b> pengajuan menunggu keputusan Anda.</div>`);
+  if (d.mendesak.length) peringatan.push(`<div class="note" style="background:#fdecea;border-color:#f5b5ae;color:#8a1c12">\u2757 <b>${d.mendesak.length}</b> pengajuan ditandai mendesak dan belum diputuskan.</div>`);
+  if (d.segera.length) peringatan.push(`<div class="note">\u23F3 <b>${d.segera.length}</b> izin akan segera berakhir (\u2264 30 menit).</div>`);
+  if (d.tanpaWali) peringatan.push(`<div class="note">\uD83E\uDDD1\u200D\uD83C\uDFEB <b>${d.tanpaWali}</b> pengajuan siswa dari kelas yang belum memiliki Wali Kelas. Atur kelas tanggung jawab di Data &amp; Pengaturan \u2192 Pengguna.</div>`);
+  el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap"><div class="mut">Data diperbarui otomatis tiap 60 detik.</div><button class="btn o s" id="izr">\u21BB Perbarui</button></div>
     ${peringatan.join('')}
     <div class="grid g4" style="margin-bottom:16px">${st(d.totalHariIni, 'Pengajuan masuk hari ini')}${st(d.menunggu, 'Menunggu persetujuan', 'w')}${st(d.disetujui, 'Izin disetujui (hari ini)')}${st(d.ditolak, 'Izin ditolak (hari ini)', 'd')}</div>
-    <div class="grid g4" style="margin-bottom:16px">${st(d.guruLuar.length, 'Guru di luar sekolah')}${st(d.siswaLuar.length, 'Siswa di luar sekolah')}${st(d.pulangAwal.length, 'Siswa pulang lebih awal')}${st(d.terlambat.length, 'Terlambat kembali', 'd')}</div>
-    <div class="grid g2" style="margin-bottom:16px">${daftar('🔴 Terlambat Kembali', d.terlambat, 'Tidak ada yang terlambat.', x => `Terlambat ${x.menitTelat} menit`)}${daftar('🔔 Perlu Keputusan Anda', d.perluTindakan, 'Tidak ada pengajuan menunggu Anda.')}</div>
+    <div class="grid g4" style="margin-bottom:16px">${st(d.guruLuar.length, 'Guru di luar sekolah')}${st(d.siswaLuar.length, 'Siswa di luar sekolah')}${st(d.pulangAwal.length, 'Siswa pulang / datang terlambat')}${st(d.terlambat.length, 'Terlambat kembali', 'd')}</div>
+    <div class="grid g2" style="margin-bottom:16px">${daftar('\uD83D\uDD34 Terlambat Kembali', d.terlambat, 'Tidak ada yang terlambat.', x => `Terlambat ${x.menitTelat} menit`)}${daftar('\uD83D\uDD14 Perlu Keputusan Anda', d.perluTindakan, 'Tidak ada pengajuan menunggu Anda.')}</div>
     <div class="grid g2" style="margin-bottom:16px">${daftar('Guru di Luar Sekolah', d.guruLuar, 'Tidak ada guru di luar sekolah.')}${daftar('Siswa di Luar Sekolah', d.siswaLuar, 'Tidak ada siswa di luar sekolah.')}</div>
     ${daftar('Riwayat Izin Terbaru', d.terbaru, 'Belum ada pengajuan.', x => bdIzin(x))}`;
   $('#izr', el).onclick = () => izDash(el, hidup).catch(e => toast(e.message, 'e'));
@@ -858,7 +897,6 @@ async function izDash(el, hidup) {
   izBadge();
 }
 
-// ----- konfirmasi (modal) untuk setujui / tolak / batalkan / kembali -----
 function izKonfirmasi(judul, pesan, o, aksi) {
   const m = modal(`<h3>${esc(judul)}</h3><div class="note">${pesan}</div>
     <label>${esc(o.labelCatatan || 'Catatan')} ${o.wajib ? '<span style="color:var(--red)">(wajib)</span>' : '<span class="mut">(opsional)</span>'}</label><textarea id="izc" maxlength="500" placeholder="${esc(o.petunjuk || '')}"></textarea>
@@ -870,33 +908,61 @@ function izKonfirmasi(judul, pesan, o, aksi) {
     await aksi(c); m.tutup();
   }, 'Memproses...');
 }
+
+function izLaporKembali(x, setelah) {
+  const m = modal(`<h3>\uD83D\uDCF7 Laporan Kembali Guru</h3><div class="note"><b>${esc(x.nama)}</b><br>${izWaktu(x)}<br>${esc(x.keperluan)}</div>
+    <div class="row"><div><label>Nama</label><input value="${esc(x.nama)}" readonly></div><div><label>NIY <span style="color:var(--red)">(wajib)</span></label><input id="lkn" maxlength="30" value="${esc(x.nip || IZ.kon.niy || '')}"></div></div>
+    <label>Jam kembali</label><input value="Otomatis (jam server saat laporan dikirim)" readonly>
+    <div class="note" style="margin-top:8px">Ambil foto memakai aplikasi <b>TimeMark</b> (atau aplikasi kamera berstempel waktu yang diizinkan sekolah) sehingga tanggal &amp; jam tampil di foto. Jam kembali resmi memakai <b>jam server</b>. Foto adalah bukti dari pengguna dan belum diverifikasi keasliannya secara otomatis.</div>
+    <label>Bukti foto TimeMark <span style="color:var(--red)">(wajib, JPG/PNG/WEBP)</span></label><input type="file" id="lkf" accept="image\x2fjpeg,image\x2fpng,image\x2fwebp" capture="environment"><div id="lkp" style="margin-top:8px"></div>
+    <label>Catatan (opsional)</label><input id="lkc" maxlength="300">
+    <div style="margin-top:12px"><button class="btn" id="lkv">Kirim Laporan Kembali</button></div>`);
+  let foto = null;
+  $('#lkf', m).onchange = async e => {
+    const f = e.target.files[0]; foto = null; $('#lkp', m).innerHTML = '';
+    if (!f) return;
+    try {
+      if (!/^image\x2f(jpeg|png|webp)$/.test(f.type) && !/\.(jpe?g|png|webp)$/i.test(f.name)) throw new Error('Bukti harus berupa foto JPG, PNG, atau WEBP.');
+      foto = await siapkanBerkas(f);
+      $('#lkp', m).innerHTML = `<img src="${foto.thumb}" alt="Pratinjau foto" style="max-width:100%;max-height:220px;border-radius:8px;border:1px solid var(--line)">`;
+    } catch (er) { toast(er.message || 'Foto tidak dapat dibaca.'); e.target.value = ''; }
+  };
+  $('#lkv', m).onclick = () => tombol($('#lkv', m), async () => {
+    if (!$('#lkn', m).value.trim()) throw new Error('NIY wajib diisi.');
+    if (!foto) throw new Error('Foto bukti (TimeMark) wajib diunggah.');
+    const r = await call('izinLaporKembali', { id: x.id, nip: $('#lkn', m).value, catatan: $('#lkc', m).value, foto: [{ nama: 'kembali.' + foto.ext, data: foto.data }] }, 120);
+    toast(r.telat ? `Laporan tersimpan (terlambat ${r.menitTelat} menit, ditandai untuk pemeriksaan).` : 'Laporan kembali tersimpan.');
+    m.tutup(); (setelah || (() => {}))(); izBadge();
+  }, 'Mengunggah...');
+}
 function izAksi(x, setelah) {
   const nama = esc(x.nama), w = izWaktu(x);
   const ringkas = `<b>${nama}</b><br>${w}<br>${esc(x.keperluan)}`;
   return {
-    setuju: () => izKonfirmasi('Setujui pengajuan?', ringkas, { tombol: 'Ya, Setujui', labelCatatan: 'Catatan keputusan' }, async c => { await call('izinKeputusan', { jenis: x.jenis, id: x.id, keputusan: 'Disetujui', catatan: c }); toast('Pengajuan disetujui.'); setelah(); }),
+    setuju: () => izKonfirmasi('Setujui pengajuan?', ringkas, { tombol: 'Ya, Setujui', labelCatatan: 'Catatan keputusan' }, async c => { const r = await call('izinKeputusan', { jenis: x.jenis, id: x.id, keputusan: 'Disetujui', catatan: c }); toast(r && r.final === false ? 'Persetujuan Anda tercatat. Menunggu ' + r.menunggu + '.' : 'Pengajuan disetujui.'); setelah(); }),
     tolak: () => izKonfirmasi('Tolak pengajuan?', ringkas, { tombol: 'Ya, Tolak', wajib: true, bahaya: true, labelCatatan: 'Alasan penolakan', petunjuk: 'Alasan akan terlihat oleh pemohon.' }, async c => { await call('izinKeputusan', { jenis: x.jenis, id: x.id, keputusan: 'Ditolak', catatan: c }); toast('Pengajuan ditolak.'); setelah(); }),
     batal: () => izKonfirmasi('Batalkan pengajuan?', ringkas + '<br><br>Pembatalan tidak dapat diurungkan.', { tombol: 'Ya, Batalkan', bahaya: true, labelCatatan: 'Alasan pembatalan' }, async c => { await call('izinBatal', { jenis: x.jenis, id: x.id, catatan: c }); toast('Pengajuan dibatalkan.'); setelah(); }),
+    lapor: () => izLaporKembali(x, setelah),
     kembali: () => izKonfirmasi('Konfirmasi sudah kembali?', ringkas + `<br><br>Pastikan ${x.jenis === 'guru' ? 'guru' : 'siswa'} benar-benar sudah ${x.pulangAwal ? 'pulang' : 'kembali ke sekolah'}.`, { tombol: 'Ya, Sudah Kembali', labelCatatan: 'Catatan' }, async c => { const r = await call('izinKembali', { jenis: x.jenis, id: x.id, catatan: c }); toast(r.telat ? `Dikonfirmasi (terlambat ${r.menitTelat} menit).` : 'Kembali dikonfirmasi.'); setelah(); })
   };
 }
 const izTombol = x => {
   const b = x.bisa, o = [];
+  if (b.laporKembali) o.push(`<button class="btn s" data-a="lapor">\uD83D\uDCF7 Laporan Kembali</button>`);
   if (b.putuskan) o.push(`<button class="btn s" data-a="setuju">Setujui</button><button class="btn s r" data-a="tolak">Tolak</button>`);
-  if (b.kembali) o.push(`<button class="btn s o" data-a="kembali">${x.pulangAwal || x.jenisIzin === 'Izin pulang lebih awal' ? 'Konfirmasi Pulang' : 'Konfirmasi Kembali'}</button>`);
+  if (b.kembali) o.push(`<button class="btn s o" data-a="kembali">${x.tanpaKembali ? (x.jenisIzin === 'Izin Datang Terlambat' ? 'Konfirmasi Hadir' : 'Konfirmasi Pulang') : 'Konfirmasi Kembali'}</button>`);
   if (b.batal) o.push(`<button class="btn s o" data-a="batal">Batalkan</button>`);
   return o.join(' ');
 };
 
-// ----- detail -----
 function izDetail(x, setelah) {
   if (!x) return;
   const kv = (k, v) => v ? `<div style="display:flex;gap:10px;padding:5px 0;border-bottom:1px solid #f1f3f2"><div class="mut" style="width:150px;flex-shrink:0">${k}</div><div style="min-width:0;overflow-wrap:anywhere">${v}</div></div>` : '';
-  const m = modal(`<h3>${x.jenis === 'guru' ? '👨‍🏫 Izin Guru' : '🎓 Izin Siswa'} <span class="mut" style="font-size:12px">${esc(x.id)}</span></h3><div style="margin-bottom:10px">${bdIzin(x)}</div>
-    ${kv('Nama', esc(x.nama))}${x.jenis === 'guru' ? kv('NIP', esc(x.nip)) : kv('Kelas', esc(x.kelas)) + kv('NIS / NISN', esc([x.nis, x.nisn].filter(Boolean).join(' / '))) + kv('Jenis izin', esc(x.jenisIzin))}
-    ${kv('Tanggal izin', esc(x.tanggal))}${kv(x.pulangAwal || x.jenisIzin === 'Izin pulang lebih awal' ? 'Jam kepulangan' : 'Jam mulai', esc(x.mulai))}${x.selesai ? kv(x.jenis === 'guru' ? 'Jam selesai / kembali' : 'Perkiraan kembali', esc(x.selesai)) : ''}
-    ${kv('Keperluan', esc(x.keperluan))}${kv('Keterangan', esc(x.keterangan))}${kv('Diajukan', esc(x.diajukan))}${x.jenis === 'siswa' ? kv('Pemohon', esc(x.pemohon)) + kv('Wali Kelas', esc(x.waliEmail) || '<span style="color:var(--red)">Belum ada Wali Kelas untuk kelas ini</span>') : ''}
-    ${kv('Keputusan oleh', esc(x.penyetuju))}${kv('Waktu keputusan', esc(x.waktuKeputusan))}${kv('Catatan keputusan', esc(x.catatan))}${kv('Kembali aktual', esc(x.kembaliAktual))}
+  const m = modal(`<h3>${x.jenis === 'guru' ? '\uD83D\uDC68\u200D\uD83C\uDFEB Izin Guru' : '\uD83C\uDF93 Izin Siswa'} <span class="mut" style="font-size:12px">${esc(x.id)}</span></h3><div style="margin-bottom:10px">${bdIzin(x)}</div>
+    ${kv('Nama', esc(x.nama))}${x.jenis === 'guru' ? kv('NIY', esc(x.nip)) : kv('Kelas', esc(x.kelas)) + kv('NIS / NISN', esc([x.nis, x.nisn].filter(Boolean).join(' / '))) + kv('Jenis izin', esc(x.jenisIzin))}
+    ${kv('Tanggal izin', esc(x.tanggal))}${kv(x.tanpaKembali ? (x.jenisIzin === 'Izin Datang Terlambat' ? 'Jam izin (tiba)' : 'Jam izin (pulang)') : 'Jam izin', esc(x.mulai))}${x.selesai ? kv(x.jenis === 'guru' ? 'Estimasi selesai' : 'Perkiraan kembali', esc(x.selesai)) : ''}
+    ${kv(x.jenis === 'guru' ? 'Keperluan (Pribadi / Dinas)' : 'Keperluan', esc(x.keperluan))}${kv('Keterangan', esc(x.keterangan))}${kv('Diajukan', esc(x.diajukan))}${x.jenis === 'siswa' ? kv('Pemohon', esc(x.pemohon)) + kv('Wali Kelas', esc(x.waliEmail) || '<span style="color:var(--red)">Belum ada Wali Kelas untuk kelas ini</span>') : ''}
+    ${x.jenis === 'siswa' && x.setuju === 'Menunggu Persetujuan' ? kv('Persetujuan Wali Kelas', esc(x.setujuWali) || 'belum') + kv('Persetujuan Guru Piket', esc(x.setujuPiket) || 'belum') : ''}${kv('Keputusan oleh', esc(x.penyetuju))}${kv('Waktu keputusan', esc(x.waktuKeputusan))}${kv('Catatan keputusan', esc(x.catatan))}${kv('Kembali aktual', esc(x.kembaliAktual))}
     ${x.setuju !== 'Disetujui' && x.setuju !== 'Dibatalkan' ? '<div class="note" style="margin-top:10px">Pengajuan ini <b>belum menjadi izin resmi</b>.</div>' : ''}
     <div id="izl" style="margin-top:10px"></div><div class="row" style="margin-top:12px;gap:6px">${izTombol(x)}${x.bisa.koreksi ? '<button class="btn s o" data-a="koreksi">Koreksi Data</button>' : ''}${x.bisa.audit ? '<button class="btn s o" data-a="audit">Riwayat Audit</button>' : ''}</div><div id="iza" style="margin-top:10px"></div>`);
   const aksi = izAksi(x, () => { m.tutup(); (setelah || (() => {}))(); izBadge(); });
@@ -905,16 +971,24 @@ function izDetail(x, setelah) {
     if (aksi[a]) return aksi[a]();
     if (a === 'audit') return tombol(b, async () => {
       const r = await call('izinAudit', { id: x.id });
-      $('#iza', m).innerHTML = `<h3 style="font-size:14px">Riwayat Audit</h3><div class="tw"><table><tr><th>Waktu</th><th>Aktor</th><th>Aksi</th><th>Status</th><th>Catatan</th></tr>${r.map(a => `<tr><td>${esc(a.waktu)}</td><td>${esc(a.aktor)}<div class="mut">${esc(a.role)}</div></td><td>${esc(a.aksi)}</td><td>${esc(a.sebelum)} → ${esc(a.sesudah)}</td><td style="white-space:normal;min-width:180px">${esc(a.catatan)}</td></tr>`).join('') || '<tr><td colspan="5" class="empty">Belum ada catatan</td></tr>'}</table></div>`;
+      $('#iza', m).innerHTML = `<h3 style="font-size:14px">Riwayat Audit</h3><div class="tw"><table><tr><th>Waktu</th><th>Aktor</th><th>Aksi</th><th>Status</th><th>Catatan</th></tr>${r.map(a => `<tr><td>${esc(a.waktu)}</td><td>${esc(a.aktor)}<div class="mut">${esc(a.role)}</div></td><td>${esc(a.aksi)}</td><td>${esc(a.sebelum)} \u2192 ${esc(a.sesudah)}</td><td style="white-space:normal;min-width:180px">${esc(a.catatan)}</td></tr>`).join('') || '<tr><td colspan="5" class="empty">Belum ada catatan</td></tr>'}</table></div>`;
     }, 'Memuat...');
     if (a === 'koreksi') izKoreksi(x, m, setelah);
   });
+  if (x.jenis === 'guru' && x.buktiKembali && x.buktiKembali.length) {
+    $('#iza', m).insertAdjacentHTML('beforebegin', `<div id="izk" style="margin-top:10px"><label>Bukti foto kembali${x.pelaporKembali ? ' \u00B7 ' + esc(x.pelaporKembali) : ''}</label>` + x.buktiKembali.map((f, i) => `<button class="btn o s" data-k="${i}" style="margin:0 6px 6px 0">\uD83D\uDCF7 Lihat Foto \u00B7 ${fmtUkuran(f.ukuran)}</button>`).join('') + '<div id="izkv"></div></div>');
+    const l = $('#izk', m);
+    $$('[data-k]', l).forEach(b => b.onclick = () => tombol(b, async () => {
+      const r = await call('izinLampiran', { id: x.id, idx: +b.dataset.k, kind: 'kembali' }, 90);
+      $('#izkv', l).innerHTML = `<img src="data:${r.tipe};base64,${r.data}" alt="Bukti kembali" style="max-width:100%;border-radius:8px;margin-top:8px;border:1px solid var(--line)">`;
+    }, 'Memuat...'));
+  }
   if (x.jenis === 'guru' && x.lampiran && x.lampiran.length) {
     const l = $('#izl', m);
-    l.innerHTML = `<label>Lampiran (${x.lampiran.length})</label>` + x.lampiran.map((f, i) => `<button class="btn o s" data-l="${i}" style="margin:0 6px 6px 0">📎 Lihat Berkas · ${esc(f.nama)} · ${fmtUkuran(f.ukuran)}</button>`).join('') + '<div id="izv"></div>';
+    l.innerHTML = `<label>Lampiran (${x.lampiran.length})</label>` + x.lampiran.map((f, i) => `<button class="btn o s" data-l="${i}" style="margin:0 6px 6px 0">\uD83D\uDCCE Lihat Berkas \u00B7 ${esc(f.nama)} \u00B7 ${fmtUkuran(f.ukuran)}</button>`).join('') + '<div id="izv"></div>';
     $$('[data-l]', l).forEach(b => b.onclick = () => tombol(b, async () => {
       const r = await call('izinLampiran', { id: x.id, idx: +b.dataset.l }, 90), src = `data:${r.tipe};base64,${r.data}`;
-      $('#izv', l).innerHTML = /^image\//.test(r.tipe) ? `<img src="${src}" alt="Lampiran" style="max-width:100%;border-radius:8px;margin-top:8px;border:1px solid var(--line)">` : `<a class="btn s" href="${src}" download="${esc(r.nama)}">⬇ Unduh ${esc(r.nama)}</a>`;
+      $('#izv', l).innerHTML = /^image\x2f/.test(r.tipe) ? `<img src="${src}" alt="Lampiran" style="max-width:100%;border-radius:8px;margin-top:8px;border:1px solid var(--line)">` : `<a class="btn s" href="${src}" download="${esc(r.nama)}">\u2B07 Unduh ${esc(r.nama)}</a>`;
     }, 'Memuat...'));
   }
 }
@@ -924,7 +998,7 @@ function izKoreksi(x, mdetail, setelah) {
     <label>Tanggal izin</label><input type="date" id="kt" value="${esc(x.tanggal)}">
     <div class="row"><div><label>Jam mulai</label><input type="time" id="km" value="${esc(x.mulai)}"></div><div><label>${guru ? 'Jam selesai' : 'Perkiraan kembali'}</label><input type="time" id="ks" value="${esc(x.selesai)}"></div></div>
     ${guru ? '' : `<label>Jenis izin</label><select id="kj">${IZ.kon.jenisSiswa.map(j => `<option ${j === x.jenisIzin ? 'selected' : ''}>${esc(j)}</option>`).join('')}</select>`}
-    <label>Keperluan</label><textarea id="kp">${esc(x.keperluan)}</textarea><label>Keterangan</label><textarea id="kk">${esc(x.keterangan)}</textarea>
+    <label>Keperluan</label>${guru ? `<select id="kp">${['Pribadi', 'Dinas'].map(k => `<option ${k === x.keperluan ? 'selected' : ''}>${k}</option>`).join('')}</select>` : `<textarea id="kp">${esc(x.keperluan)}</textarea>`}<label>Keterangan</label><textarea id="kk">${esc(x.keterangan)}</textarea>
     <label>Alasan koreksi <span style="color:var(--red)">(wajib)</span></label><input id="ka" maxlength="300" placeholder="mis. salah ketik jam">
     <div style="margin-top:12px"><button class="btn" id="kv">Simpan Koreksi</button></div>`);
   $('#kv', m).onclick = () => tombol($('#kv', m), async () => {
@@ -934,15 +1008,14 @@ function izKoreksi(x, mdetail, setelah) {
   }, 'Menyimpan...');
 }
 
-// ----- tabel (filter, urut, halaman, ekspor, cetak) -----
 function izTabel(el, hidup, o) {
   const b = IZ.kon.bisa, staf = IZ.kon.role !== 'Siswa';
   const f = { tampilan: o.tampilan, jenis: staf ? '' : 'siswa', q: '', status: '', kelas: '', jenisIzin: '', dari: '', sampai: '', penyetuju: '', urutKolom: 'diajukan', urut: 'baru', halaman: 1 };
   const kelasOpsi = staf && IZ.kon.daftarSiswa ? Array.from(new Set(IZ.kon.daftarSiswa.map(s => s.kelas))).sort() : [];
   el.innerHTML = `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h3 style="margin:0">${esc(o.judul)}</h3><div style="display:flex;gap:6px;flex-wrap:wrap">
-      ${o.pantau ? '<button class="btn s o" id="izcp">🖨 Cetak Laporan Harian</button>' : ''}<button class="btn s o" id="izcs">⬇ Ekspor CSV</button><button class="btn s o" id="izrf">↻</button></div></div>
+      ${o.pantau ? '<button class="btn s o" id="izcp">\uD83D\uDDA8 Cetak Laporan Harian</button>' : ''}<button class="btn s o" id="izcs">\u2B07 Ekspor CSV</button><button class="btn s o" id="izrf">\u21BB</button></div></div>
     <div class="row" style="margin:10px 0 4px">
-      <div style="flex:2;min-width:180px"><label>Cari nama / NIP / NIS / keperluan</label><input id="fq" placeholder="Ketik untuk mencari..."></div>
+      <div style="flex:2;min-width:180px"><label>Cari nama / NIY / NIS / keperluan</label><input id="fq" placeholder="Ketik untuk mencari..."></div>
       ${staf ? `<div><label>Jenis</label><select id="fj"><option value="">Guru &amp; Siswa</option><option value="guru">Izin Guru</option><option value="siswa">Izin Siswa</option></select></div>` : ''}
       <div><label>Status</label><select id="fs"><option value="">Semua</option>${['Menunggu Persetujuan', 'Disetujui', 'Ditolak', 'Dibatalkan', 'Sedang Izin', 'Terlambat Kembali', 'Selesai'].map(s => `<option>${s}</option>`).join('')}</select></div>
       ${kelasOpsi.length ? `<div><label>Kelas</label><select id="fk"><option value="">Semua</option>${kelasOpsi.map(k => `<option>${esc(k)}</option>`).join('')}</select></div>` : ''}
@@ -958,11 +1031,11 @@ function izTabel(el, hidup, o) {
       const r = await call('izinDaftar', Object.assign({}, f));
       if (rid !== cekAksi || !hidup()) return;
       izSimpan(r.data);
-      const th = (k, t) => `<th data-s="${k}" style="cursor:pointer" title="Urutkan">${t}${f.urutKolom === k ? (f.urut === 'baru' ? ' ▼' : ' ▲') : ''}</th>`;
-      h.innerHTML = `<div class="mut" style="margin:6px 0">${r.total} pengajuan${r.jumlah > 1 ? ` · halaman ${r.halaman} dari ${r.jumlah}` : ''}</div><div class="tw"><table><tr>${th('nama', 'Pemohon')}${th('tanggal', 'Tanggal & Jam')}<th>Keperluan</th>${th('setuju', 'Status')}<th>Pemberi keputusan</th><th>Aksi</th></tr>
-        ${r.data.map(x => `<tr><td>${izOrang(x)}</td><td style="white-space:nowrap">${izWaktu(x)}</td><td style="white-space:normal;min-width:160px;max-width:260px">${esc(x.keperluan.length > 80 ? x.keperluan.slice(0, 80) + '…' : x.keperluan)}</td><td>${bdIzin(x)}</td><td>${esc(x.penyetuju)}${x.catatan ? `<div class="mut" style="white-space:normal;max-width:200px">${esc(x.catatan.length > 50 ? x.catatan.slice(0, 50) + '…' : x.catatan)}</div>` : ''}</td>
+      const th = (k, t) => `<th data-s="${k}" style="cursor:pointer" title="Urutkan">${t}${f.urutKolom === k ? (f.urut === 'baru' ? ' \u25BC' : ' \u25B2') : ''}</th>`;
+      h.innerHTML = `<div class="mut" style="margin:6px 0">${r.total} pengajuan${r.jumlah > 1 ? ` \u00B7 halaman ${r.halaman} dari ${r.jumlah}` : ''}</div><div class="tw"><table><tr>${th('nama', 'Pemohon')}${th('tanggal', 'Tanggal & Jam')}<th>Keperluan</th>${th('setuju', 'Status')}<th>Pemberi keputusan</th><th>Aksi</th></tr>
+        ${r.data.map(x => `<tr><td>${izOrang(x)}</td><td style="white-space:nowrap">${izWaktu(x)}</td><td style="white-space:normal;min-width:160px;max-width:260px">${esc(x.keperluan.length > 80 ? x.keperluan.slice(0, 80) + '\u2026' : x.keperluan)}</td><td>${bdIzin(x)}</td><td>${esc(x.penyetuju)}${x.catatan ? `<div class="mut" style="white-space:normal;max-width:200px">${esc(x.catatan.length > 50 ? x.catatan.slice(0, 50) + '\u2026' : x.catatan)}</div>` : ''}</td>
         <td style="white-space:nowrap" data-r="${esc(x.id)}"><button class="btn s o" data-a="detail">Lihat Detail</button> ${izTombol(x)}</td></tr>`).join('') || '<tr><td colspan="6" class="empty">Tidak ada data yang sesuai</td></tr>'}</table></div>
-        ${r.jumlah > 1 ? `<div style="display:flex;gap:8px;justify-content:center;align-items:center;margin-top:12px"><button class="btn s o" id="fpv" ${r.halaman <= 1 ? 'disabled' : ''}>‹ Sebelumnya</button><span class="mut">${r.halaman} / ${r.jumlah}</span><button class="btn s o" id="fnx" ${r.halaman >= r.jumlah ? 'disabled' : ''}>Berikutnya ›</button></div>` : ''}`;
+        ${r.jumlah > 1 ? `<div style="display:flex;gap:8px;justify-content:center;align-items:center;margin-top:12px"><button class="btn s o" id="fpv" ${r.halaman <= 1 ? 'disabled' : ''}>\u2039 Sebelumnya</button><span class="mut">${r.halaman} / ${r.jumlah}</span><button class="btn s o" id="fnx" ${r.halaman >= r.jumlah ? 'disabled' : ''}>Berikutnya \u203A</button></div>` : ''}`;
       $$('[data-s]', h).forEach(t => t.onclick = () => { if (f.urutKolom === t.dataset.s) f.urut = f.urut === 'baru' ? 'lama' : 'baru'; else { f.urutKolom = t.dataset.s; f.urut = 'lama'; } f.halaman = 1; muat(); });
       if ($('#fpv', h)) $('#fpv', h).onclick = () => { f.halaman = r.halaman - 1; muat(); };
       if ($('#fnx', h)) $('#fnx', h).onclick = () => { f.halaman = r.halaman + 1; muat(); };
@@ -988,9 +1061,9 @@ function izTabel(el, hidup, o) {
 
 function izCsvSel(v) { v = String(v === null || v === undefined ? '' : v); if (/^[=+\-@\t\r]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; }
 function izUnduhCsv(rows) {
-  const H = ['ID', 'Jenis', 'Nama', 'NIP/NIS', 'Kelas', 'Jenis Izin', 'Tanggal Izin', 'Jam Mulai', 'Jam Selesai/Kembali', 'Keperluan', 'Status Persetujuan', 'Status Operasional', 'Pemberi Keputusan', 'Waktu Keputusan', 'Catatan Keputusan', 'Kembali Aktual', 'Diajukan'];
+  const H = ['ID', 'Jenis', 'Nama', 'NIY/NIS', 'Kelas', 'Jenis Izin', 'Tanggal Izin', 'Jam Mulai', 'Jam Selesai/Kembali', 'Keperluan', 'Status Persetujuan', 'Status Operasional', 'Pemberi Keputusan', 'Waktu Keputusan', 'Catatan Keputusan', 'Kembali Aktual', 'Diajukan'];
   const baris = rows.map(x => [x.id, x.jenis === 'guru' ? 'Guru' : 'Siswa', x.nama, x.nip || x.nis || '', x.kelas || '', x.jenisIzin || '', x.tanggal, x.mulai, x.selesai, x.keperluan, x.setuju, x.oper, x.penyetuju, x.waktuKeputusan, x.catatan, x.kembaliAktual, x.diajukan]);
-  const csv = '﻿' + [H].concat(baris).map(r => r.map(izCsvSel).join(',')).join('\r\n');
+  const csv = '\uFEFF' + [H].concat(baris).map(r => r.map(izCsvSel).join(',')).join('\r\n');
   const a = document.createElement('a');
   a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv); a.download = 'rekap-perizinan-' + hariIni() + '.csv';
   document.body.appendChild(a); a.click(); a.remove();
@@ -998,15 +1071,28 @@ function izUnduhCsv(rows) {
 }
 function izCetak(rows, hari) {
   const p = document.createElement('div'); p.id = 'cetak';
-  p.innerHTML = `<h2 style="margin:0">Laporan Harian Perizinan</h2><div>SMAIT Al-Ittihad · Tanggal ${esc(hari)} · dicetak ${esc(new Date().toLocaleString('id-ID'))}</div>
-    <table style="margin-top:10px"><tr><th>No</th><th>Jenis</th><th>Nama</th><th>Kelas/NIP</th><th>Jam</th><th>Keperluan</th><th>Status</th><th>Pemberi Keputusan</th><th>Kembali</th></tr>
-    ${rows.map((x, i) => `<tr><td>${i + 1}</td><td>${x.jenis === 'guru' ? 'Guru' : 'Siswa'}</td><td>${esc(x.nama)}</td><td>${esc(x.kelas || x.nip || '')}</td><td>${esc(x.mulai)}${x.selesai ? '–' + esc(x.selesai) : ''}</td><td>${esc(x.keperluan)}</td><td>${esc(x.setuju)}${x.oper && x.oper !== '-' && x.oper !== x.setuju ? ' / ' + esc(x.oper) : ''}</td><td>${esc(x.penyetuju)}</td><td>${esc(x.kembaliAktual)}</td></tr>`).join('') || '<tr><td colspan="9">Tidak ada izin pada tanggal ini.</td></tr>'}</table>`;
+  p.innerHTML = `<h2 style="margin:0">Laporan Harian Perizinan</h2><div>SMAIT Al-Ittihad \u00B7 Tanggal ${esc(hari)} \u00B7 dicetak ${esc(new Date().toLocaleString('id-ID'))}</div>
+    <table style="margin-top:10px"><tr><th>No</th><th>Jenis</th><th>Nama</th><th>Kelas/NIY</th><th>Jam</th><th>Keperluan</th><th>Status</th><th>Pemberi Keputusan</th><th>Kembali</th></tr>
+    ${rows.map((x, i) => `<tr><td>${i + 1}</td><td>${x.jenis === 'guru' ? 'Guru' : 'Siswa'}</td><td>${esc(x.nama)}</td><td>${esc(x.kelas || x.nip || '')}</td><td>${esc(x.mulai)}${x.selesai ? '\u2013' + esc(x.selesai) : ''}</td><td>${esc(x.keperluan)}</td><td>${esc(x.setuju)}${x.oper && x.oper !== '-' && x.oper !== x.setuju ? ' / ' + esc(x.oper) : ''}</td><td>${esc(x.penyetuju)}</td><td>${esc(x.kembaliAktual)}</td></tr>`).join('') || '<tr><td colspan="9">Tidak ada izin pada tanggal ini.</td></tr>'}</table>`;
   document.body.appendChild(p); document.body.classList.add('mencetak');
-  try { window.print(); } catch (e) { toast('Cetak tidak tersedia di peramban ini.', 'e'); }
-  setTimeout(() => { document.body.classList.remove('mencetak'); p.remove(); }, 600);
+  try { if (window.AISNative && window.AISNative.cetak) window.AISNative.cetak(); else window.print(); } catch (e) { toast('Cetak tidak tersedia di peramban ini.', 'e'); }
+  setTimeout(() => { document.body.classList.remove('mencetak'); p.remove(); }, (window.AISNative ? 6000 : 600));
 }
 
-// ----- formulir pengajuan -----
+async function izTabKembali(el, hidup) {
+  el.innerHTML = '<div class="load"><div class="sp"></div> Memuat...</div>';
+  const r = await call('izinDaftar', { tampilan: 'saya', jenis: 'guru', ukuran: 100 });
+  if (!hidup()) return;
+  const a = r.data.filter(x => x.jenis === 'guru' && x.setuju === 'Disetujui');
+  const belum = a.filter(x => x.bisa.laporKembali), sudah = a.filter(x => x.kembaliAktual);
+  const baris = (x, tombolLapor) => `<tr><td>${esc(x.id)}</td><td>${esc(x.tanggal)}<div class="mut">${esc(x.mulai)} - ${esc(x.selesai)}</div></td><td>${esc(x.keperluan)}</td><td>${tombolLapor ? `<button class="btn s" data-l="${esc(x.id)}">\uD83D\uDCF7 Buat Laporan Kembali</button>` : esc(x.kembaliAktual)}</td></tr>`;
+  el.innerHTML = `<div class="card"><h3>Laporan Kembali Guru</h3><div class="note">Setelah izin disetujui dan Anda kembali ke sekolah, kirim laporan kembali: <b>nama, NIY, jam kembali (otomatis dari server), dan foto TimeMark</b>.</div>
+    <h4 style="margin:14px 0 6px">Menunggu laporan kembali (${belum.length})</h4>
+    ${belum.length ? `<div class="tw"><table><tr><th>No. Izin</th><th>Waktu izin</th><th>Keperluan</th><th></th></tr>${belum.map(x => baris(x, true)).join('')}</table></div>` : '<div class="mut">Tidak ada izin yang perlu dilaporkan.</div>'}
+    <h4 style="margin:18px 0 6px">Sudah dilaporkan (${sudah.length})</h4>
+    ${sudah.length ? `<div class="tw"><table><tr><th>No. Izin</th><th>Waktu izin</th><th>Keperluan</th><th>Jam kembali (server)</th></tr>${sudah.map(x => baris(x, false)).join('')}</table></div>` : '<div class="mut">Belum ada.</div>'}</div>`;
+  $$('[data-l]', el).forEach(b => b.onclick = () => izLaporKembali(a.find(x => x.id === b.dataset.l), () => { IZ.tab = 'kembali'; halIzin($('#ct'), () => ST.halaman === 'izin'); }));
+}
 function izForm(el) {
   const b = IZ.kon.bisa;
   if (b.siswaMandiriDimatikan) { el.innerHTML = '<div class="card"><div class="note">Pengajuan izin mandiri oleh siswa sedang dinonaktifkan. Mintalah bantuan Wali Kelas atau petugas piket untuk mengajukan izin atas nama Anda.</div></div>'; return; }
@@ -1023,17 +1109,17 @@ const izTglMin = () => hariIni();
 function izFormGuru(el) {
   const lamp = [];
   el.innerHTML = `<div class="card" style="max-width:720px"><h3>Formulir Izin Keluar Guru</h3>
-    <div class="note">Pengajuan akan berstatus <b>Menunggu Persetujuan Kepala Sekolah</b>. Izin belum resmi sebelum disetujui.</div>
-    <div class="row"><div><label>Nama guru</label><input value="${esc(IZ.kon.nama)}" readonly></div><div><label>NIP / identitas (opsional)</label><input id="gn" maxlength="30"></div></div>
-    <div class="row"><div><label>Tanggal pengajuan</label><input value="${esc(hariIni())}" readonly></div><div><label>Tanggal izin</label><input type="date" id="gt" value="${esc(hariIni())}" min="${esc(izTglMin())}"></div></div>
-    <div class="row"><div><label>Jam mulai izin</label><input type="time" id="gm"></div><div><label>Jam berakhir / perkiraan kembali</label><input type="time" id="gs"></div></div>
-    <label>Keperluan izin</label><input id="gk" maxlength="300" placeholder="mis. mengurus dokumen keluarga">
-    <label>Keterangan tambahan (opsional)</label><textarea id="gx" maxlength="500"></textarea>
-    <label>Lampiran pendukung (opsional, maks. 3 file: foto/PDF/DOCX/XLSX/TXT)</label><input type="file" id="gf" multiple accept="image/*,.pdf,.docx,.xlsx,.txt"><div id="gfl" style="margin-top:8px"></div><div id="gup"></div>
+    <div class="note">Pengajuan berstatus <b>Menunggu Persetujuan</b> dan harus disetujui <b>Kepala Sekolah, Wakil Kurikulum, atau Wakil Kesiswaan</b>. Izin belum resmi sebelum disetujui.</div>
+    <div class="row"><div><label>Nama</label><input value="${esc(IZ.kon.nama)}" readonly></div><div><label>NIY <span style="color:var(--red)">(wajib)</span></label><input id="gn" maxlength="30" value="${esc(IZ.kon.niy || '')}" placeholder="Nomor Induk Yayasan"></div></div>
+    <div class="row"><div><label>Jam pengajuan</label><input value="Otomatis (jam server saat dikirim)" readonly></div><div><label>Tanggal izin</label><input type="date" id="gt" value="${esc(hariIni())}" min="${esc(izTglMin())}"></div></div>
+    <div class="row"><div><label>Jam izin <span style="color:var(--red)">(mulai)</span></label><input type="time" id="gm"></div><div><label>Estimasi izin sampai jam <span style="color:var(--red)">(selesai)</span></label><input type="time" id="gs"></div></div>
+    <label>Keperluan <span style="color:var(--red)">(pilih salah satu)</span></label><select id="gk"><option value="">-- pilih keperluan --</option>${(IZ.kon.keperluanGuru || ['Pribadi', 'Dinas']).map(k => `<option>${esc(k)}</option>`).join('')}</select>
+    <label>Keterangan <span style="color:var(--red)">(wajib)</span></label><textarea id="gx" maxlength="500" placeholder="Jelaskan keperluan izin"></textarea>
+    <label>Lampiran pendukung (opsional, maks. 3 file: foto/PDF/DOCX/XLSX/TXT)</label><input type="file" id="gf" multiple accept="image\x2f*,.pdf,.docx,.xlsx,.txt"><div id="gfl" style="margin-top:8px"></div><div id="gup"></div>
     <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="gd"> Tandai mendesak</label>
     <div style="margin-top:14px"><button class="btn" id="gv">Kirim Pengajuan</button></div></div>`;
   const gambar = () => {
-    $('#gfl', el).innerHTML = lamp.map((f, i) => `<div style="display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-bottom:6px">${f.thumb ? `<img src="${f.thumb}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px">` : '📄'}<div style="flex:1;min-width:0;overflow-wrap:anywhere">${esc(f.label)}<div class="mut">${fmtUkuran(f.ukuran)}</div></div><button class="btn s o" data-h="${i}">Hapus</button></div>`).join('');
+    $('#gfl', el).innerHTML = lamp.map((f, i) => `<div style="display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-bottom:6px">${f.thumb ? `<img src="${f.thumb}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px">` : '\uD83D\uDCC4'}<div style="flex:1;min-width:0;overflow-wrap:anywhere">${esc(f.label)}<div class="mut">${fmtUkuran(f.ukuran)}</div></div><button class="btn s o" data-h="${i}">Hapus</button></div>`).join('');
     $$('[data-h]', el).forEach(bt => bt.onclick = () => { lamp.splice(+bt.dataset.h, 1); gambar(); });
   };
   $('#gf', el).onchange = async e => {
@@ -1052,9 +1138,13 @@ function izFormGuru(el) {
     const ada = lamp.length > 0, ind = $('#gup', el);
     if (ada) ind.innerHTML = '<div class="load" style="padding:10px 0;justify-content:flex-start"><div class="sp"></div> Mengunggah lampiran... mohon tunggu, jangan tutup halaman.</div>';
     try {
+      if (!$('#gn', el).value.trim()) throw new Error('NIY wajib diisi.');
+      if (!$('#gm', el).value || !$('#gs', el).value) throw new Error('Jam izin dan estimasi selesai wajib diisi.');
+      if (!$('#gk', el).value) throw new Error('Pilih keperluan: Pribadi atau Dinas.');
+      if ($('#gx', el).value.trim().length < 5) throw new Error('Keterangan wajib diisi.');
       const r = await call('izinAjukanGuru', { nip: $('#gn', el).value, tanggal: $('#gt', el).value, mulai: $('#gm', el).value, selesai: $('#gs', el).value, keperluan: $('#gk', el).value, keterangan: $('#gx', el).value, mendesak: $('#gd', el).checked,
         lampiran: lamp.map(f => ({ nama: 'x.' + f.ext, data: f.data })) }, ada ? 150 : 30);
-      modal(`<h3>✅ Pengajuan Terkirim</h3><p>Nomor pengajuan: <b>${esc(r.id)}</b></p><p>Status: <span class="bd wr">Menunggu Persetujuan</span><br>Kepala Sekolah akan memutuskan. Pantau di tab <b>Izin Saya</b>.</p>`, true);
+      modal(`<h3>\u2705 Pengajuan Terkirim</h3><p>Nomor pengajuan: <b>${esc(r.id)}</b></p><p>Status: <span class="bd wr">Menunggu Persetujuan</span><br>Menunggu Kepala Sekolah / Wakil Kurikulum / Wakil Kesiswaan. Pantau di tab <b>Izin Saya</b>.</p>`, true);
       IZ.tab = 'saya'; halIzin($('#ct'), () => ST.halaman === 'izin');
     } finally { ind.innerHTML = ''; }
   }, 'Mengirim...');
@@ -1063,48 +1153,234 @@ function izFormSiswa(el) {
   const staf = IZ.kon.role !== 'Siswa', S0 = IZ.kon.daftarSiswa || [];
   const kelas = Array.from(new Set(S0.map(s => s.kelas))).sort();
   el.innerHTML = `<div class="card" style="max-width:720px"><h3>Formulir Izin Keluar Siswa</h3>
-    <div class="note">Pengajuan diteruskan ke <b>Wali Kelas</b> siswa. Izin belum resmi sebelum disetujui Wali Kelas.</div>
-    ${staf ? `<div class="row"><div><label>Kelas</label><select id="sk"><option value="">-- pilih kelas --</option>${kelas.map(k => `<option>${esc(k)}</option>`).join('')}</select></div><div><label>Nama siswa</label><select id="sn"><option value="">-- pilih kelas dahulu --</option></select></div></div>
+    <div class="note">Pengajuan harus disetujui <b>${IZ.kon.pengaturan.approvalSiswa === 'Salah satu' ? 'Wali Kelas atau Guru Piket' : 'Wali Kelas dan Guru Piket'}</b>. Izin belum resmi sebelum disetujui.</div>
+    ${staf ? `<div class="row"><div><label>Kelas <span style="color:var(--red)">(wajib)</span></label><select id="sk"><option value="">-- pilih kelas --</option>${kelas.map(k => `<option>${esc(k)}</option>`).join('')}</select></div><div><label>Nama siswa <span style="color:var(--red)">(wajib)</span></label><select id="sn"><option value="">-- pilih kelas dahulu --</option></select></div></div>
       <div class="mut" style="margin-top:6px">Anda mengajukan sebagai <b>${esc(IZ.kon.nama)} (${esc(IZ.kon.role)})</b>; identitas pemohon dicatat.</div>`
       : `<div class="row"><div><label>Nama siswa</label><input value="${esc(IZ.kon.siswa.nama)}" readonly></div><div><label>Kelas</label><input value="${esc(IZ.kon.siswa.kelas)}" readonly></div></div>`}
     <div class="row"><div><label>Tanggal pengajuan</label><input value="${esc(hariIni())}" readonly></div><div><label>Tanggal izin</label><input type="date" id="st" value="${esc(hariIni())}" min="${esc(izTglMin())}"></div></div>
-    <label>Jenis izin</label><select id="sj">${IZ.kon.jenisSiswa.map(j => `<option>${esc(j)}</option>`).join('')}</select>
-    <div id="spa" class="note" style="display:none;margin-top:10px">Pulang lebih awal: siswa tidak perlu kembali. Isi jam kepulangan dan alasan; petugas akan mengonfirmasi kepulangan.</div>
-    <div class="row"><div><label id="slm">Jam mulai izin</label><input type="time" id="sm"></div><div id="skb"><label>Perkiraan jam kembali</label><input type="time" id="ss"></div></div>
-    <label id="slk">Keperluan izin</label><input id="sp" maxlength="300">
+    <label>Keperluan <span style="color:var(--red)">(pilih salah satu)</span></label><select id="sj">${IZ.kon.jenisSiswa.map(j => `<option>${esc(j)}</option>`).join('')}</select>
+    <div class="row"><div><label id="slm">Jam izin <span style="color:var(--red)">(wajib)</span></label><input type="time" id="sm"></div><div id="skb"><label>Perkiraan jam kembali (opsional)</label><input type="time" id="ss"></div></div>
     <label>Keterangan tambahan (opsional)</label><textarea id="sx" maxlength="500"></textarea>
     <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="sd"> Tandai mendesak</label>
     <div style="margin-top:14px"><button class="btn" id="sv">Kirim Pengajuan</button></div></div>`;
   if (staf) $('#sk', el).onchange = () => { $('#sn', el).innerHTML = '<option value="">-- pilih siswa --</option>' + S0.filter(s => s.kelas === $('#sk', el).value).sort((a, b) => a.nama.localeCompare(b.nama)).map(s => `<option value="${esc(s.nisn)}">${esc(s.nama)}</option>`).join(''); };
   const sesuaikan = () => {
-    const pa = $('#sj', el).value === 'Izin pulang lebih awal';
-    $('#spa', el).style.display = pa ? '' : 'none'; $('#skb', el).style.display = pa ? 'none' : '';
-    $('#slm', el).textContent = pa ? 'Jam kepulangan' : 'Jam mulai izin'; $('#slk', el).textContent = pa ? 'Alasan pulang lebih awal' : 'Keperluan izin';
+    const tk = $('#sj', el).value !== 'Izin Keluar Sementara';
+    $('#skb', el).style.display = tk ? 'none' : '';
+    $('#slm', el).innerHTML = (tk ? ($('#sj', el).value === 'Izin Datang Terlambat' ? 'Jam izin (jam tiba)' : 'Jam izin (jam pulang)') : 'Jam izin (jam keluar)') + ' <span style="color:var(--red)">(wajib)</span>';
   };
   $('#sj', el).onchange = sesuaikan; sesuaikan();
   $('#sv', el).onclick = () => tombol($('#sv', el), async () => {
     if (staf && !$('#sn', el).value) throw new Error('Pilih kelas dan nama siswa.');
-    const r = await call('izinAjukanSiswa', { nisn: staf ? $('#sn', el).value : '', jenisIzin: $('#sj', el).value, tanggal: $('#st', el).value, mulai: $('#sm', el).value, selesai: $('#ss', el).value, keperluan: $('#sp', el).value, keterangan: $('#sx', el).value, mendesak: $('#sd', el).checked });
-    modal(`<h3>✅ Pengajuan Terkirim</h3><p>Nomor pengajuan: <b>${esc(r.id)}</b></p><p>Status: <span class="bd wr">Menunggu Persetujuan</span></p>${r.tanpaWali ? '<div class="note">Kelas siswa ini belum memiliki Wali Kelas di sistem. Admin akan diberi tanda; hubungi Admin agar pengajuan dapat diproses.</div>' : '<p>Diteruskan ke Wali Kelas. Pantau di tab <b>Izin Saya</b>.</p>'}`, true);
+    if (!$('#sm', el).value) throw new Error('Jam izin wajib diisi.');
+    const r = await call('izinAjukanSiswa', { nisn: staf ? $('#sn', el).value : '', kelas: staf ? $('#sk', el).value : '', jenisIzin: $('#sj', el).value, tanggal: $('#st', el).value, mulai: $('#sm', el).value, selesai: $('#ss', el).value, keterangan: $('#sx', el).value, mendesak: $('#sd', el).checked });
+    modal(`<h3>\u2705 Pengajuan Terkirim</h3><p>Nomor pengajuan: <b>${esc(r.id)}</b></p><p>Status: <span class="bd wr">Menunggu Persetujuan</span></p>${r.tanpaWali ? '<div class="note">Kelas siswa ini belum memiliki Wali Kelas di sistem. Admin akan diberi tanda; Guru Piket dapat menyetujui sendiri; hubungi Admin untuk mengatur Wali Kelas.</div>' : '<p>Diteruskan ke Wali Kelas dan Guru Piket. Pantau di tab <b>Izin Saya</b>.</p>'}`, true);
     IZ.tab = 'saya'; halIzin($('#ct'), () => ST.halaman === 'izin');
   }, 'Mengirim...');
 }
 
-// ----- pengaturan (Admin) -----
 function izPengaturan(el) {
   const s = IZ.kon.pengaturan;
   el.innerHTML = `<div class="card" style="max-width:560px"><h3>Pengaturan Perizinan</h3>
-    <label>Pengajuan izin mandiri oleh siswa</label><select id="pm"><option value="Ya" ${s.mandiri ? 'selected' : ''}>Aktif — siswa boleh mengajukan sendiri</option><option value="Tidak" ${s.mandiri ? '' : 'selected'}>Nonaktif — hanya lewat petugas/Wali Kelas</option></select>
+    <label>Pengajuan izin mandiri oleh siswa</label><select id="pm"><option value="Ya" ${s.mandiri ? 'selected' : ''}>Aktif \u2014 siswa boleh mengajukan sendiri</option><option value="Tidak" ${s.mandiri ? '' : 'selected'}>Nonaktif \u2014 hanya lewat petugas/Wali Kelas</option></select>
+    <label>Persetujuan izin siswa</label><select id="pa"><option value="Keduanya" ${s.approvalSiswa === 'Keduanya' ? 'selected' : ''}>Wali Kelas DAN Guru Piket (keduanya wajib menyetujui)</option><option value="Salah satu" ${s.approvalSiswa === 'Salah satu' ? 'selected' : ''}>Wali Kelas ATAU Guru Piket (salah satu cukup)</option></select><div class="mut" style="font-size:12px;margin-top:4px">Kelas tanpa Wali Kelas di sistem cukup disetujui Guru Piket. Penolakan oleh salah satu langsung final.</div>
     <label>Toleransi keterlambatan kembali (menit)</label><input type="number" id="pt" min="0" max="120" value="${esc(s.toleransi)}">
     <div style="margin-top:12px"><button class="btn" id="pv">Simpan</button></div>
-    <hr style="border:0;border-top:1px solid #e5e7eb;margin:18px 0"><div class="note"><b>Wali Kelas &amp; delegasi:</b> kelas tanggung jawab diatur di <b>Data &amp; Pengaturan → Pengguna → Edit → Kelas tanggung jawab</b> (pisahkan dengan koma, mis. <i>X 1, X 2</i>). Pengguna yang diberi kelas dapat menyetujui izin siswa kelas tersebut; ini dicatat sebagai delegasi resmi oleh Admin. Admin sendiri tidak dapat mengubah keputusan secara diam-diam; setiap koreksi tercatat di audit log.</div>
+    <hr style="border:0;border-top:1px solid #e5e7eb;margin:18px 0"><div class="note"><b>Wali Kelas &amp; delegasi:</b> kelas tanggung jawab diatur di <b>Data &amp; Pengaturan \u2192 Pengguna \u2192 Edit \u2192 Kelas tanggung jawab</b> (pisahkan dengan koma, mis. <i>X 1, X 2</i>). Pengguna yang diberi kelas dapat menyetujui izin siswa kelas tersebut; ini dicatat sebagai delegasi resmi oleh Admin. Admin sendiri tidak dapat mengubah keputusan secara diam-diam; setiap koreksi tercatat di audit log.</div>
     <div class="note">Notifikasi email/Google Chat belum dikonfigurasi. Pemberitahuan hanya berupa lencana dan peringatan di dalam aplikasi.</div></div>`;
-  $('#pv', el).onclick = () => tombol($('#pv', el), async () => { await call('izinPengaturan', { mandiri: $('#pm', el).value, toleransi: $('#pt', el).value }); IZ.kon = await call('izinKonteks'); toast('Pengaturan tersimpan.'); }, 'Menyimpan...');
+  $('#pv', el).onclick = () => tombol($('#pv', el), async () => { await call('izinPengaturan', { mandiri: $('#pm', el).value, approval: $('#pa', el).value, toleransi: $('#pt', el).value }); IZ.kon = await call('izinKonteks'); toast('Pengaturan tersimpan.'); }, 'Menyimpan...');
 }
 
 const HAL = { izin: halIzin, beranda: halBeranda, catat: halCatat, absensi: halAbsensi, siswa: halSiswa, riwayat: halRiwayat, care: halCare, riwayatCare: halRiwayatCare, data: halData };
 window.addEventListener('error', e => { if ($('#root') && $('#root .load') && !$('#root .auth') && !$('#app')) panelError('Terjadi kesalahan pada halaman', e.message || 'Kesalahan tidak diketahui'); });
 window.addEventListener('unhandledrejection', e => { toast((e.reason && e.reason.message) || 'Terjadi kesalahan.', 'e'); });
+
+const PWA = { prompt: null, reg: null, terpasangEvt: false, reload: false };
+const iosPerangkat = () => /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const DI_APK = /AISApp\x2f/.test(navigator.userAgent);
+const modeAplikasi = () => { if (DI_APK) return true; try { return matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || matchMedia('(display-mode: minimal-ui)').matches || navigator.standalone === true; } catch (e) { return false; } };
+const swBisa = () => !DI_APK && !adaGAS() && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+const simpanLok = (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} };
+const bacaLok = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+const bacaSes = k => { try { return sessionStorage.getItem(k); } catch (e) { return null; } };
+const simpanSes = (k, v) => { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) {} };
+
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); PWA.prompt = e; });
+window.addEventListener('appinstalled', () => { PWA.prompt = null; PWA.terpasangEvt = true; try { toast('Aplikasi AIS berhasil dipasang.'); } catch (e) {} });
+
+function statusPasang() {
+  if (modeAplikasi() || PWA.terpasangEvt) return ['terpasang', 'Sudah diinstal (sedang dibuka sebagai aplikasi)'];
+  if (!swBisa()) return ['tidak', 'Instalasi tidak didukung di sini (butuh HTTPS dan browser yang mendukung)'];
+  if (PWA.prompt) return ['siap', 'Siap diinstal'];
+  return ['belum', 'Belum diinstal'];
+}
+async function pasangSekarang() {
+  if (!PWA.prompt) return toast('Browser ini tidak menyediakan tombol instal otomatis. Ikuti petunjuk di bawah.', 'e');
+  try {
+    PWA.prompt.prompt();
+    const h = await PWA.prompt.userChoice;
+    PWA.prompt = null;
+    toast(h && h.outcome === 'accepted' ? 'Instalasi dimulai.' : 'Instalasi dibatalkan. Anda bisa mencoba lagi kapan saja.');
+  } catch (e) { toast('Instalasi gagal: ' + (e && e.message ? e.message : 'tidak diketahui'), 'e'); }
+}
+function petunjukPasang() {
+  const ios = iosPerangkat(), and = /Android/.test(navigator.userAgent);
+  if (ios) return `<b>iPhone / iPad (Safari):</b><ol class="pl"><li>Buka halaman ini di <b>Safari</b>.</li><li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas \u2B06\uFE0F).</li><li>Pilih <b>Tambahkan ke Layar Utama</b> (Add to Home Screen), lalu <b>Tambah</b>.</li><li>Buka AIS dari ikon di layar utama.</li></ol><div class="mut">Notifikasi di iPhone/iPad hanya tersedia untuk aplikasi yang sudah ditambahkan ke Layar Utama dan iOS/iPadOS 16.4 atau lebih baru. Browser iOS lain tidak selalu menyediakan menu ini.</div>`;
+  if (and) return `<b>Android (Chrome):</b><ol class="pl"><li>Ketuk tombol <b>Instal Aplikasi AIS</b> di atas bila tersedia, atau</li><li>menu <b>\u22EE</b> \u2192 <b>Instal aplikasi</b> / <b>Tambahkan ke layar utama</b>.</li></ol><div class="mut">Browser lain (Samsung Internet, Firefox, dsb.) menyediakan menu serupa di pengaturan mereka.</div>`;
+  return `<b>Komputer (Chrome / Edge):</b><ol class="pl"><li>Klik tombol <b>Instal Aplikasi AIS</b> di atas, atau ikon instal \u2295 di sisi kanan kolom alamat.</li><li>Safari macOS: menu <b>File \u2192 Tambahkan ke Dock</b> (versi yang mendukung).</li></ol><div class="mut">Firefox desktop tidak mendukung instalasi PWA; AIS tetap bisa dipakai lewat browser.</div>`;
+}
+function statusNotif() {
+  if (DI_APK) return ['tidak', 'Aplikasi Android ini belum mendukung notifikasi sistem. Lonceng \uD83D\uDD14 di dalam aplikasi tetap berfungsi.'];
+  if (!('Notification' in window)) return ['tidak', 'Browser ini tidak mendukung notifikasi'];
+  if (!PWA.reg) return ['tidak', swBisa() ? 'Menunggu aplikasi siap\u2026' : 'Notifikasi aplikasi butuh HTTPS (buka dari alamat GitHub Pages)'];
+  if (Notification.permission === 'denied') return ['ditolak', 'Diblokir di pengaturan browser'];
+  if (Notification.permission === 'granted') return [bacaLok('ais_notif') === '0' ? 'mati' : 'aktif', bacaLok('ais_notif') === '0' ? 'Izin diberikan, tetapi dimatikan di pengaturan AIS' : 'Aktif (saat AIS terbuka atau berjalan di latar belakang)'];
+  return ['belum', 'Belum diaktifkan'];
+}
+async function aktifkanNotif() {
+  if (!('Notification' in window)) return toast('Browser ini tidak mendukung notifikasi.', 'e');
+  if (!PWA.reg) return toast('Aplikasi belum siap untuk notifikasi. Coba lagi sebentar.', 'e');
+  if (iosPerangkat() && !modeAplikasi()) return toast('Di iPhone/iPad, tambahkan AIS ke Layar Utama dahulu, lalu aktifkan notifikasi dari aplikasi tersebut.', 'e');
+  let h; try { h = await Notification.requestPermission(); } catch (e) { h = Notification.permission; }
+  if (h === 'granted') { simpanLok('ais_notif', '1'); toast('Notifikasi diaktifkan.'); }
+  else if (h === 'denied') toast('Izin ditolak. Anda dapat mengubahnya di pengaturan situs browser.', 'e');
+  else toast('Izin belum diberikan.');
+}
+async function notifLokal(judul, isi, tag, url) {
+  if (!PWA.reg || !('Notification' in window) || Notification.permission !== 'granted' || bacaLok('ais_notif') === '0') return false;
+  try { await PWA.reg.showNotification(judul, { body: isi, tag: tag, icon: 'icons/icon-192.png', badge: 'icons/badge-96.png', data: { url: url || './' }, renotify: false }); return true; }
+  catch (e) { return false; }
+}
+function panelPWA() {
+  const sp = statusPasang(), sn = statusNotif();
+  const cls = { terpasang: 'ok', siap: 'wr', belum: 'wr', tidak: 'bd', aktif: 'ok', belum_: 'wr', ditolak: 'bd', mati: 'wr' };
+  const bd = (k, t) => `<span class="bd ${k === 'terpasang' || k === 'aktif' ? 'ok' : k === 'tidak' || k === 'ditolak' ? 'er' : 'wr'}">${esc(t)}</span>`;
+  const m = modal(`<h3>Aplikasi & Notifikasi</h3>
+    <h4 style="margin:14px 0 6px">Instal aplikasi</h4><div>${bd(sp[0], sp[1])}</div>
+    <div style="margin:10px 0">${sp[0] === 'siap' ? '<button class="btn" id="pwI">\uD83D\uDCF2 Instal Aplikasi AIS</button>' : ''}</div>
+    ${sp[0] === 'terpasang' ? '' : `<div class="note" style="font-size:13px">${petunjukPasang()}</div>`}
+    <h4 style="margin:16px 0 6px">Notifikasi</h4><div>${bd(sn[0], sn[1])}</div>
+    <p class="mut" style="font-size:13px;margin:8px 0">Notifikasi memberi tahu bila ada pengajuan izin yang menunggu keputusan Anda atau izin yang terlambat kembali. Isinya sengaja tidak memuat nama siswa/guru. <b>Pemberitahuan saat aplikasi benar-benar tertutup (push) belum aktif</b> karena butuh server pengirim khusus.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${sn[0] === 'belum' ? '<button class="btn" id="pwN">\uD83D\uDD14 Aktifkan Notifikasi</button>' : ''}${sn[0] === 'aktif' ? '<button class="btn o" id="pwT">Kirim notifikasi uji</button><button class="btn o" id="pwM">Matikan</button>' : ''}${sn[0] === 'mati' ? '<button class="btn" id="pwH">Hidupkan</button>' : ''}</div>
+    ${sn[0] === 'ditolak' ? '<div class="note" style="font-size:13px">Izin notifikasi sebelumnya ditolak. Buka pengaturan situs di browser (ikon gembok di kolom alamat \u2192 Notifikasi \u2192 Izinkan), lalu muat ulang.</div>' : ''}
+    <div class="mut" style="margin-top:14px;font-size:12px">Versi ${esc(VERSI)}</div>`);
+  const ulang = () => { m.tutup(); panelPWA(); };
+  const b = id => document.getElementById(id);
+  if (b('pwI')) b('pwI').onclick = async () => { await pasangSekarang(); ulang(); };
+  if (b('pwN')) b('pwN').onclick = async () => { await aktifkanNotif(); ulang(); };
+  if (b('pwT')) b('pwT').onclick = async () => { const ok = await notifLokal('AIS \u2014 Uji Notifikasi', 'Notifikasi AIS berfungsi di perangkat ini.', 'ais-uji', './'); toast(ok ? 'Notifikasi uji dikirim.' : 'Gagal menampilkan notifikasi.', ok ? 's' : 'e'); };
+  if (b('pwM')) b('pwM').onclick = () => { simpanLok('ais_notif', '0'); ulang(); };
+  if (b('pwH')) b('pwH').onclick = () => { simpanLok('ais_notif', '1'); ulang(); };
+}
+
+function bannerUpdate(sw) {
+  if ($('#updbar')) return;
+  const d = document.createElement('div'); d.id = 'updbar'; d.setAttribute('role', 'status');
+  d.innerHTML = '<span>Versi baru AIS tersedia.</span><button id="updgo">Perbarui Sekarang</button><button id="updnt" aria-label="Nanti">Nanti</button>';
+  document.body.appendChild(d);
+  $('#updnt').onclick = () => d.remove();
+  $('#updgo').onclick = () => {
+    const isi = Array.from(document.querySelectorAll('#ct input:not([type=checkbox]):not([type=radio]):not([readonly]), #ct textarea')).some(x => String(x.value || '').trim());
+    if (isi && !confirm('Ada isian yang belum disimpan dan akan hilang saat memperbarui. Tetap perbarui sekarang?')) return;
+    PWA.reload = true; sw.postMessage({ type: 'SKIP_WAITING' });
+    setTimeout(() => { if (PWA.reload) location.reload(); }, 3000);
+  };
+}
+async function daftarSW() {
+  if (!swBisa()) return;
+  try {
+    const reg = await navigator.serviceWorker.register('sw.js', { scope: './' });
+    PWA.reg = reg;
+    if (reg.waiting && navigator.serviceWorker.controller) bannerUpdate(reg.waiting);
+    reg.addEventListener('updatefound', () => {
+      const n = reg.installing; if (!n) return;
+      n.addEventListener('statechange', () => { if (n.state === 'installed' && navigator.serviceWorker.controller) bannerUpdate(n); });
+    });
+    navigator.serviceWorker.addEventListener('controllerchange', () => { if (PWA.reload) location.reload(); });
+    navigator.serviceWorker.addEventListener('message', e => { if (e.data && e.data.type === 'BUKA') bukaDariUrl(e.data.url); });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) reg.update().catch(() => {}); });
+  } catch (e) {  }
+}
+function bukaDariUrl(u) {
+  try { const id = new URL(u, location.href).searchParams.get('buka'); if (id && ST.user) buka(id); } catch (e) {}
+}
+
+function tandaiKoneksi() {
+  let b = $('#offbar');
+  if (navigator.onLine === false) {
+    if (!b) { b = document.createElement('div'); b.id = 'offbar'; b.setAttribute('role', 'alert'); document.body.appendChild(b); }
+    b.innerHTML = 'Anda sedang offline. Data mungkin belum diperbarui dan perubahan tidak dapat disimpan. <button id="offcb">Coba lagi</button>';
+    $('#offcb').onclick = () => { if (navigator.onLine === false) toast('Masih offline.', 'e'); else { tandaiKoneksi(); if (ST.user) buka(ST.halaman); } };
+  } else if (b) { b.remove(); toast('Koneksi pulih.'); }
+}
+window.addEventListener('offline', tandaiKoneksi); window.addEventListener('online', tandaiKoneksi);
+
+function daftarNotif() {
+  const n = ST.notif || { perlu: 0, telat: 0 }, a = [];
+  if (n.perlu > 0) a.push({ ikon: '\uD83D\uDEAA', teks: `${n.perlu} pengajuan izin menunggu keputusan Anda`, tujuan: 'izin', tab: 'setuju' });
+  if (n.telat > 0) a.push({ ikon: '\u23F0', teks: `${n.telat} izin terlambat kembali`, tujuan: 'izin', tab: 'dash' });
+  return a;
+}
+const sigNotif = () => { const n = ST.notif || {}; return (n.perlu || 0) + ':' + (n.telat || 0); };
+function gambarLonceng() {
+  const b = $('#bel'); if (!b) return;
+  const total = daftarNotif().length ? (ST.notif.perlu + ST.notif.telat) : 0, baru = total > 0 && bacaSes('ais_dilihat') !== sigNotif();
+  const o = $('.nb', b); if (o) o.remove();
+  if (baru) b.insertAdjacentHTML('beforeend', `<b class="nb" aria-label="${total} notifikasi belum dibaca">${total}</b>`);
+}
+function panelNotif() {
+  const a = daftarNotif(); simpanSes('ais_dilihat', sigNotif());
+  const m = modal(`<h3>Notifikasi</h3>${a.length ? a.map((x, i) => `<div class="izr" tabindex="0" role="button" data-n="${i}"><div>${x.ikon} ${esc(x.teks)}</div><div class="izw">Buka \u203A</div></div>`).join('') : '<div class="mut" style="padding:14px 0">Tidak ada notifikasi baru.</div>'}
+    <div class="mut" style="font-size:12px;margin:8px 0">Notifikasi hanya menampilkan data yang menjadi hak akses Anda.</div><button class="btn o s" id="nPeng">\u2699\uFE0F Aplikasi & pengaturan notifikasi</button>`);
+  $$('[data-n]', m).forEach(el => { const go = () => { const x = a[+el.dataset.n]; m.tutup(); if (typeof IZ !== 'undefined') IZ.tab = x.tab; buka(x.tujuan); }; el.onclick = go; el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } }; });
+  $('#nPeng', m).onclick = () => { m.tutup(); panelPWA(); };
+  gambarLonceng();
+}
+async function perbaruiNotif(n) {
+  const sebelum = parseInt(bacaSes('ais_nc') || '0', 10), total = n.perlu + n.telat;
+  ST.notif = n; gambarLonceng();
+  if (total > sebelum && total > 0) {
+    const t = n.perlu > 0 ? `${n.perlu} pengajuan izin menunggu keputusan Anda.` : `${n.telat} izin terlambat kembali.`;
+    notifLokal('AIS \u2014 Perizinan', t, 'ais-izin', './?buka=izin');
+  }
+  simpanSes('ais_nc', String(total));
+}
+function hentikanNotif() {
+  if (ST.notifT) { clearInterval(ST.notifT); ST.notifT = null; }
+  simpanSes('ais_nc', null); simpanSes('ais_dilihat', null); ST.notif = null;
+  try { if (PWA.reg) { PWA.reg.getNotifications().then(a => a.forEach(x => x.close())); if (PWA.reg.pushManager) PWA.reg.pushManager.getSubscription().then(s => s && s.unsubscribe()).catch(() => {}); } } catch (e) {}
+}
+
+(function () {
+  const s = document.getElementById('splash'); if (!s) return;
+  const mulai = Date.now();
+  const tutup = () => { s.classList.add('hilang'); setTimeout(() => s.remove(), 450); };
+  const t = setInterval(() => {
+    if (window.__AIS.siap) { clearInterval(t); setTimeout(tutup, Math.max(0, 700 - (Date.now() - mulai))); }
+    else if (Date.now() - mulai > 9000) {
+      clearInterval(t);
+      const p = s.querySelector('.sp-st'); p.innerHTML = 'Memuat lebih lama dari biasanya.<br><button id="spUlang">Coba lagi</button> <button id="spRinci">Lihat rincian</button>';
+      document.getElementById('spUlang').onclick = () => location.reload();
+      document.getElementById('spRinci').onclick = tutup;
+    }
+  }, 100);
+})();
+
+(function () {
+  let n = 0;
+  const rapikan = () => document.querySelectorAll('label:not([for])').forEach(l => {
+    if (l.querySelector('input,select,textarea')) return;
+    let e = l.nextElementSibling;
+    while (e && !/^(INPUT|SELECT|TEXTAREA)$/.test(e.tagName) && !(e.querySelector && e.querySelector('input,select,textarea'))) { if (e.tagName === 'LABEL') return; e = e.nextElementSibling; }
+    if (!e) return;
+    const f = /^(INPUT|SELECT|TEXTAREA)$/.test(e.tagName) ? e : e.querySelector('input,select,textarea');
+    if (!f) return; if (!f.id) f.id = 'f_' + (++n); l.setAttribute('for', f.id);
+  });
+  let t = null; new MutationObserver(() => { clearTimeout(t); t = setTimeout(rapikan, 50); }).observe(document.body, { childList: true, subtree: true });
+})();
+try { document.getElementById('spLogo').innerHTML = LOGO_IKON; } catch (e) {}
+daftarSW(); tandaiKoneksi();
+
 (async function boot() {
   const t = bacaToken();
   if (!t) return layarLogin('staf');
